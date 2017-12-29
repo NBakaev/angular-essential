@@ -1,0 +1,31 @@
+{
+  "name": "angular-essential-select",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NBakaev/angular-essential-select"
+  },
+  "author": {
+    "name": "Nikita Bakaev",
+    "email": "ya@nbakaev.ru"
+  },
+  "keywords": [
+    "angular"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NBakaev/angular-essential-select/issues"
+  },
+  "main": "angular-essential-select.umd.js",
+  "module": "angular-essential-select.js",
+  "jsnext:main": "angular-essential-select.js",
+  "typings": "angular-essential-select.d.ts",
+  "peerDependencies": {
+    "@angular/core": "^5.0.0",
+    "@angular/animations": "^5.0.0",
+    "@angular/common": "^5.0.0",
+    "@angular/forms": "^5.0.0",
+    "rxjs": "^5.5.2",
+    "zone.js": "^0.8.14"
+  }
+}

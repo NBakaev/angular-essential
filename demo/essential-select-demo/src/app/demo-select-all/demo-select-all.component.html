@@ -1,0 +1,38 @@
+<div>
+  <h1>
+    Essential select
+  </h1>
+
+  <div class="flex-container">
+    <div class="flex-item">
+      <h3>
+        Simple
+      </h3>
+      Simple selected string from array with starts value: <b>{{ simpleSelect }}</b>
+      <essentials-ui-select [options]="selectOptions2"
+                            [(value)]="simpleSelect"
+                            [placeholder]="'Click me'"
+                            [invalidText]="'Hurray, pick somethin...'">
+      </essentials-ui-select>
+    </div>
+
+    <div class="flex-item">
+      <h3>
+        Search option by displayed name
+      </h3>
+      Simple selected string from array with starts value: <b>{{ simpleSelect }}</b>
+      <essentials-ui-select [options]="selectOptions2"
+                            [(value)]="esWithSearch"
+                            [hasSearchInput]="true"
+                            [placeholder]="'Click me'"
+                            [invalidText]="'Hurray, pick somethin...'">
+      </essentials-ui-select>
+    </div>
+
+    <div class="flex-item">
+      3
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,90 @@
+<div #container>
+
+  <div (click)="isOpen = !isOpen">
+    <form *ngIf="!hasSearchInput; else hasSearchInputSection">
+      <fieldset [disabled]="disabled">
+        <div class="form-control" [ngClass]="{ 'placeholder' : (haveNotValue(value) && haveNotValue(internalValue)), 'btn-disable' : isOpenEditable()  }">
+
+          <span *ngIf="useMultiSelect; else simplePrintValue">
+            {{ (joinDefaultMultiSelect() | essentialSelectTruncate: limit) || placeholder}}
+          </span>
+
+          <ng-template #simplePrintValue>
+            {{ (printValue() | essentialSelectTruncate: limit) || placeholder }}
+          </ng-template>
+
+          <div class="trigger">
+            <span class="icon-open" *ngIf="isOpenEditable()"></span>
+            <span class="icon-closed" *ngIf="!isOpenEditable()"></span>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+
+    <ng-template #hasSearchInputSection>
+      <form #selectForm="ngForm">
+        <input placeholder="{{placeholder | essentialSelectTruncate: limit}}" class="form-control essential-form-control" name="input" autocomplete="off"
+               [(ngModel)]="searchBoxValue" (ngModelChange)="onSearchInputChange()"
+               [type]="searchInputType">
+        <div class="trigger position-fix">
+          <span class="icon-open" *ngIf="isOpenEditable()"></span>
+          <span class="icon-closed" *ngIf="!isOpenEditable()"></span>
+        </div>
+      </form>
+    </ng-template>
+  </div>
+
+  <!-- print all rows -->
+  <div class="wrapper {{wrapperClasses}}">
+    <div class="selectbox_dropdown" *ngIf="isOpenEditable()">
+
+      <div *ngIf="useMultiSelect" class="multiselect_tools">
+          <ul>
+            <li>
+            <div (click)="selectAll()" align="center">
+              {{selectAllText}}
+            </div>
+            </li>
+            <li>
+              <div (click)="unselectAll()" align="center">
+                {{unselectAllText}}
+              </div>
+            </li>
+          </ul>
+
+        <div class="hr-after-multiselect">
+          <hr>
+        </div>
+
+      </div>
+
+      <ul>
+        <li *ngIf="!disableUnselected" (click)="onOptionSelected(null)" [ngClass]="{ 'selected': haveNotValue(value), 'btn-disable' : isOpenEditable() }">
+          {{notSelectedText}}
+        </li>
+        <li *ngFor="let option of options | essentialSelectFilter:searchBoxValue:essentialsSelectFilter:useMultiSelect:this:userHasInputTextToSearchBeforeSelect | slice: 0:optionsDisplayLimit"
+            (click)="onOptionSelected(option)"
+            [ngClass]="{ 'selected' : isSelected(option) }">
+
+          <span *ngIf="enabledRowClasses()">
+            <span class="{{printRowClasses(option)}}"></span>
+          </span>
+
+          {{ printItemValue(option) }}
+          <small class="display-as-block" *ngFor="let note of printItemValueAdditionalNotes(option)">
+            {{note}}
+          </small>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="isValidated && !valid()" class="invalid-field-container" [ngClass]="{'btn-disable' : isOpenEditable() }">
+  <small class="b-hint b-hint-invalid"> !</small>
+  <small class="form-invalid-color">
+    {{ invalidText }}
+  </small>
+</div>
+

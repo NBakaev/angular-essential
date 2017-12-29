@@ -1,0 +1,36 @@
+.flex-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.flex-item {
+  flex: 1;
+
+  /* TODO: that is hack for  flexbox(and eg.g tables which has not directly defined width) - originally ES was done for bootstrap only*/
+  width: 30%;
+  position: relative;
+
+  padding: 15px
+
+}
+
+
+$option-depth-padding-level: 5px;
+
+.depth-1 {
+  padding-left: $option-depth-padding-level * 0;
+}
+
+.depth-2 {
+  padding-left: $option-depth-padding-level * 3;
+}
+.depth-3 {
+  padding-left: $option-depth-padding-level * 8;
+}

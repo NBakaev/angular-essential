@@ -11,7 +11,8 @@ import {
     NgZone,
     OnDestroy,
     OnInit,
-    Output, Renderer2,
+    Output,
+    Renderer2,
     ViewChild
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
@@ -36,39 +37,18 @@ const DELAY_UNTIL_UPDATE_FILTER = 100; // miliseconds
 // внутренняя строка. нужна строка чтобы определить было ли что-то иницилизировано во взодном value
 const MAGIC_EMPTY_STRING = 'SOME_MAGIC_STRING_FOR_ESSENTAL_SELECT';
 
-// import {FormComponentControlValidator, FormComponentControlValidatorResponse} from '../../../core/forms/form-validator.model';
 @Component({
     selector: 'essentials-ui-select',
     templateUrl: './essential-select.component.html',
     styleUrls: ['./essential-select.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => EssentialSelectComponent),
-            multi: true
-        }
+    providers: [{
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => EssentialSelectComponent),
+        multi: true
+    }
     ]
 })
 export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
-
-    propagateChange = (_: any) => {
-    };
-
-    registerOnChange(fn) {
-        this.propagateChange = fn;
-    }
-
-    writeValue(obj: any): void {
-        this.select(obj);
-    }
-
-    registerOnTouched(fn: any): void {
-    }
-
-    // // TODO: does not override disabled input
-    // setDisabledState(isDisabled: boolean): void {
-    //     this.disabled = true;
-    // }
 
     // аналог ngModel - значение, которое будет у входного параметра
     @Input() value: any;
@@ -166,6 +146,26 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         return !NumberUtils.isPositive(this.userChangedTimes);
     }
 
+    // angular forms integration
+    propagateChange = (_: any) => {
+    };
+
+    registerOnChange(fn) {
+        this.propagateChange = fn;
+    }
+
+    writeValue(obj: any): void {
+        this.select(obj);
+    }
+
+    registerOnTouched(fn: any): void {
+    }
+
+    // // TODO: does not override disabled input
+    // setDisabledState(isDisabled: boolean): void {
+    //     this.disabled = true;
+    // }
+
     constructor(private _changeDetectionRef: ChangeDetectorRef, private ngZone: NgZone, private renderer: Renderer2) {
         this.pipeTrunc = new EssentialSelectTruncatePipe();
     }
@@ -182,20 +182,9 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
             this.showOpenCloseIcon = true;
         }
         this.isOpen = newState;
-
-        if (this.isOpen === true) {
-            if (this.wrapType === WrapperContent.MATCH_FORM && this.hasSearchInput) {
-
-            }
-
-            // Observable.of({}).delay(0).subscribe(x => {
-            //     this.renderer.setStyle(this.selectDropdown.nativeElement, 'width', `${offsetWidth}px`);
-            // })
-        }
-
     }
 
-    getDropdownWidth(): string{
+    getDropdownWidth(): string {
         if (this.wrapType === WrapperContent.MATCH_FORM && this.hasSearchInput) {
             let offsetWidth = this.inputSelectPlaceholder.nativeElement.clientWidth;
             return `${offsetWidth}px`;

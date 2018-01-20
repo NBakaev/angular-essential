@@ -1,0 +1,18 @@
+<div>
+
+  <div style="width: 30%">
+    <pre>{{ form.value | json }}</pre>
+    <form #form="ngForm">
+      <essentials-ui-select name="counter" ngModel [options]="selectOptions2"></essentials-ui-select>
+    </form>
+
+    <button class="btn" (click)="form.reset()">
+      reset
+    </button>
+  <button class="btn" (click)="form.disa">
+      reset
+    </button>
+
+  </div>
+
+</div>

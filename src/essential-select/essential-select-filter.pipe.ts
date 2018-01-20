@@ -17,7 +17,7 @@ export class EssentialSelectFilterPipe implements PipeTransform {
    * @param userHasInputTextToSearchBeforeSelect
    * @returns {any}
    */
-  transform(value: Array<any>, arg1: any, args2: EssentialsSelectFilter, useMultiSelect: boolean, essentialSelectComponent: EssentialSelectComponent,
+  transform(value: Array<any>, arg1, args2: EssentialsSelectFilter, useMultiSelect: boolean, essentialSelectComponent: EssentialSelectComponent,
             userHasInputTextToSearchBeforeSelect: boolean): any {
 
     return value.filter(x => {

@@ -3,36 +3,97 @@
     Essential select
   </h1>
 
-  <div class="flex-container">
-    <div class="flex-item">
-      <h3>
-        Simple
-      </h3>
-      Simple selected string from array with starts value: <b>{{ simpleSelect }}</b>
-      <essentials-ui-select [options]="selectOptions2"
-                            [(value)]="simpleSelect"
-                            [placeholder]="'Click me'"
-                            [invalidText]="'Hurray, pick somethin...'">
-      </essentials-ui-select>
+  <div style="margin-right: 30px">
+
+    <div class="flex-container">
+      <div class="flex-item">
+        <h3>
+          Simple
+        </h3>
+        Simple selected string from array with starts value: <b>{{ simpleSelect }}</b>
+        <essentials-ui-select [options]="selectOptions2"
+                              [(value)]="simpleSelect"
+                              [placeholder]="'Click me'"
+                              [invalidText]="'Hurray, pick somethin...'">
+        </essentials-ui-select>
+      </div>
+
+      <div class="flex-item">
+        <h3>
+          Search option by displayed name
+        </h3>
+        Simple selected string from array with starts value: <b>{{ esWithSearch }}</b>
+        <essentials-ui-select [options]="selectOptions2"
+                              [(value)]="esWithSearch"
+                              [hasSearchInput]="true"
+                              [placeholder]="'Click me'"
+                              [invalidText]="'Hurray, pick somethin...'">
+        </essentials-ui-select>
+      </div>
+
+      <div class="flex-item">
+        <h3>
+          Overflowed text in input will be automatically truncated
+        </h3>
+        Select long option
+        <!--<b>{{ esLong }}</b>-->
+        <essentials-ui-select [options]="seletOptionsLong"
+                              [(value)]="esLong"
+                              [hasSearchInput]="true"
+                              [placeholder]="'Click me'"
+                              [invalidText]="'Hurray, pick somethin...'">
+        </essentials-ui-select>
+      </div>
     </div>
 
-    <div class="flex-item">
-      <h3>
-        Search option by displayed name
-      </h3>
-      Simple selected string from array with starts value: <b>{{ simpleSelect }}</b>
-      <essentials-ui-select [options]="selectOptions2"
-                            [(value)]="esWithSearch"
-                            [hasSearchInput]="true"
-                            [placeholder]="'Click me'"
-                            [invalidText]="'Hurray, pick somethin...'">
-      </essentials-ui-select>
+    <div class="flex-container">
+      <div class="flex-item">
+        <h3>
+          Dropdown width
+        </h3>
+        Strategy to determine dropdown swapper width: <b>{{ wrapperType }}</b>
+        <essentials-ui-select [options]="wrapperTypes"
+                              [(value)]="wrapperType"
+                              [fieldName]="'name'"
+                              [fieldValue]="'value'"
+                              [bindObject]="false"
+                              [wrapType]="wrapperType"
+                              [placeholder]="'Click me'"
+                              [hasSearchInput]="false"
+                              [invalidText]="'Hurray, pick somethin...'">
+        </essentials-ui-select>
+
+        <br>
+        <button (click)="setWrapperAuto()">
+          setWrapperAuto
+        </button>
+        <br>
+        <button (click)="setWrapperMatchContent()">
+          setWrapperMatchContent
+        </button>
+        <br>
+        <button (click)="setWrapperMatchForm()">
+          setWrapperMatchForm
+        </button>
+
+      </div>
+
+      <div class="flex-item">
+        <h3>
+          NEW
+        </h3>
+
+      </div>
+
+      <div class="flex-item">
+        <h3>
+          NEW
+        </h3>
+
+      </div>
+
     </div>
 
-    <div class="flex-item">
-      3
-    </div>
 
   </div>
-
 </div>

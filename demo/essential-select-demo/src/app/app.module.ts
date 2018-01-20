@@ -11,12 +11,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import {routes} from './app.router';
+import { EsformComponent } from './esform/esform.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    DemoSelectAllComponent
+    DemoSelectAllComponent,
+    EsformComponent
   ],
   imports: [
     BrowserModule,

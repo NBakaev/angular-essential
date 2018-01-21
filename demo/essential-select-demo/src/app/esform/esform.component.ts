@@ -17,4 +17,11 @@ export class EsformComponent implements OnInit {
   ngOnInit() {
   }
 
+  esNgForm = `
+  <form #form="ngForm">
+      <essentials-ui-select name="counter" 
+        ngModel [options]="selectOptions2">
+      </essentials-ui-select>
+  </form>`;
+
 }

@@ -12,7 +12,6 @@
   },
   "private": false,
   "dependencies": {
-    "angular-essential-select": "*",
     "@angular/animations": "^5.0.0",
     "@angular/common": "^5.0.0",
     "@angular/compiler": "^5.0.0",
@@ -22,7 +21,11 @@
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
+    "angular-essential-select": "*",
+    "bootstrap": "^4.0.0",
     "core-js": "^2.4.1",
+    "ngx-md": "^3.1.0",
+    "prismjs": "^1.10.0",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
   },

@@ -62,4 +62,17 @@ export class DemoSelectAllComponent implements OnInit {
 
   }
 
+  codeDropdownWidth = `
+  <essentials-ui-select
+                       [options]="wrapperTypes"
+                       [(value)]="wrapperType"
+                       [fieldName]="'name'"
+                       [fieldValue]="'value'"
+                       [bindObject]="false"
+                       [wrapType]="wrapperType"
+                       [placeholder]="'Click me'"
+                       [hasSearchInput]="false"
+                       [invalidText]="'Hurray, pick somethin...'">
+   </essentials-ui-select>`;
+
 }

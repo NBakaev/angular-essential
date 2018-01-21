@@ -5,6 +5,7 @@
  - Select one/multi options
  - Angular 5+
  - Demo [Demo](https://nbakaev.com/demo/tech/essential-select/#/demo_all)
+ - https://www.npmjs.com/package/angular-essential-select
 
 ## Installation
 

@@ -1,17 +1,27 @@
 <div>
 
   <div style="width: 30%">
-    <pre>{{ form.value | json }}</pre>
+
+    <div>
+      <b>
+        Form value:
+      </b>
+      <pre>{{ form.value | json }}</pre>
+    </div>
+
     <form #form="ngForm">
       <essentials-ui-select name="counter" ngModel [options]="selectOptions2"></essentials-ui-select>
     </form>
 
     <button class="btn" (click)="form.reset()">
-      reset
+      Reset
     </button>
-  <button class="btn" (click)="form.disa">
-      reset
-    </button>
+
+    <pre>
+          <code class="language-html" data-lang="html">
+            {{esNgForm}}
+          </code>
+        </pre>
 
   </div>
 

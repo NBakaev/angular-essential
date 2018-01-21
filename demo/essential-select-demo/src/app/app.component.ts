@@ -8,6 +8,8 @@ import {Component, ViewContainerRef} from '@angular/core';
 export class AppComponent {
   title = 'app';
 
+  useBootstrap = false;
+
   private viewContainerRef: ViewContainerRef;
 
 }

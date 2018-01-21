@@ -36,6 +36,9 @@
           Overflowed text in input will be automatically truncated
         </h3>
         Select long option
+        <b style="word-break: break-all">
+          {{esLong}}
+        </b>
         <!--<b>{{ esLong }}</b>-->
         <essentials-ui-select [options]="seletOptionsLong"
                               [(value)]="esLong"
@@ -63,19 +66,32 @@
                               [invalidText]="'Hurray, pick somethin...'">
         </essentials-ui-select>
 
-        <br>
-        <button (click)="setWrapperAuto()">
-          setWrapperAuto
-        </button>
-        <br>
-        <button (click)="setWrapperMatchContent()">
-          setWrapperMatchContent
-        </button>
-        <br>
-        <button (click)="setWrapperMatchForm()">
-          setWrapperMatchForm
-        </button>
+        <!--<markdown [data]="codeDropdownWidth"></markdown>-->
+        <pre>
+          <code class="language-html" data-lang="html">
+            {{codeDropdownWidth}}
+          </code>
+        </pre>
 
+        <br>
+
+        <ul>
+          <li>
+            <button (click)="setWrapperAuto()" class="btn btn-default">
+              Set Auto
+            </button>
+          </li>
+          <li>
+            <button (click)="setWrapperMatchContent()" class="btn btn-default">
+              Set MatchContent
+            </button>
+          </li>
+          <li>
+            <button (click)="setWrapperMatchForm()" class="btn btn-default">
+              Set Match Form
+            </button>
+          </li>
+        </ul>
       </div>
 
       <div class="flex-item">

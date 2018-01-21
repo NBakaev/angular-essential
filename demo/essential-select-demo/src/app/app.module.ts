@@ -12,13 +12,16 @@ import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import {routes} from './app.router';
 import { EsformComponent } from './esform/esform.component';
+import {MarkdownModule} from 'ngx-md';
+import { BootstrapIntegrationComponent } from './bootstrap-integration/bootstrap-integration.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     DemoSelectAllComponent,
-    EsformComponent
+    EsformComponent,
+    BootstrapIntegrationComponent
   ],
   imports: [
     BrowserModule,
@@ -29,6 +32,8 @@ import { EsformComponent } from './esform/esform.component';
     BrowserAnimationsModule,
     HttpModule,
     HttpClientModule,
+
+    MarkdownModule.forRoot(),
 
     routes
   ],

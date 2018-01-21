@@ -68,6 +68,9 @@ $input-border:                   #ccc !default;
   cursor: pointer;
   height: auto !important;
   min-height: 18px !important;
+
+  // bootstrap fix
+  box-sizing: initial;
 }
 
 .wrapper {

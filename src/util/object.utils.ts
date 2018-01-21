@@ -110,13 +110,13 @@ export class ObjectUtils {
     if (to instanceof Array) {
         (to as Array<any>).length = 0;
     }
-
-    if (from instanceof Array) {
-      if (from.length === 0) {
-        to.length = 0;
-        return;
-      }
-    }
+    //
+    // if (from instanceof Array) {
+    //   if (from.length === 0) {
+    //     to.length = 0;
+    //     return;
+    //   }
+    // }
 
     for (const i in to) {
       delete to[i];

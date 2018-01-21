@@ -1,6 +1,8 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand" href="#">
+    Angular select component
+  </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
           aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -16,11 +18,16 @@
       </li>
       <li class="nav-item">
         <a [routerLink]="['/demo_all']" class="nav-link">
-          all
+          Examples
         </a>
       </li>
       <li class="nav-item">
-        <button (click)="useBootstrap = !useBootstrap">
+        <a href="https://github.com/NBakaev/angular-essential-select" class="nav-link" target="_blank">
+          Github
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="!useBootstrap">
+        <button (click)="useBootstrap = !useBootstrap" class="btn btn-default">
           Enable bootstrap
         </button>
         <!--<a [routerLink]="['/demo_all']" class="nav-link">-->

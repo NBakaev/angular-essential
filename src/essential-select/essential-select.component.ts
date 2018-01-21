@@ -412,8 +412,14 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
                     });
                 } else {
                     (initialValueCopy as Array<any>).forEach(y => {
-                        const selectedValue = this.options.find(x => x[this.fieldValue] === y[this.fieldValue]);
-                        this.select(selectedValue);
+                        if (this.bindObject) {
+                            const selectedValue = this.options.find(x => x[this.fieldValue] === y[this.fieldValue]);
+                            this.select(selectedValue);
+                        } else {
+                            const selectedValue = this.options.find(x => x[this.fieldValue] === y);
+                            this.select(selectedValue);
+                        }
+
                     });
                 }
             }

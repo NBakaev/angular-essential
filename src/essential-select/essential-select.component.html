@@ -32,6 +32,7 @@
         <input placeholder="{{placeholder | essentialSelectTruncate:this:searchBoxValue:isOpen:userHasInputTextToSearchBeforeSelect:pipeNumber}}"
                class="form-control essential-form-control" name="input" autocomplete="off"
                #inputSelectPlaceholder
+               [disabled]="disabled"
                [ngModel]="searchBoxValue | essentialSelectTruncate:this:searchBoxValue:isOpen:userHasInputTextToSearchBeforeSelect:pipeNumber"
                (ngModelChange)="onSearchInputChange($event)"
                [type]="searchInputType">
@@ -96,4 +97,5 @@
   </small>
 </div>
 
+<!-- invisible container for length in pixels -->
 <span class="rule" #containerLength></span>

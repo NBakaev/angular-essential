@@ -10,14 +10,9 @@ export class EssentialSelectTruncatePipe implements PipeTransform{
       return '';
     }
     let answer: string = value;
-    // console.log(value.length);
-    // console.log(limit);
-
-    // es.pipeNumber++;
-
     es.findPlaceholderLength(answer);
 
-    if (es.isOpenEditable()){
+    if (es.isOpenEditable()) {
       return value;
     }
 

@@ -16,7 +16,7 @@
         <essentials-ui-select [options]="selectOptions2"
                               [(value)]="simpleSelect"
                               [placeholder]="'Click me'"
-                              [invalidText]="'Hurray, pick somethin...'">
+                              [invalidText]="'You must select some value!'">
         </essentials-ui-select>
       </div>
 
@@ -30,7 +30,7 @@
                               [(value)]="esWithSearch"
                               [hasSearchInput]="true"
                               [placeholder]="'Click me'"
-                              [invalidText]="'Hurray, pick somethin...'">
+                              [invalidText]="'You must select some value!'">
         </essentials-ui-select>
       </div>
 
@@ -47,7 +47,7 @@
                               [(value)]="esLong"
                               [hasSearchInput]="true"
                               [placeholder]="'Click me'"
-                              [invalidText]="'Hurray, pick somethin...'">
+                              [invalidText]="'You must select some value!'">
         </essentials-ui-select>
       </div>
     </div>
@@ -67,7 +67,7 @@
                               [wrapType]="wrapperType"
                               [placeholder]="'Click me'"
                               [hasSearchInput]="false"
-                              [invalidText]="'Hurray, pick somethin...'">
+                              [invalidText]="'You must select some value!'">
         </essentials-ui-select>
         <pre>
           <code class="language-html" data-lang="html">
@@ -101,7 +101,7 @@
         <h3>
           Multiselect
         </h3>
-        Strategy to determine dropdown swapper width: <br>
+        Select countries you have visited: <br>
         <b>V</b>alue: <b>{{ multiselected | json }}</b>
         <essentials-ui-select [options]="multiselectedCountryOptions"
                               [(value)]="multiselected"
@@ -112,7 +112,7 @@
                               [useMultiSelect]="true"
                               [placeholder]="'Click me'"
                               [hasSearchInput]="false"
-                              [invalidText]="'Hurray, pick somethin...'">
+                              [invalidText]="'You must select some value!'">
         </essentials-ui-select>
         <figure class="highlight">
         <pre>
@@ -131,6 +131,79 @@
         </div>
 
       </div>
+
+      <div class="flex-item">
+        <h3>
+          Select id in object
+        </h3>
+        Where are you now? <br>
+        <b>V</b>alue: <b>{{ yourCountry | json }}</b>
+        <essentials-ui-select [options]="multiselectedCountryOptions"
+                              [(value)]="yourCountry"
+                              [fieldName]="'name'"
+                              [fieldValue]="'code'"
+                              [bindObject]="false"
+                              [wrapType]="wrapperType"
+                              [placeholder]="'Click me'"
+                              [hasSearchInput]="true"
+                              [invalidText]="'You must select some value!'">
+        </essentials-ui-select>
+        <figure class="highlight">
+        <pre>
+          <code class="language-html">
+            {{codeYourCountry}}
+          </code>
+        </pre>
+        </figure>
+      </div>
+
+    </div>
+
+    <div class="flex-container">
+
+      <div class="flex-item">
+        <h3>
+          Misc
+        </h3>
+        Where are you now? <br>
+        <b>V</b>alue: <b>{{ yourCountry | json }}</b>
+        <essentials-ui-select [options]="multiselectedCountryOptions"
+                              [(value)]="yourCountry"
+                              [fieldName]="'name'"
+                              [fieldValue]="'code'"
+                              [bindObject]="false"
+                              [wrapType]="wrapperType"
+                              [placeholder]="'Click me'"
+                              [disabled]="disabledCountrySelect"
+                              [hasSearchInput]="true"
+                              [invalidText]="'You must select some value!'">
+        </essentials-ui-select>
+
+        <div style="margin-top: 5px">
+          <button class="btn btn-default" (click)="disabledCountrySelect = !disabledCountrySelect">
+            Change disable
+          </button>
+        </div>
+
+        <figure class="highlight">
+        <pre>
+          <code class="language-html">
+            {{codeYourCountry}}
+          </code>
+        </pre>
+        </figure>
+      </div>
+
+      <div class="flex-item">
+
+      </div>
+
+      <div class="flex-item">
+
+      </div>
+    </div>
+
+    <div class="flex-container">
 
       <div class="flex-item">
         <h3>

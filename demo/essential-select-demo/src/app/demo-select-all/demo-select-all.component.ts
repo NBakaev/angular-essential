@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {allCountries, Country, TreeNode} from './es.models';
-import {WrapperContent} from '../../../../../src/essential-select/essential-select.settings';
+import {WrapperContent} from 'angular-essential-select';
 
 @Component({
   selector: 'app-demo-select-all',
@@ -8,8 +8,6 @@ import {WrapperContent} from '../../../../../src/essential-select/essential-sele
   styleUrls: ['./demo-select-all.component.scss']
 })
 export class DemoSelectAllComponent implements OnInit {
-
-  public esContentWrapper: typeof WrapperContent = WrapperContent;
 
   public wrapperType: any = WrapperContent.MATCH_FORM;
 
@@ -36,6 +34,20 @@ export class DemoSelectAllComponent implements OnInit {
   multiselected: string[] = ['US', 'RU'];
   multiselectedCountryOptions: Country[] = allCountries;
 
+  // yourCountry: string;
+  yourCountry: string;
+
+  disabledCountrySelect = false;
+
+  constructor() {
+    const yourCountry2 = navigator.language;
+    console.log('navigator.language', this.yourCountry);
+    let find = allCountries.find(x => x.language === yourCountry2);
+    if (find != null) {
+      this.yourCountry = find.code;
+    }
+  }
+
   wrapperTypes: any[] = [
     {name: 'CSS Auto', value: WrapperContent.AUTO},
     {name: 'CSS Max content', value: WrapperContent.MAX_CONTENT},
@@ -52,7 +64,7 @@ export class DemoSelectAllComponent implements OnInit {
                        [wrapType]="wrapperType"
                        [placeholder]="'Click me'"
                        [hasSearchInput]="false"
-                       [invalidText]="'Hurray, pick somethin...'">
+                       [invalidText]="'You must select some value!'">
    </essentials-ui-select>`;
 
   codeMultiselect = `
@@ -75,8 +87,21 @@ export class DemoSelectAllComponent implements OnInit {
                         [useMultiSelect]="true"
                         [placeholder]="'Click me'"
                         [hasSearchInput]="false"
-                        [invalidText]="'Hurray, pick somethin...'">
+                        [invalidText]="'You must select some value!'">
    </essentials-ui-select>`;
+
+  codeYourCountry = `
+  <essentials-ui-select [options]="multiselectedCountryOptions"
+                        [(value)]="yourCountry"
+                        [fieldName]="'name'"
+                        [fieldValue]="'code'"
+                        [bindObject]="false"
+                        [wrapType]="wrapperType"
+                        [placeholder]="'Click me'"
+                        [hasSearchInput]="true"
+                        [invalidText]="'You must select some value!'">
+        </essentials-ui-select>
+`;
 
   setWrapperAuto() {
     this.wrapperType = WrapperContent.AUTO;
@@ -88,9 +113,6 @@ export class DemoSelectAllComponent implements OnInit {
 
   setWrapperMatchForm() {
     this.wrapperType = WrapperContent.MATCH_FORM;
-  }
-
-  constructor() {
   }
 
   ngOnInit() {

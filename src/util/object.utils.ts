@@ -58,9 +58,11 @@ export class ObjectUtils {
       return x === y;
     }
     // after this just checking type of one would be enough
-    if (x.constructor !== y.constructor) {
-      return false;
-    }
+    // check by constructor can be false positive in some cases. 
+    // E.g. created by JSON.parse(someString) and by "let a = new SomeClass()"
+    //if (x.constructor !== y.constructor) {
+      //return false;
+    //}
     // if they are functions, they should exactly refer to same one (because of closures)
     if (x instanceof Function) {
       return x === y;

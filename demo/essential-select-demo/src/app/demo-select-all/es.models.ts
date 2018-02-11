@@ -10,11 +10,14 @@ export class Country {
   name: string;
   code: string;
 
+  // TODO: language as []
+  language?: string;
+
 }
 
-
+// TODO: more languages;
 export const allCountries: Country[] = [
-  {code: 'US', name: 'United States'},
+  {code: 'US', name: 'United States', language: 'en-US'},
   {code: 'CA', name: 'Canada'},
   {code: 'AU', name: 'Australia'},
   {code: 'FR', name: 'France'},

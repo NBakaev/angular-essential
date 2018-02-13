@@ -12,7 +12,7 @@
         <div class="form-control" [ngClass]="{ 'placeholder' : (haveNotValue(value) && haveNotValue(internalValue)), 'btn-disable' : isOpenEditable()  }" #notSearchContaner>
 
           <span *ngIf="useMultiSelect; else simplePrintValue">
-            {{ (joinDefaultMultiSelect() | essentialSelectTruncate:this:searchBoxValue:isOpen:userHasInputTextToSearchBeforeSelect:pipeNumber) || placeholder}}
+            {{ (joinDefaultMultiSelect() | essentialSelectTruncate:this:isOpen:userHasInputTextToSearchBeforeSelect:pipeNumber) || placeholder}}
           </span>
 
           <ng-template #simplePrintValue>
@@ -29,11 +29,11 @@
 
     <ng-template #hasSearchInputSection>
       <form #selectForm="ngForm">
-        <input placeholder="{{placeholder | essentialSelectTruncate:this:searchBoxValue:isOpen:userHasInputTextToSearchBeforeSelect:pipeNumber}}"
+        <input placeholder="{{placeholder | essentialSelectTruncate:this:isOpen:userHasInputTextToSearchBeforeSelect:pipeNumber}}"
                class="form-control essential-form-control" name="input" autocomplete="off"
                #inputSelectPlaceholder
                [disabled]="disabled"
-               [ngModel]="searchBoxValue | essentialSelectTruncate:this:searchBoxValue:isOpen:userHasInputTextToSearchBeforeSelect:pipeNumber"
+               [ngModel]="searchBoxValue | essentialSelectTruncate:this:isOpen:userHasInputTextToSearchBeforeSelect:pipeNumber"
                (ngModelChange)="onSearchInputChange($event)"
                [type]="searchInputType">
         <div class="trigger position-fix" *ngIf="showOpenCloseIcon">

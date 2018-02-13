@@ -66,21 +66,17 @@ $not-validate: #e30613;
   min-height: 18px !important;
 
   // bootstrap fix
-  box-sizing: initial;
+  box-sizing: border-box;
 }
 
 .wrapper {
   position: absolute;
-  //padding-right: 30px;
   min-width: 100%;
   margin-top: 2px;
   z-index: 9000;
 }
 .multiselect_tools {
   background-color: $color-text-white;
-  //border: 1px solid $input-border;
-  //border-radius: 2px;
-  //box-shadow: 0 0 10px rgba(0,0,0,0.1);
   cursor: pointer;
 }
 .selectbox_dropdown {
@@ -154,7 +150,9 @@ ul {
 
 .position-fix {
   width: 0;
-  margin: -23px 5px 0 0;
+
+  // TODO: IMPORTANT fix magic 35 right padding
+  margin: -23px 35px 0 0;
 }
 
 .placeholder {

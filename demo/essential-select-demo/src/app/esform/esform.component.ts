@@ -12,6 +12,14 @@ export class EsformComponent implements OnInit {
     'hurr durr', 'herp derp', 'hurrrr', 'durrrr', 'derp derp'
   ];
 
+  isRequired = false;
+
+  superValueVal: string;
+
+  changeRequired() {
+    this.isRequired = !this.isRequired;
+  }
+
   constructor() { }
 
   ngOnInit() {

@@ -53,49 +53,6 @@
     </div>
 
     <div class="flex-container">
-      <div class="flex-item">
-        <h3>
-          Dropdown width
-        </h3>
-        Strategy to determine dropdown width: <br>
-        <b>V</b>alue: <b>{{ wrapperType }}</b>
-        <essentials-ui-select [options]="wrapperTypes"
-                              [(value)]="wrapperType"
-                              [fieldName]="'name'"
-                              [fieldValue]="'value'"
-                              [bindObject]="false"
-                              [wrapType]="wrapperType"
-                              [placeholder]="'Click me'"
-                              [hasSearchInput]="false"
-                              [invalidText]="'You must select some value!'">
-        </essentials-ui-select>
-        <pre>
-          <code class="language-html" data-lang="html">
-            {{codeDropdownWidth}}
-          </code>
-        </pre>
-        <br>
-
-        Essential select will automatically update internal value from outside changes <br>
-
-        <ul>
-          <li style="margin-top: 5px; list-style: none">
-            <button (click)="setWrapperAuto()" class="btn btn-default">
-              Set Auto
-            </button>
-          </li>
-          <li style="margin-top: 5px; list-style: none">
-            <button (click)="setWrapperMatchContent()" class="btn btn-default">
-              Set MatchContent
-            </button>
-          </li>
-          <li style="margin-top: 5px; list-style: none">
-            <button (click)="setWrapperMatchForm()" class="btn btn-default">
-              Set Match Form
-            </button>
-          </li>
-        </ul>
-      </div>
 
       <div class="flex-item">
         <h3>
@@ -145,13 +102,39 @@
                               [bindObject]="false"
                               [wrapType]="wrapperType"
                               [placeholder]="'Click me'"
-                              [hasSearchInput]="true"
+                              [hasSearchInput]="false"
                               [invalidText]="'You must select some value!'">
         </essentials-ui-select>
         <figure class="highlight">
         <pre>
           <code class="language-html">
             {{codeYourCountry}}
+          </code>
+        </pre>
+        </figure>
+      </div>
+
+      <div class="flex-item">
+        <h3>
+          Mulltiselect id in object with search
+        </h3>
+        Where are you now? <br>
+        <b>V</b>alue: <b>{{ multiselected2 | json }}</b>
+        <essentials-ui-select [options]="multiselectedCountryOptions"
+                              [(value)]="multiselected2"
+                              [fieldName]="'name'"
+                              [fieldValue]="'code'"
+                              [bindObject]="false"
+                              [wrapType]="wrapperType"
+                              [useMultiSelect]="true"
+                              [placeholder]="'Click me'"
+                              [hasSearchInput]="true"
+                              [invalidText]="'You must select some value!'">
+        </essentials-ui-select>
+        <figure class="highlight">
+        <pre>
+          <code class="language-html">
+            {{codeYourCountryWithSearch}}
           </code>
         </pre>
         </figure>
@@ -195,12 +178,64 @@
       </div>
 
       <div class="flex-item">
+        <h3>
+          Dropdown width
+        </h3>
+        Strategy to determine dropdown width: <br>
+        <b>V</b>alue: <b>{{ wrapperType }}</b>
+        <essentials-ui-select [options]="wrapperTypes"
+                              [(value)]="wrapperType"
+                              [fieldName]="'name'"
+                              [fieldValue]="'value'"
+                              [bindObject]="false"
+                              [wrapType]="wrapperType"
+                              [placeholder]="'Click me'"
+                              [hasSearchInput]="false"
+                              [invalidText]="'You must select some value!'">
+        </essentials-ui-select>
+        <pre>
+          <code class="language-html" data-lang="html">
+            {{codeDropdownWidth}}
+          </code>
+        </pre>
+        <br>
 
+        Essential select will automatically update internal value from outside changes <br>
+
+        <ul>
+          <li style="margin-top: 5px; list-style: none">
+            <button (click)="setWrapperAuto()" class="btn btn-default">
+              Set Auto
+            </button>
+          </li>
+          <li style="margin-top: 5px; list-style: none">
+            <button (click)="setWrapperMatchContent()" class="btn btn-default">
+              Set MatchContent
+            </button>
+          </li>
+          <li style="margin-top: 5px; list-style: none">
+            <button (click)="setWrapperMatchForm()" class="btn btn-default">
+              Set Match Form
+            </button>
+          </li>
+        </ul>
       </div>
 
       <div class="flex-item">
 
       </div>
+    </div>
+
+
+    <div class="flex-container">
+
+
+      <div class="flex-item">
+      </div>
+
+      <div class="flex-item">
+      </div>
+
     </div>
 
     <div class="flex-container">

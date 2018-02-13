@@ -5,9 +5,9 @@ import {EssentialSelectComponent} from "./essential-select.component";
   name: 'essentialSelectTruncate'
 })
 export class EssentialSelectTruncatePipe implements PipeTransform{
-  transform(value: string, es: EssentialSelectComponent): string {
+  transform(value: string, es: EssentialSelectComponent): string | undefined {
     if (!value) {
-      return '';
+      return undefined;
     }
     let answer: string = value;
     es.findPlaceholderLength(answer);

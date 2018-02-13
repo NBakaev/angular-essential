@@ -32,6 +32,7 @@ export class DemoSelectAllComponent implements OnInit {
 
   // multiselected: string[] = ['US', 'RU'];
   multiselected: string[] = ['US', 'RU'];
+  multiselected2: string[] = ['US', 'RU'];
   multiselectedCountryOptions: Country[] = allCountries;
 
   // yourCountry: string;
@@ -100,6 +101,19 @@ export class DemoSelectAllComponent implements OnInit {
                         [placeholder]="'Click me'"
                         [hasSearchInput]="true"
                         [invalidText]="'You must select some value!'">
+        </essentials-ui-select>
+`;
+ codeYourCountryWithSearch = `
+   <essentials-ui-select [options]="multiselectedCountryOptions"
+                         [(value)]="multiselected2"
+                         [fieldName]="'name'"
+                         [fieldValue]="'code'"
+                         [bindObject]="false"
+                         [wrapType]="wrapperType"
+                         [useMultiSelect]="true"
+                         [placeholder]="'Click me'"
+                         [hasSearchInput]="true"
+                         [invalidText]="'You must select some value!'">
         </essentials-ui-select>
 `;
 

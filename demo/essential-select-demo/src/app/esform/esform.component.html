@@ -9,13 +9,35 @@
       <pre>{{ form.value | json }}</pre>
     </div>
 
-    <form #form="ngForm">
-      <essentials-ui-select name="counter" ngModel [options]="selectOptions2"></essentials-ui-select>
-    </form>
+    <div class="btn-group">
+      <button class="btn btn-default" (click)="changeRequired()">
+        Change required
+      </button>
 
-    <button class="btn" (click)="form.reset()">
-      Reset
-    </button>
+      <button class="btn" (click)="form.reset()" style="margin-left: 5px">
+        Reset
+      </button>
+    </div>
+
+
+    <div style="margin-top: 5px">
+      <form #form="ngForm">
+        <input [(ngModel)]="superValueVal" id="superValue" class="form-control" type="text" name="superValue" #superValue required>
+
+        <essentials-ui-select
+          name="counter"
+          ngModel
+          [options]="selectOptions2"
+          [required]="isRequired"
+          [placeholder]="'Select something'"
+        >
+        </essentials-ui-select>
+      </form>
+    </div>
+
+    <div>
+      Is valid form: <b>{{form.valid}}</b>
+    </div>
 
     <pre>
           <code class="language-html" data-lang="html">

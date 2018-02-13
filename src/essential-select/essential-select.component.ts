@@ -15,7 +15,7 @@ import {
     Renderer2,
     ViewChild
 } from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
+import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {ValidateEssentialSelectFn} from './essential-select.validator';
@@ -44,7 +44,11 @@ const MAGIC_EMPTY_STRING = 'SOME_MAGIC_STRING_FOR_ESSENTAL_SELECT';
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => EssentialSelectComponent),
         multi: true
-    }
+    }, {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => EssentialSelectComponent),
+            multi: true,
+        }
     ]
 })
 export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
@@ -198,6 +202,15 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     registerOnTouched(fn: any): void {
     }
+
+    public validate(c: FormControl) {
+        if (this.valid()) {
+            return null;
+        }
+
+        return false;
+    }
+
     // end ngForms
 
     // // TODO: does not override disabled input
@@ -216,6 +229,10 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
         if (newState === true) {
             this.showOpenCloseIcon = false;
+            if (this.useMultiSelect && !this.isOpen) {
+                this.searchBoxValue = undefined;
+            }
+
         } else {
             this.showOpenCloseIcon = true;
         }
@@ -243,6 +260,9 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     changeOpen() {
+        if (this.disabled){
+            return;
+        }
         this.setOpen(!this.isOpen);
     }
 
@@ -657,7 +677,17 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
             return;
         }
 
-        this.searchBoxValue = this.printItemValue(this._internalValue);
+        if (this.useMultiSelect) {
+            if (!this.isOpen) {
+                Observable.of({}).delay(0).subscribe(x => {
+                    this.searchBoxValue = this.joinDefaultMultiSelect();
+                })
+            }
+
+        } else {
+            this.searchBoxValue = this.printItemValue(this._internalValue);
+        }
+
         this.setOpen(this.isOpen);
         this.findPlaceholderLength(this.searchBoxValue || this.placeholder);
         this.searchChange.emit(this.searchBoxValue);
@@ -673,7 +703,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     public joinDefaultMultiSelect(): string {
-        if (!ObjectUtils.isArray(this._internalValue)) {
+        if (!ObjectUtils.isArray(this._internalValue) || (this._internalValue as Array<any>).length === 0 ) {
             return undefined;
         }
         return (this._internalValue as Array<any>).map(x => this.printItemValue(x)).slice(0, this.multiSelectMaximumInlinedElements).join(', ');

@@ -21,10 +21,11 @@
 
 
     <div style="margin-top: 5px">
-      <form #form="ngForm">
+      <form #form="ngForm" id="form1" (submit)="doSubmit()" >
         <input [(ngModel)]="superValueVal" id="superValue" class="form-control" type="text" name="superValue" #superValue required>
 
         <essentials-ui-select
+          #esSelects
           name="counter"
           ngModel
           [options]="selectOptions2"
@@ -32,11 +33,19 @@
           [placeholder]="'Select something'"
         >
         </essentials-ui-select>
+
+        <button class="btn btn-primary" type="submit">submit</button>
+
       </form>
+
     </div>
 
     <div>
       Is valid form: <b>{{form.valid}}</b>
+    </div>
+    <!--<br>-->
+    <div>
+      Is required select: <b>{{isRequired}}</b>
     </div>
 
     <pre>

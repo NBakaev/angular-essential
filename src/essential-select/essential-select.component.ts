@@ -15,7 +15,7 @@ import {
     Renderer2,
     ViewChild
 } from '@angular/core';
-import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
+import {AbstractControl, ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {ValidateEssentialSelectFn} from './essential-select.validator';
@@ -92,8 +92,16 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     @Input() bindObject = false;
 
     // обязательное ли поле для валидации
+    /**
+     * Is it a required field for validation
+     * @type {boolean}
+     */
     @Input() required = true;
-    // Auto-complete option
+
+    /**
+     * Enable auto-complete option
+     * @type {boolean}
+     */
     @Input() hasSearchInput = false;
     @Input() searchInputType = 'text';
 
@@ -130,6 +138,10 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     @Input() wrapperClasses: string[] = [];
 
+    // angular forms automatically change null/undefined string to empty ""
+    // that's a workaround. If you need empty string as a value - disable that
+    @Input() treatEmptyStringAsNull = true;
+
     userHasInputTextToSearchBeforeSelect = false;
 
     isValidated = false;
@@ -148,6 +160,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     private ourChange = false;
 
     private onresizeSubscriber: any;
+
+    // number of times user selected some value
     private _userSelectedTimes = 0;
     private _limit: number;
 
@@ -159,6 +173,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     @ViewChild('selectForm') private ngForm: NgForm;
     @ViewChild('notSearchContaner') private notSearchContaner: ElementRef;
     @ViewChild('selectDropdown') private selectDropdown: ElementRef;
+
+    // private formControl: AbstractControl;
 
     get limit(): number {
         return this._limit;
@@ -174,14 +190,6 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     /**
      *
-     * @returns {number} number of times user selected some value
-     */
-    get userSelectedTimes(): number {
-        return this._userSelectedTimes;
-    }
-
-    /**
-     *
      * @returns {boolean} true if user selected some value after components initialized
      */
     isDirty(): boolean {
@@ -190,6 +198,10 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     // ngForms integration
     propagateChange = (_: any) => {
+    };
+
+    private onTouched = () => {
+        this.isValidated = true;
     };
 
     registerOnChange(fn) {
@@ -201,9 +213,19 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     registerOnTouched(fn: any): void {
+        this.onTouched = fn;
     }
 
     public validate(c: FormControl) {
+
+        // if (!this.formControl) {
+        //     this.formControl = c;
+        //     // this.formControl.parent
+        //     this.formControl.statusChanges.subscribe(x => {
+        //         console.log(x);
+        //     })
+        // };
+
         if (this.valid()) {
             return null;
         }
@@ -214,9 +236,9 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     // end ngForms
 
     // // TODO: does not override disabled input
-    // setDisabledState(isDisabled: boolean): void {
-    //     this.disabled = true;
-    // }
+    setDisabledState(isDisabled: boolean): void {
+        this.disabled = true;
+    }
 
     constructor(private _changeDetectionRef: ChangeDetectorRef, private ngZone: NgZone) {
     }
@@ -260,7 +282,10 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     changeOpen() {
-        if (this.disabled){
+        this.onTouched();
+        this.isValidated = true;
+
+        if (this.disabled) {
             return;
         }
         this.setOpen(!this.isOpen);
@@ -290,14 +315,20 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         if (this.validateFn) {
             isValid = this.validateFn(this.value);
         } else if (this.required) {
-            isValid = this.value !== undefined && this.value !== null;
+
+            if (this.treatEmptyStringAsNull) {
+                isValid = (this.value !== undefined && this.value !== null) && !(typeof this.value === 'string' && StringUtils.isEmpty(this.value));
+            } else {
+                isValid = this.value !== undefined && this.value !== null;
+            }
+
         } else {
             isValid = true;
         }
         return isValid;
     }
 
-    onValidation() {
+    markTouched() {
         this.isValidated = true;
     }
 
@@ -423,6 +454,14 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
      */
     ngDoCheck(): void {
 
+        // if (this.formControl) {
+        //     if (this.formPresite !== this.formControl.dirty) {
+        //         this.formPresite = this.formControl.dirty;
+        //         if (this.formPresite) {
+        //             console.log('Marked as pristine')
+        //         }
+        //     }
+        // }
         // handle when value is changed outside the component
         let haveChangedOutside = false;
         if (!ObjectUtils.deepEquals(this.prevValueOutside, this.value) && !this.ourChange) {
@@ -600,7 +639,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
             // clear array of we set 'not selected' for multiselect
             if (form === null) {
                 this._internalValue.length = 0;
-                this.isValidated = true;
+                // this.isValidated = true;
                 this.handleNewInternalMultibindingValue();
                 this.ourChange = true;
                 this.propagateChange(this.value);
@@ -642,7 +681,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
                 }
 
                 this.handleNewInternalMultibindingValue();
-                this.isValidated = true;
+                // this.isValidated = true;
                 this.ourChange = true;
                 this.propagateChange(this.value);
                 return {selectedValue: this.value, wasSelected: true};
@@ -662,7 +701,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
         this.value = val;
         this._internalValue = form;
-        this.isValidated = true;
+        // this.isValidated = true;
         this.ourChange = true;
 
         this.checkAndUpdateSearchInput();

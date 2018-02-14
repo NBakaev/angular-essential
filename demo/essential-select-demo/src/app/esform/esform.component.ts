@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {EssentialSelectComponent} from 'angular-essential-select';
 
 @Component({
   selector: 'app-esform',
@@ -12,6 +13,10 @@ export class EsformComponent implements OnInit {
     'hurr durr', 'herp derp', 'hurrrr', 'durrrr', 'derp derp'
   ];
 
+  @ViewChildren('selectes') private selected: ElementRef;
+
+  @ViewChildren('esSelects') validator_Selects: QueryList<EssentialSelectComponent>;
+
   isRequired = false;
 
   superValueVal: string;
@@ -23,6 +28,12 @@ export class EsformComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  doSubmit() {
+    console.log('submit');
+    alert('submit');
+    this.validator_Selects.forEach(x => x.markTouched());
   }
 
   esNgForm = `

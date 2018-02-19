@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {allCountries, Country, TreeNode} from './es.models';
 import {WrapperContent} from 'angular-essential-select';
+import {CountryPrintable} from './country-printable';
 
 @Component({
   selector: 'app-demo-select-all',
@@ -39,6 +40,8 @@ export class DemoSelectAllComponent implements OnInit {
   yourCountry: string;
 
   disabledCountrySelect = false;
+
+  countryPrintableAllowed = new CountryPrintable();
 
   constructor() {
     const yourCountry2 = navigator.language;

@@ -57,6 +57,12 @@ export class EssentialSelectRowOptions {
    */
   rowClasses: string[] = [];
 
+    /**
+     * Css classes for entire row
+     * @type {any[]}
+     */
+  entireRowClasses: string[] = [];
+
   /**
    * Text to show. The same text as you pass to printValue(value: string)
    */

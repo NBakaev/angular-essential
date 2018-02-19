@@ -77,6 +77,7 @@
         </li>
         <li *ngFor="let option of options | essentialSelectFilter:searchBoxValue:essentialsSelectFilter:useMultiSelect:this:userHasInputTextToSearchBeforeSelect | slice: 0:optionsDisplayLimit"
             (click)="onUserOptionSelected(option)"
+            [class]="getCssClasses(option)"
             [ngClass]="{ 'selected' : isSelected(option) }">
 
           <span *ngIf="enabledRowClasses()">

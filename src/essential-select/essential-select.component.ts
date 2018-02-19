@@ -96,7 +96,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
      * Is it a required field for validation
      * @type {boolean}
      */
-    @Input() required = true;
+    @Input() required = false;
 
     /**
      * Enable auto-complete option
@@ -243,7 +243,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     constructor(private _changeDetectionRef: ChangeDetectorRef, private ngZone: NgZone) {
     }
 
-    public scrollToElement(): ElementRef {
+    public getElementRef(): ElementRef {
         return this.container;
     }
 
@@ -443,9 +443,16 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         return false;
     }
 
-    // IMPORTANT: before call always check by enabledRowClasses function
     public printRowClasses(item: any): string {
         return (this.selectPrintable.printValue(item) as EssentialSelectRowOptions).rowClasses.join(' ');
+    }
+
+    getCssClasses(item: any) {
+        // TODO: optimize
+        if (!this.enabledRowClasses()) {
+            return '';
+        }
+        return (this.selectPrintable.printValue(item) as EssentialSelectRowOptions).entireRowClasses.join(' ');
     }
 
     /**
@@ -454,26 +461,21 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
      */
     ngDoCheck(): void {
 
-        // if (this.formControl) {
-        //     if (this.formPresite !== this.formControl.dirty) {
-        //         this.formPresite = this.formControl.dirty;
-        //         if (this.formPresite) {
-        //             console.log('Marked as pristine')
-        //         }
-        //     }
-        // }
         // handle when value is changed outside the component
         let haveChangedOutside = false;
         if (!ObjectUtils.deepEquals(this.prevValueOutside, this.value) && !this.ourChange) {
             haveChangedOutside = true;
         }
 
+        this.ourChange = false;
+
         if (haveChangedOutside && this.options instanceof Array) {
 
             if (!this.useMultiSelect) {
-                // if null is selected outside the component or it is initial value
-                if (this.value === null) {
+                // if null/undefined is selected outside the component or it is initial value
+                if (this.value == null) {
                     this.select(null);
+                    return this.doFinalOusideChanges();
                 }
 
                 if (this.haveFieldValue()) {
@@ -487,10 +489,13 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
                         selectedValue = this.options.find(x => x[this.fieldValue] === this.value);
                     }
                     this.select(selectedValue == null ? null : selectedValue);
+                    this.doFinalOusideChanges();
+                    return;
                 } else {
                     let selectedValue: any;
                     selectedValue = this.options.find(x => x === this.value);
                     this.select(selectedValue == null ? null : selectedValue);
+                    return this.doFinalOusideChanges();
                 }
             }
 
@@ -517,12 +522,15 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
                     });
                 }
+                return this.doFinalOusideChanges();
             }
-
-            this.prevValueOutside = ObjectUtils.deepCopy(this.value);
-            this.ourChange = false;
         }
 
+    }
+
+    private doFinalOusideChanges() {
+        this.prevValueOutside = ObjectUtils.deepCopy(this.value);
+        this.ourChange = false;
     }
 
     public printValue(): string {
@@ -625,6 +633,27 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         }
     }
 
+    private checkCanBeDeSelected(form: any): boolean {
+        if (this.selectPrintable && this.selectPrintable['allowToDeselectValue']) {
+            const allowedSelect = this.selectPrintable.allowToDeselectValue(form, this._internalValue);
+            if (!allowedSelect) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private checkCanBeSelected(form: any): boolean {
+        if (this.selectPrintable && this.selectPrintable['allowToSelectValue']) {
+            const allowedSelect = this.selectPrintable.allowToSelectValue(form, this._internalValue);
+            if (!allowedSelect) {
+                this.ourChange = true;
+                return false;
+            }
+        }
+        return true;
+    }
+
     /** Содержит логику по выбору значения, которое хранит/отдает компонент
      * @param form новое значение объекта
      */
@@ -639,7 +668,6 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
             // clear array of we set 'not selected' for multiselect
             if (form === null) {
                 this._internalValue.length = 0;
-                // this.isValidated = true;
                 this.handleNewInternalMultibindingValue();
                 this.ourChange = true;
                 this.propagateChange(this.value);
@@ -658,39 +686,37 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
                 // otherwise - add
                 if (formInValue !== -1) {
 
-                    if (this.selectPrintable && this.selectPrintable['allowToDeselectValue']) {
-                        const allowedSelect = this.selectPrintable.allowToDeselectValue(form, this._internalValue);
-                        if (!allowedSelect) {
-                            return {selectedValue: null, wasSelected: false};
-                        }
+                    let b = this.checkCanBeDeSelected(form);
+                    if (!b) {
+                        return {selectedValue: null, wasSelected: false};
                     }
 
                     // remove selected value
                     this._internalValue.splice(formInValue, 1);
 
                 } else {
-                    if (this.selectPrintable && this.selectPrintable['allowToSelectValue']) {
-                        const allowedSelect = this.selectPrintable.allowToSelectValue(form, this._internalValue);
-                        if (!allowedSelect) {
-                            this.ourChange = true;
-                            return {selectedValue: null, wasSelected: false};
-                        }
+                    let b = this.checkCanBeSelected(form);
+                    if (!b) {
+                        return {selectedValue: null, wasSelected: false};
                     }
-
                     this._internalValue.push(form);
                 }
 
                 this.handleNewInternalMultibindingValue();
-                // this.isValidated = true;
                 this.ourChange = true;
                 this.propagateChange(this.value);
                 return {selectedValue: this.value, wasSelected: true};
+            }
+        } else {
+            let b = this.checkCanBeSelected(form);
+            if (!b) {
+                return {selectedValue: null, wasSelected: false};
             }
         }
 
         // null = элемент не выбран
         if (form === null) {
-            this.searchBoxValue = undefined;
+        //     this.searchBoxValue = undefined;
 
             // если у нас value сложный объект - нужно выставлять его же в модель
         } else if (!StringUtils.isEmpty(this.fieldValue) && !this.bindObject) {
@@ -701,9 +727,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
         this.value = val;
         this._internalValue = form;
-        // this.isValidated = true;
         this.ourChange = true;
-
         this.checkAndUpdateSearchInput();
 
         this.propagateChange(this.value);

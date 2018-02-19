@@ -16,8 +16,13 @@
         <essentials-ui-select [options]="selectOptions2"
                               [(value)]="simpleSelect"
                               [placeholder]="'Click me'"
+                              [required]="true"
                               [invalidText]="'You must select some value!'">
         </essentials-ui-select>
+
+        <button class="btn" (click)="simpleSelect = null">
+          set null
+        </button>
       </div>
 
       <div class="flex-item">
@@ -30,8 +35,12 @@
                               [(value)]="esWithSearch"
                               [hasSearchInput]="true"
                               [placeholder]="'Click me'"
+                              [required]="true"
                               [invalidText]="'You must select some value!'">
         </essentials-ui-select>
+        <button class="btn" (click)="esWithSearch = undefined">
+          set null
+        </button>
       </div>
 
       <div class="flex-item">
@@ -159,6 +168,40 @@
                               [placeholder]="'Click me'"
                               [disabled]="disabledCountrySelect"
                               [hasSearchInput]="true"
+                              [invalidText]="'You must select some value!'">
+        </essentials-ui-select>
+
+        <div style="margin-top: 5px">
+          <button class="btn btn-default" (click)="disabledCountrySelect = !disabledCountrySelect">
+            Change disable
+          </button>
+        </div>
+
+        <figure class="highlight">
+        <pre>
+          <code class="language-html">
+            {{codeYourCountry}}
+          </code>
+        </pre>
+        </figure>
+      </div>
+
+      <div class="flex-item">
+        <h3>
+          Disable to select some value
+        </h3>
+        Where are you now? <br>
+        <b>V</b>alue: <b>{{ yourCountry | json }}</b>
+        <essentials-ui-select [options]="multiselectedCountryOptions"
+                              [(value)]="yourCountry"
+                              [fieldName]="'name'"
+                              [fieldValue]="'code'"
+                              [bindObject]="false"
+                              [wrapType]="wrapperType"
+                              [placeholder]="'Click me'"
+                              [disabled]="disabledCountrySelect"
+                              [hasSearchInput]="true"
+                              [selectPrintable]="countryPrintableAllowed"
                               [invalidText]="'You must select some value!'">
         </essentials-ui-select>
 

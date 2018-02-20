@@ -625,7 +625,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     private safeAccessInternavlValue() {
-        if (this._internalValue == null && this.useMultiSelect) {
+        if ( (this._internalValue == null || typeof this._internalValue === 'undefined') && this.useMultiSelect) {
             this._internalValue = [];
         }
     }

@@ -463,8 +463,13 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
         // handle when value is changed outside the component
         let haveChangedOutside = false;
-        if (!ObjectUtils.deepEquals(this.prevValueOutside, this.value) && !this.ourChange) {
-            haveChangedOutside = true;
+        if (!ObjectUtils.deepEquals(this.prevValueOutside, this.value)) {
+
+            if (this.ourChange) {
+                this.prevValueOutside = ObjectUtils.deepCopy(this.value);
+            } else {
+                haveChangedOutside = true;
+            }
         }
 
         this.ourChange = false;
@@ -530,7 +535,6 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     private doFinalOusideChanges() {
         this.prevValueOutside = ObjectUtils.deepCopy(this.value);
-        this.ourChange = false;
     }
 
     public printValue(): string {
@@ -572,6 +576,11 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     public printItemValue(item: any): string {
 
+        // if item is null - immediately return and do not pass to printable
+        if (!item) {
+            return undefined;
+        }
+
         // if we have custom printer - use it
         if (this.selectPrintable) {
 
@@ -582,10 +591,6 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
                 return this.getSimpleTextPrintable(this.selectPrintable.printValue(item));
             }
 
-        }
-
-        if (!item) {
-            return undefined;
         }
 
         if (!this.fieldName) {

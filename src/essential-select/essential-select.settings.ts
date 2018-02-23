@@ -10,7 +10,6 @@ export enum WrapperContent {
   // user for container css property "width: auto"
   AUTO = 2,
 
-  // TODO: implement
   // dynamically change container width depends on input width section
   MATCH_FORM = 3
 

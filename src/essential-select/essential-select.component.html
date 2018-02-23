@@ -3,10 +3,10 @@
   <!-- uncomment code below to debug component -->
   <!--<div>-->
     <!--limit: {{limit}} <br>-->
-    <!--searchBoxValue: {{searchBoxValue}} <br>-->
+    <!--_searchBoxValue: {{_searchBoxValue}} <br>-->
   <!--</div>-->
   <!--<div>-->
-  <!--1{{isValidated}}-->
+  <!--1{{_isValidated}}-->
   <!--2 {{valid() }}-->
   <!--</div>-->
 
@@ -16,11 +16,12 @@
         <div class="form-control" [ngClass]="{ 'placeholder' : (haveNotValue(value) && haveNotValue(internalValue)), 'btn-disable' : isOpenEditable()  }" #notSearchContaner>
 
           <span *ngIf="useMultiSelect; else simplePrintValue">
-            {{ (joinDefaultMultiSelect() | essentialSelectTruncate:this:isOpen:userHasInputTextToSearchBeforeSelect:pipeNumber) || placeholder}}
+            {{ (joinDefaultMultiSelect() | essentialSelectTruncate:this:_isOpen:_userHasInputTextToSearchBeforeSelect:_pipeNumber) || placeholder}}
           </span>
 
           <ng-template #simplePrintValue>
-            {{ (printValue() | essentialSelectTruncate: this:searchBoxValue:isOpen:userHasInputTextToSearchBeforeSelect:pipeNumber) || placeholder }}
+            {{ (printValue() | essentialSelectTruncate:
+            this:_searchBoxValue:_isOpen:_userHasInputTextToSearchBeforeSelect:_pipeNumber) || placeholder }}
           </ng-template>
 
           <div class="trigger">
@@ -33,14 +34,14 @@
 
     <ng-template #hasSearchInputSection>
       <form #selectForm="ngForm">
-        <input placeholder="{{placeholder | essentialSelectTruncate:this:isOpen:userHasInputTextToSearchBeforeSelect:pipeNumber}}"
+        <input placeholder="{{placeholder | essentialSelectTruncate:this:_isOpen:_userHasInputTextToSearchBeforeSelect:_pipeNumber}}"
                class="form-control essential-form-control" name="input" autocomplete="off"
                #inputSelectPlaceholder
                [disabled]="disabled"
-               [ngModel]="searchBoxValue | essentialSelectTruncate:this:isOpen:userHasInputTextToSearchBeforeSelect:pipeNumber"
+               [ngModel]="_searchBoxValue | essentialSelectTruncate:this:_isOpen:_userHasInputTextToSearchBeforeSelect:_pipeNumber"
                (ngModelChange)="onSearchInputChange($event)"
                [type]="searchInputType">
-        <div class="trigger position-fix" *ngIf="showOpenCloseIcon">
+        <div class="trigger position-fix" *ngIf="_showOpenCloseIcon">
           <span class="icon-open" *ngIf="isOpenEditable()"></span>
           <span class="icon-closed" *ngIf="!isOpenEditable()"></span>
         </div>
@@ -75,7 +76,7 @@
         <li *ngIf="!disableUnselected" (click)="onUserOptionSelected(null)" [ngClass]="{ 'selected': haveNotValue(value), 'btn-disable' : isOpenEditable() }" style="padding-top: 10px">
           {{notSelectedText}}
         </li>
-        <li *ngFor="let option of options | essentialSelectFilter:searchBoxValue:essentialsSelectFilter:useMultiSelect:this:userHasInputTextToSearchBeforeSelect | slice: 0:optionsDisplayLimit"
+        <li *ngFor="let option of options | essentialSelectFilter:_searchBoxValue:essentialsSelectFilter:useMultiSelect:this:_userHasInputTextToSearchBeforeSelect | slice: 0:optionsDisplayLimit"
             (click)="onUserOptionSelected(option)"
             [class]="getCssClasses(option)"
             [ngClass]="{ 'selected' : isSelected(option) }">
@@ -95,7 +96,7 @@
 
 </div>
 
-<div *ngIf="isValidated && !valid()" class="invalid-field-container" [ngClass]="{'btn-disable' : isOpenEditable() }">
+<div *ngIf="_isValidated && !valid()" class="invalid-field-container" [ngClass]="{'btn-disable' : isOpenEditable() }">
   <small class="b-hint b-hint-invalid"> !</small>
   <small class="form-invalid-color">
     {{ invalidText }}

@@ -30,10 +30,10 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
 
-const MAXIMUM_NUMBER_OPTIONS_TO_DISPLAY = 500;
+const DEFAULT_MAXIMUM_NUMBER_OPTIONS_TO_DISPLAY = 500;
 const DELAY_UNTIL_UPDATE_FILTER = 100; // miliseconds
 
-// внутренняя строка. нужна строка чтобы определить было ли что-то иницилизировано во взодном value
+// internal string to determine of something was initialised in input value
 const MAGIC_EMPTY_STRING = 'SOME_MAGIC_STRING_FOR_ESSENTAL_SELECT';
 
 @Component({
@@ -45,9 +45,9 @@ const MAGIC_EMPTY_STRING = 'SOME_MAGIC_STRING_FOR_ESSENTAL_SELECT';
         useExisting: forwardRef(() => EssentialSelectComponent),
         multi: true
     }, {
-            provide: NG_VALIDATORS,
-            useExisting: forwardRef(() => EssentialSelectComponent),
-            multi: true,
+        provide: NG_VALIDATORS,
+        useExisting: forwardRef(() => EssentialSelectComponent),
+        multi: true,
         }
     ]
 })
@@ -73,7 +73,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
      * limit to show options in list
      * @type {number}
      */
-    @Input() optionsDisplayLimit: number = MAXIMUM_NUMBER_OPTIONS_TO_DISPLAY;
+    @Input() optionsDisplayLimit: number = DEFAULT_MAXIMUM_NUMBER_OPTIONS_TO_DISPLAY;
 
     /**
      *  If you pass some complex objects (not number/string) - you must pass ID of property that every "options" object contains
@@ -91,7 +91,6 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
      */
     @Input() bindObject = false;
 
-    // обязательное ли поле для валидации
     /**
      * Is it a required field for validation
      * @type {boolean}
@@ -105,6 +104,10 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     @Input() hasSearchInput = false;
     @Input() searchInputType = 'text';
 
+    /**
+     * Handle wen user search something; only valid if you have hasSearchInput=true
+     * @type {EventEmitter<string>}
+     */
     @Output() searchChange = new EventEmitter<string>();
 
     // опционален. сообщение, которое показывать при невалидном компоненте.
@@ -119,42 +122,57 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     @Input() placeholder: string;
 
-    // не показывать опцию 'Не выбрано'
+    /**
+     * Hide 'Not selected' option (equals to null)
+     */
     @Input() disableUnselected: boolean;
-    // функция валидации
+
+    /**
+     * Custom validation function
+     */
     @Input() validateFn: ValidateEssentialSelectFn;
 
+    /**
+     * Main object for dynamically customization print and select behaviour of select
+     */
     @Input() selectPrintable: EssentialSelectOptions<any>;
 
+    /**
+     * Customize behaviour of filtering options. By default use TextToShowEssentialFilter.
+     * @type {TextToShowEssentialFilter}
+     */
     @Input() essentialsSelectFilter: EssentialsSelectFilter = new TextToShowEssentialFilter();
 
-    // использовать ли multiselect
+    /**
+     * Is multiselect mode
+     */
     @Input() useMultiSelect: boolean;
 
+    /**
+     * Maximum elements to inline in input
+     * @type {number}
+     */
     @Input() multiSelectMaximumInlinedElements = 100;
 
+    /**
+     * Is select disabled
+     */
     @Input() disabled: boolean;
+
+    /**
+     * Control dropdown strategy
+     * @type {WrapperContent.MATCH_FORM}
+     */
     @Input() wrapType: WrapperContent = WrapperContent.MATCH_FORM;
 
     @Input() wrapperClasses: string[] = [];
 
-    // angular forms automatically change null/undefined string to empty ""
-    // that's a workaround. If you need empty string as a value - disable that
+    /**
+     * angular forms automatically change null/undefined string to empty ""
+     * that's a workaround. If you need empty string as a value - disable that
+     * @type {boolean}
+     */
     @Input() treatEmptyStringAsNull = true;
-
-    userHasInputTextToSearchBeforeSelect = false;
-
-    isValidated = false;
-
-    showOpenCloseIcon = true;
-
-    // trigger to redraw pipe input
-    pipeNumber = 0;
-
-    public isOpen = false;
-
-    // содержимое searchBoxValue поля (hasSearchInput === true)
-    public searchBoxValue = undefined;
 
     private prevValueOutside: any = MAGIC_EMPTY_STRING;
     private ourChange = false;
@@ -163,8 +181,9 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     // number of times user selected some value
     private _userSelectedTimes = 0;
-    private _limit: number;
 
+    // limits number of characters of placeholder length
+    private _limit: number;
     private _internalValue: any = null;
 
     @ViewChild('container') private container: ElementRef;
@@ -174,7 +193,19 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     @ViewChild('notSearchContaner') private notSearchContaner: ElementRef;
     @ViewChild('selectDropdown') private selectDropdown: ElementRef;
 
-    // private formControl: AbstractControl;
+    _userHasInputTextToSearchBeforeSelect = false;
+
+    _isValidated = false;
+
+    _showOpenCloseIcon = true;
+
+    // trigger to redraw pipe input
+    _pipeNumber = 0;
+
+    _isOpen = false;
+
+    // content of _searchBoxValue field (hasSearchInput === true)
+    _searchBoxValue = undefined;
 
     get limit(): number {
         return this._limit;
@@ -201,7 +232,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     };
 
     private onTouched = () => {
-        this.isValidated = true;
+        this._isValidated = true;
     };
 
     registerOnChange(fn) {
@@ -217,14 +248,6 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     public validate(c: FormControl) {
-
-        // if (!this.formControl) {
-        //     this.formControl = c;
-        //     // this.formControl.parent
-        //     this.formControl.statusChanges.subscribe(x => {
-        //         console.log(x);
-        //     })
-        // };
 
         if (this.valid()) {
             return null;
@@ -250,15 +273,15 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     setOpen(newState: boolean) {
 
         if (newState === true) {
-            this.showOpenCloseIcon = false;
-            if (this.useMultiSelect && !this.isOpen) {
-                this.searchBoxValue = undefined;
+            this._showOpenCloseIcon = false;
+            if (this.useMultiSelect && !this._isOpen) {
+                this._searchBoxValue = undefined;
             }
 
         } else {
-            this.showOpenCloseIcon = true;
+            this._showOpenCloseIcon = true;
         }
-        this.isOpen = newState;
+        this._isOpen = newState;
     }
 
     getDropdownWidth(): string {
@@ -283,30 +306,27 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     changeOpen() {
         this.onTouched();
-        this.isValidated = true;
+        this._isValidated = true;
 
         if (this.disabled) {
             return;
         }
-        this.setOpen(!this.isOpen);
+        this.setOpen(!this._isOpen);
     }
 
     isOpenEditable(): boolean {
-        return this.isOpen && !this.disabled;
+        return this._isOpen && !this.disabled;
     }
 
     onSearchInputChange($event) {
 
-        this.searchBoxValue = $event;
-
-        if (this.userHasInputTextToSearchBeforeSelect) {
-
-            if (!StringUtils.isEmpty(this.searchBoxValue)) {
+        this._searchBoxValue = $event;
+        if (this._userHasInputTextToSearchBeforeSelect) {
+            if (!StringUtils.isEmpty(this._searchBoxValue)) {
                 this.setOpen(true);
             }
         }
-
-        this.userHasInputTextToSearchBeforeSelect = true;
+        this._userHasInputTextToSearchBeforeSelect = true;
     }
 
     valid(): boolean {
@@ -329,7 +349,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     markTouched() {
-        this.isValidated = true;
+        this._isValidated = true;
     }
 
     ngOnInit() {
@@ -486,11 +506,11 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
                 if (this.haveFieldValue()) {
                     let selectedValue = null;
 
-                    // если у нас входной/выходной value сложный объект - нужно найти его из this.options так же по ID
+                    // if he have input/output complex object - find it by id from this.option
                     if (this.bindObject) {
                         selectedValue = this.options.find(x => x[this.fieldValue] === this.value[this.fieldValue]);
                     } else {
-                        // если value === ID - простой тип - нужно просто найти его в this.options
+                        // if we have simple object - just find it from this.options
                         selectedValue = this.options.find(x => x[this.fieldValue] === this.value);
                     }
                     this.select(selectedValue == null ? null : selectedValue);
@@ -585,7 +605,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         if (this.selectPrintable) {
 
             // если меню открыто - то можно задавать отдельный опциональный печатальщик под это
-            if (this.selectPrintable.printValueOnOpen && this.isOpen) {
+            if (this.selectPrintable.printValueOnOpen && this._isOpen) {
                 return this.getSimpleTextPrintable(this.selectPrintable.printValueOnOpen(item));
             } else {
                 return this.getSimpleTextPrintable(this.selectPrintable.printValue(item));
@@ -659,14 +679,14 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         return true;
     }
 
-    /** Содержит логику по выбору значения, которое хранит/отдает компонент
-     * @param form новое значение объекта
+    /** Select some option
+     * @param form selected value
      */
     private select(form: any): { selectedValue: any, wasSelected: boolean } {
         let val;
         this.safeAccessInternavlValue();
 
-        this.userHasInputTextToSearchBeforeSelect = false;
+        this._userHasInputTextToSearchBeforeSelect = false;
 
         if (this.useMultiSelect) {
 
@@ -719,11 +739,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
             }
         }
 
-        // null = элемент не выбран
+        // null - element is not selected
         if (form === null) {
-        //     this.searchBoxValue = undefined;
-
-            // если у нас value сложный объект - нужно выставлять его же в модель
         } else if (!StringUtils.isEmpty(this.fieldValue) && !this.bindObject) {
             val = form[this.fieldValue];
         } else {
@@ -739,30 +756,32 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         return {selectedValue: val, wasSelected: true};
     }
 
-    // после выбора когда включен поиск - обновить модель с выбраным значением
+    /**
+     * Refresh search input after model changes
+     */
     private checkAndUpdateSearchInput(): void {
         if (!this.hasSearchInput) {
             return;
         }
 
         if (this.useMultiSelect) {
-            if (!this.isOpen) {
+            if (!this._isOpen) {
                 Observable.of({}).delay(0).subscribe(x => {
-                    this.searchBoxValue = this.joinDefaultMultiSelect();
+                    this._searchBoxValue = this.joinDefaultMultiSelect();
                 })
             }
 
         } else {
-            this.searchBoxValue = this.printItemValue(this._internalValue);
+            this._searchBoxValue = this.printItemValue(this._internalValue);
         }
 
-        this.setOpen(this.isOpen);
-        this.findPlaceholderLength(this.searchBoxValue || this.placeholder);
-        this.searchChange.emit(this.searchBoxValue);
+        this.setOpen(this._isOpen);
+        this.findPlaceholderLength(this._searchBoxValue || this.placeholder);
+        this.searchChange.emit(this._searchBoxValue);
 
         Observable.of({}).delay(0).subscribe(x => {
             if (!this._changeDetectionRef['destroyed']) {
-                this.pipeNumber++;
+                this._pipeNumber++;
                 this._changeDetectionRef.detectChanges();
             }
             // TODO: if immediately set pipNumber => get ExpressionChangedAfterItHasBeenCheckedError
@@ -788,7 +807,6 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
             return;
         }
         const inputWidth = this.inputSelectPlaceholder.nativeElement;
-
         let limit = stringTest.length;
 
         const ruler = this.containerLength.nativeElement;
@@ -803,7 +821,6 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
             limit = i;
         }
         ruler.style.display = 'none';
-
         this._limit = limit;
     }
 

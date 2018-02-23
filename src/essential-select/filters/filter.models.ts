@@ -8,7 +8,6 @@ export class EssentialSelectFilteredItem {
 
 }
 
-
 export interface EssentialsSelectFilter {
 
   shouldByShown(requestedText: string, item: EssentialSelectFilteredItem, currentValue: any, userHasInputTextToSearchBeforeSelect: boolean): boolean;

@@ -9,15 +9,15 @@ export class EssentialSelectFilterPipe implements PipeTransform {
 
   /**
    *
-   * @param {Array<any>} value - список всех значений доступных для выбора
-   * @param arg1 текст для поиска введеный пользователем
-   * @param {EssentialsSelectFilter} args2 сам фильтр- предикат по которому будет делаться отсев элементов
+   * @param {Array<any>} value - all options
+   * @param userSearchText user text entered in input
+   * @param {EssentialsSelectFilter} args2 user defined (or by default) predicate
    * @param {boolean} useMultiSelect
    * @param essentialSelectComponent
    * @param userHasInputTextToSearchBeforeSelect
-   * @returns {any}
+   * @returns options to show
    */
-  transform(value: Array<any>, arg1, args2: EssentialsSelectFilter, useMultiSelect: boolean, essentialSelectComponent: EssentialSelectComponent,
+  transform(value: Array<any>, userSearchText, args2: EssentialsSelectFilter, useMultiSelect: boolean, essentialSelectComponent: EssentialSelectComponent,
             userHasInputTextToSearchBeforeSelect: boolean): any {
 
     return value.filter(x => {
@@ -27,7 +27,7 @@ export class EssentialSelectFilterPipe implements PipeTransform {
       // dynamically pass text function
       item.textToShow = essentialSelectComponent.printItemValue(item.originalObject);
       // TODO: multiselect breaks
-      return args2.shouldByShown(arg1, item, essentialSelectComponent.internalValue, userHasInputTextToSearchBeforeSelect);
+      return args2.shouldByShown(userSearchText, item, essentialSelectComponent.internalValue, userHasInputTextToSearchBeforeSelect);
     });
   }
 

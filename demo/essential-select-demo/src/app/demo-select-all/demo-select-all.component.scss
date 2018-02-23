@@ -34,3 +34,7 @@ $option-depth-padding-level: 5px;
 .depth-3 {
   padding-left: $option-depth-padding-level * 8;
 }
+
+.btn-default {
+  background-color: #dddddd80 !important;
+}

@@ -59,17 +59,16 @@ export class DemoSelectAllComponent implements OnInit {
   ];
 
   codeDropdownWidth = `
-  <essentials-ui-select
-                       [options]="wrapperTypes"
-                       [(value)]="wrapperType"
-                       [fieldName]="'name'"
-                       [fieldValue]="'value'"
-                       [bindObject]="false"
-                       [wrapType]="wrapperType"
-                       [placeholder]="'Click me'"
-                       [hasSearchInput]="false"
-                       [invalidText]="'You must select some value!'">
-   </essentials-ui-select>`;
+  <essential-select [options]="wrapperTypes"
+                    [(value)]="wrapperType"
+                    [fieldName]="'name'"
+                    [fieldValue]="'value'"
+                    [bindObject]="false"
+                    [wrapType]="wrapperType"
+                    [placeholder]="'Click me'"
+                    [hasSearchInput]="false"
+                    [invalidText]="'You must select some value!'">
+   </essential-select>`;
 
   codeMultiselect = `
 ## TS
@@ -83,41 +82,41 @@ export class DemoSelectAllComponent implements OnInit {
 
 ## HTML
 
-  <essentials-ui-select [options]="selectOptions2"
-                        [(value)]="multiselected"
-                        [fieldName]="'name'"
-                        [fieldValue]="'value'"
-                        [bindObject]="false"
-                        [useMultiSelect]="true"
-                        [placeholder]="'Click me'"
-                        [hasSearchInput]="false"
-                        [invalidText]="'You must select some value!'">
-   </essentials-ui-select>`;
+  <essential-select [options]="selectOptions2"
+                    [(value)]="multiselected"
+                    [fieldName]="'name'"
+                    [fieldValue]="'value'"
+                    [bindObject]="false"
+                    [useMultiSelect]="true"
+                    [placeholder]="'Click me'"
+                    [hasSearchInput]="false"
+                    [invalidText]="'You must select some value!'">
+   </essential-select>`;
 
   codeYourCountry = `
-  <essentials-ui-select [options]="multiselectedCountryOptions"
-                        [(value)]="yourCountry"
-                        [fieldName]="'name'"
-                        [fieldValue]="'code'"
-                        [bindObject]="false"
-                        [wrapType]="wrapperType"
-                        [placeholder]="'Click me'"
-                        [hasSearchInput]="true"
-                        [invalidText]="'You must select some value!'">
-        </essentials-ui-select>
+  <essential-select [options]="multiselectedCountryOptions"
+                    [(value)]="yourCountry"
+                    [fieldName]="'name'"
+                    [fieldValue]="'code'"
+                    [bindObject]="false"
+                    [wrapType]="wrapperType"
+                    [placeholder]="'Click me'"
+                    [hasSearchInput]="true"
+                    [invalidText]="'You must select some value!'">
+  </essential-select>
 `;
  codeYourCountryWithSearch = `
-   <essentials-ui-select [options]="multiselectedCountryOptions"
-                         [(value)]="multiselected2"
-                         [fieldName]="'name'"
-                         [fieldValue]="'code'"
-                         [bindObject]="false"
-                         [wrapType]="wrapperType"
-                         [useMultiSelect]="true"
-                         [placeholder]="'Click me'"
-                         [hasSearchInput]="true"
-                         [invalidText]="'You must select some value!'">
-        </essentials-ui-select>
+   <essential-select [options]="multiselectedCountryOptions"
+                     [(value)]="multiselected2"
+                     [fieldName]="'name'"
+                     [fieldValue]="'code'"
+                     [bindObject]="false"
+                     [wrapType]="wrapperType"
+                     [useMultiSelect]="true"
+                     [placeholder]="'Click me'"
+                     [hasSearchInput]="true"
+                     [invalidText]="'You must select some value!'">
+   </essential-select>
 `;
 
   setWrapperAuto() {

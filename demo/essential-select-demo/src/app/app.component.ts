@@ -1,4 +1,5 @@
 import {Component, ViewContainerRef} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,9 @@ export class AppComponent {
 
   // useBootstrap = false;
   useBootstrap = true;
+
+  constructor(public router: Router) {
+  }
 
   private viewContainerRef: ViewContainerRef;
 

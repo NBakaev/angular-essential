@@ -1,8 +1,4 @@
 <div>
-  <h1>
-    Essential select
-  </h1>
-
 
   <div style="margin-right: 30px">
 
@@ -13,16 +9,18 @@
         </h3>
         Simple selected string from array with starts value: <br>
         <b>V</b>alue: <b>{{ simpleSelect }}</b>
-        <essentials-ui-select [options]="selectOptions2"
-                              [(value)]="simpleSelect"
-                              [placeholder]="'Click me'"
-                              [required]="true"
-                              [invalidText]="'You must select some value!'">
-        </essentials-ui-select>
+        <essential-select [options]="selectOptions2"
+                          [(value)]="simpleSelect"
+                          [placeholder]="'Click me'"
+                          [required]="true"
+                          [invalidText]="'You must select some value!'">
+        </essential-select>
 
-        <button class="btn" (click)="simpleSelect = null">
-          set null
-        </button>
+        <div class="margin-top-xs">
+          <button class="btn btn-default" (click)="simpleSelect = null">
+            Set null
+          </button>
+        </div>
       </div>
 
       <div class="flex-item">
@@ -31,16 +29,19 @@
         </h3>
         Simple selected string from array with starts value: <br>
         <b>V</b>alue: <b>{{ esWithSearch }}</b>
-        <essentials-ui-select [options]="selectOptions2"
-                              [(value)]="esWithSearch"
-                              [hasSearchInput]="true"
-                              [placeholder]="'Click me'"
-                              [required]="true"
-                              [invalidText]="'You must select some value!'">
-        </essentials-ui-select>
-        <button class="btn" (click)="esWithSearch = undefined">
-          set null
-        </button>
+        <essential-select [options]="selectOptions2"
+                          [(value)]="esWithSearch"
+                          [hasSearchInput]="true"
+                          [placeholder]="'Click me'"
+                          [required]="true"
+                          [invalidText]="'You must select some value!'">
+        </essential-select>
+
+        <div class="margin-top-xs">
+          <button class="btn btn-default" (click)="esWithSearch = undefined">
+            Set null
+          </button>
+        </div>
       </div>
 
       <div class="flex-item">
@@ -52,12 +53,12 @@
         {{esLong}}
       </b>
         <!--<b>{{ esLong }}</b>-->
-        <essentials-ui-select [options]="seletOptionsLong"
-                              [(value)]="esLong"
-                              [hasSearchInput]="true"
-                              [placeholder]="'Click me'"
-                              [invalidText]="'You must select some value!'">
-        </essentials-ui-select>
+        <essential-select [options]="seletOptionsLong"
+                          [(value)]="esLong"
+                          [hasSearchInput]="true"
+                          [placeholder]="'Click me'"
+                          [invalidText]="'You must select some value!'">
+        </essential-select>
       </div>
     </div>
 
@@ -69,17 +70,17 @@
         </h3>
         Select countries you have visited: <br>
         <b>V</b>alue: <b>{{ multiselected | json }}</b>
-        <essentials-ui-select [options]="multiselectedCountryOptions"
-                              [(value)]="multiselected"
-                              [fieldName]="'name'"
-                              [fieldValue]="'code'"
-                              [bindObject]="false"
-                              [wrapType]="wrapperType"
-                              [useMultiSelect]="true"
-                              [placeholder]="'Click me'"
-                              [hasSearchInput]="false"
-                              [invalidText]="'You must select some value!'">
-        </essentials-ui-select>
+        <essential-select [options]="multiselectedCountryOptions"
+                          [(value)]="multiselected"
+                          [fieldName]="'name'"
+                          [fieldValue]="'code'"
+                          [bindObject]="false"
+                          [wrapType]="wrapperType"
+                          [useMultiSelect]="true"
+                          [placeholder]="'Click me'"
+                          [hasSearchInput]="false"
+                          [invalidText]="'You must select some value!'">
+        </essential-select>
         <figure class="highlight">
         <pre>
           <code class="language-html">
@@ -104,16 +105,16 @@
         </h3>
         Where are you now? <br>
         <b>V</b>alue: <b>{{ yourCountry | json }}</b>
-        <essentials-ui-select [options]="multiselectedCountryOptions"
-                              [(value)]="yourCountry"
-                              [fieldName]="'name'"
-                              [fieldValue]="'code'"
-                              [bindObject]="false"
-                              [wrapType]="wrapperType"
-                              [placeholder]="'Click me'"
-                              [hasSearchInput]="false"
-                              [invalidText]="'You must select some value!'">
-        </essentials-ui-select>
+        <essential-select [options]="multiselectedCountryOptions"
+                          [(value)]="yourCountry"
+                          [fieldName]="'name'"
+                          [fieldValue]="'code'"
+                          [bindObject]="false"
+                          [wrapType]="wrapperType"
+                          [placeholder]="'Click me'"
+                          [hasSearchInput]="false"
+                          [invalidText]="'You must select some value!'">
+        </essential-select>
         <figure class="highlight">
         <pre>
           <code class="language-html">
@@ -129,17 +130,17 @@
         </h3>
         Where are you now? <br>
         <b>V</b>alue: <b>{{ multiselected2 | json }}</b>
-        <essentials-ui-select [options]="multiselectedCountryOptions"
-                              [(value)]="multiselected2"
-                              [fieldName]="'name'"
-                              [fieldValue]="'code'"
-                              [bindObject]="false"
-                              [wrapType]="wrapperType"
-                              [useMultiSelect]="true"
-                              [placeholder]="'Click me'"
-                              [hasSearchInput]="true"
-                              [invalidText]="'You must select some value!'">
-        </essentials-ui-select>
+        <essential-select [options]="multiselectedCountryOptions"
+                          [(value)]="multiselected2"
+                          [fieldName]="'name'"
+                          [fieldValue]="'code'"
+                          [bindObject]="false"
+                          [wrapType]="wrapperType"
+                          [useMultiSelect]="true"
+                          [placeholder]="'Click me'"
+                          [hasSearchInput]="true"
+                          [invalidText]="'You must select some value!'">
+        </essential-select>
         <figure class="highlight">
         <pre>
           <code class="language-html">
@@ -159,17 +160,17 @@
         </h3>
         Where are you now? <br>
         <b>V</b>alue: <b>{{ yourCountry | json }}</b>
-        <essentials-ui-select [options]="multiselectedCountryOptions"
-                              [(value)]="yourCountry"
-                              [fieldName]="'name'"
-                              [fieldValue]="'code'"
-                              [bindObject]="false"
-                              [wrapType]="wrapperType"
-                              [placeholder]="'Click me'"
-                              [disabled]="disabledCountrySelect"
-                              [hasSearchInput]="true"
-                              [invalidText]="'You must select some value!'">
-        </essentials-ui-select>
+        <essential-select [options]="multiselectedCountryOptions"
+                          [(value)]="yourCountry"
+                          [fieldName]="'name'"
+                          [fieldValue]="'code'"
+                          [bindObject]="false"
+                          [wrapType]="wrapperType"
+                          [placeholder]="'Click me'"
+                          [disabled]="disabledCountrySelect"
+                          [hasSearchInput]="true"
+                          [invalidText]="'You must select some value!'">
+        </essential-select>
 
         <div style="margin-top: 5px">
           <button class="btn btn-default" (click)="disabledCountrySelect = !disabledCountrySelect">
@@ -192,18 +193,18 @@
         </h3>
         Where are you now? <br>
         <b>V</b>alue: <b>{{ yourCountry | json }}</b>
-        <essentials-ui-select [options]="multiselectedCountryOptions"
-                              [(value)]="yourCountry"
-                              [fieldName]="'name'"
-                              [fieldValue]="'code'"
-                              [bindObject]="false"
-                              [wrapType]="wrapperType"
-                              [placeholder]="'Click me'"
-                              [disabled]="disabledCountrySelect"
-                              [hasSearchInput]="true"
-                              [selectPrintable]="countryPrintableAllowed"
-                              [invalidText]="'You must select some value!'">
-        </essentials-ui-select>
+        <essential-select [options]="multiselectedCountryOptions"
+                          [(value)]="yourCountry"
+                          [fieldName]="'name'"
+                          [fieldValue]="'code'"
+                          [bindObject]="false"
+                          [wrapType]="wrapperType"
+                          [placeholder]="'Click me'"
+                          [disabled]="disabledCountrySelect"
+                          [hasSearchInput]="true"
+                          [selectPrintable]="countryPrintableAllowed"
+                          [invalidText]="'You must select some value!'">
+        </essential-select>
 
         <div style="margin-top: 5px">
           <button class="btn btn-default" (click)="disabledCountrySelect = !disabledCountrySelect">
@@ -226,16 +227,16 @@
         </h3>
         Strategy to determine dropdown width: <br>
         <b>V</b>alue: <b>{{ wrapperType }}</b>
-        <essentials-ui-select [options]="wrapperTypes"
-                              [(value)]="wrapperType"
-                              [fieldName]="'name'"
-                              [fieldValue]="'value'"
-                              [bindObject]="false"
-                              [wrapType]="wrapperType"
-                              [placeholder]="'Click me'"
-                              [hasSearchInput]="false"
-                              [invalidText]="'You must select some value!'">
-        </essentials-ui-select>
+        <essential-select [options]="wrapperTypes"
+                          [(value)]="wrapperType"
+                          [fieldName]="'name'"
+                          [fieldValue]="'value'"
+                          [bindObject]="false"
+                          [wrapType]="wrapperType"
+                          [placeholder]="'Click me'"
+                          [hasSearchInput]="false"
+                          [invalidText]="'You must select some value!'">
+        </essential-select>
         <pre>
           <code class="language-html" data-lang="html">
             {{codeDropdownWidth}}

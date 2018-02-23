@@ -1,9 +1,12 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">
-    Angular select component
+    <h1>
+      Essential select
+    </h1>
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
           aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -11,13 +14,13 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a [routerLink]="['/form']" class="nav-link">
+        <a [routerLink]="['/form']" class="nav-link" [ngClass]="{'active-link': router.url === '/form'}">
           NgForm
         </a>
         <!--<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>-->
       </li>
       <li class="nav-item">
-        <a [routerLink]="['/demo_all']" class="nav-link">
+        <a [routerLink]="['/demo_all']" class="nav-link" [ngClass]="{'active-link': router.url === '/demo_all'}">
           Examples
         </a>
       </li>
@@ -31,16 +34,24 @@
           Enable bootstrap
         </button>
         <!--<a [routerLink]="['/demo_all']" class="nav-link">-->
-          <!--all-->
+        <!--all-->
         <!--</a>-->
       </li>
 
       <!--<li class="nav-item">-->
-        <!--<a class="nav-link disabled" href="#">Disabled</a>-->
+      <!--<a class="nav-link disabled" href="#">Disabled</a>-->
       <!--</li>-->
     </ul>
+
     <form class="form-inline my-2 my-lg-0">
-      <a href="https://badge.fury.io/js/angular-essential-select"><img src="https://badge.fury.io/js/angular-essential-select.svg" alt="npm version" height="18"></a>
+      <h2 style="font-size: 15px; margin-top: 10px">
+        Angular select component
+      </h2>
+
+    </form>
+    <form class="form-inline my-2 my-lg-0" style="margin-left: 10px">
+      <a href="https://badge.fury.io/js/angular-essential-select"><img
+        src="https://badge.fury.io/js/angular-essential-select.svg" alt="npm version" height="18"></a>
     </form>
   </div>
 </nav>

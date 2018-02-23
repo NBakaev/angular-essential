@@ -37,7 +37,7 @@ const DELAY_UNTIL_UPDATE_FILTER = 100; // miliseconds
 const MAGIC_EMPTY_STRING = 'SOME_MAGIC_STRING_FOR_ESSENTAL_SELECT';
 
 @Component({
-    selector: 'essentials-ui-select',
+    selector: 'essential-select',
     templateUrl: './essential-select.component.html',
     styleUrls: ['./essential-select.component.scss'],
     providers: [{
@@ -779,11 +779,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     private getStringVisualLengthInPx(stringTest: string): number {
         const ruler = this.containerLength.nativeElement;
-        ruler.style.display = 'inline';
-        ruler.innerHTML = stringTest;
-        let offsetWidth = ruler.offsetWidth;
-        ruler.style.display = 'none';
-        return offsetWidth;
+        this.containerLength.nativeElement.innerHTML = stringTest;
+        return ruler.offsetWidth;
     }
 
     public findPlaceholderLength(stringTest: string): void {
@@ -792,18 +789,20 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         }
         const inputWidth = this.inputSelectPlaceholder.nativeElement;
 
-        let limit = 0;
+        let limit = stringTest.length;
 
+        const ruler = this.containerLength.nativeElement;
+        ruler.style.display = 'inline';
         // TODO: better algorithm
-        for (let i = 1; i <= stringTest.length; i++) {
+        for (let i = stringTest.length; i > 0; i--) {
             let candidateSubstring = stringTest.slice(0, i);
 
-            if (this.getStringVisualLengthInPx(candidateSubstring) + 40 > inputWidth.offsetWidth) {
+            if (this.getStringVisualLengthInPx(candidateSubstring) + 40 < inputWidth.offsetWidth) {
                 break;
             }
-
             limit = i;
         }
+        ruler.style.display = 'none';
 
         this._limit = limit;
     }

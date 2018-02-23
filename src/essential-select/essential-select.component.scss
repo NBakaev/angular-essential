@@ -189,8 +189,13 @@ ul {
 .rule {
   visibility: hidden;
   white-space: nowrap;
+  will-change: transform;
+  //transform: translateX(100vw);
+  transform: translateZ(-999);
+  position: absolute;
+  display: inline;
+  z-index: -1;
 }
-
 
 .b-hint {
   background-color: #adb8c1;

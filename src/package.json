@@ -1,6 +1,6 @@
 {
   "name": "angular-essential-select",
-  "version": "0.1.0",
+  "version": "2.0.13",
   "repository": {
     "type": "git",
     "url": "https://github.com/NBakaev/angular-essential-select"
@@ -10,7 +10,8 @@
     "email": "ya@nbakaev.ru"
   },
   "keywords": [
-    "angular"
+    "angular",
+    "angular select"
   ],
   "license": "MIT",
   "bugs": {

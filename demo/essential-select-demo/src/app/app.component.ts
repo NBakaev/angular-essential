@@ -12,6 +12,8 @@ export class AppComponent {
   // useBootstrap = false;
   useBootstrap = true;
 
+  openNavbar = false;
+
   constructor(public router: Router) {
   }
 

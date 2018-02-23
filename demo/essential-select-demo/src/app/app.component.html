@@ -1,17 +1,16 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!-- TODO: mobile navbar-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light" [ngClass]="{'navbar-expand':openNavbar}">
   <a class="navbar-brand" href="#">
     <h1>
       Essential select
     </h1>
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" (click)="openNavbar = true"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a [routerLink]="['/form']" class="nav-link" [ngClass]="{'active-link': router.url === '/form'}">

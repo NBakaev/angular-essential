@@ -1,6 +1,6 @@
 <div>
 
-  <div style="margin-right: 30px">
+  <div>
 
     <div class="flex-container">
       <div class="flex-item">
@@ -13,7 +13,7 @@
                           [(value)]="simpleSelect"
                           [placeholder]="'Click me'"
                           [required]="true"
-                          [invalidText]="'You must select some value!'">
+                          [invalidText]="'Please select value!'">
         </essential-select>
 
         <div class="margin-top-xs">
@@ -21,6 +21,14 @@
             Set null
           </button>
         </div>
+
+        <figure class="highlight">
+        <pre>
+          <code class="language-html">
+            {{codeSimple}}
+          </code>
+        </pre>
+        </figure>
       </div>
 
       <div class="flex-item">
@@ -32,9 +40,9 @@
         <essential-select [options]="selectOptions2"
                           [(value)]="esWithSearch"
                           [hasSearchInput]="true"
-                          [placeholder]="'Click me'"
+                          [placeholder]="'Search some option'"
                           [required]="true"
-                          [invalidText]="'You must select some value!'">
+                          [invalidText]="'Please select value!'">
         </essential-select>
 
         <div class="margin-top-xs">
@@ -42,6 +50,13 @@
             Set null
           </button>
         </div>
+        <figure class="highlight">
+        <pre>
+          <code class="language-html">
+            {{codeSimpleWithDisplayedName}}
+          </code>
+        </pre>
+        </figure>
       </div>
 
       <div class="flex-item">
@@ -57,7 +72,7 @@
                           [(value)]="esLong"
                           [hasSearchInput]="true"
                           [placeholder]="'Click me'"
-                          [invalidText]="'You must select some value!'">
+                          [invalidText]="'Please select value!'">
         </essential-select>
       </div>
     </div>
@@ -79,7 +94,7 @@
                           [useMultiSelect]="true"
                           [placeholder]="'Click me'"
                           [hasSearchInput]="false"
-                          [invalidText]="'You must select some value!'">
+                          [invalidText]="'Please select value!'">
         </essential-select>
         <figure class="highlight">
         <pre>
@@ -93,8 +108,9 @@
           <b>
             Note:
           </b>
-          When use multiselect - you must pass array as initial 'value' param (and can be with initial value or not).
-          Undefined or null is allowed and value
+          When use multiselect - you must pass array as initial input [value] param (it can be with initial value or
+          just empty array).
+          Undefined or null is not allowed as input value
         </div>
 
       </div>
@@ -113,7 +129,7 @@
                           [wrapType]="wrapperType"
                           [placeholder]="'Click me'"
                           [hasSearchInput]="false"
-                          [invalidText]="'You must select some value!'">
+                          [invalidText]="'Please select value!'">
         </essential-select>
         <figure class="highlight">
         <pre>
@@ -139,7 +155,7 @@
                           [useMultiSelect]="true"
                           [placeholder]="'Click me'"
                           [hasSearchInput]="true"
-                          [invalidText]="'You must select some value!'">
+                          [invalidText]="'Please select value!'">
         </essential-select>
         <figure class="highlight">
         <pre>
@@ -169,7 +185,7 @@
                           [placeholder]="'Click me'"
                           [disabled]="disabledCountrySelect"
                           [hasSearchInput]="true"
-                          [invalidText]="'You must select some value!'">
+                          [invalidText]="'Please select value!'">
         </essential-select>
 
         <div style="margin-top: 5px">
@@ -189,7 +205,7 @@
 
       <div class="flex-item">
         <h3>
-          Disable to select some value
+          Deny to select some value
         </h3>
         Where are you now? <br>
         <b>V</b>alue: <b>{{ yourCountry | json }}</b>
@@ -203,19 +219,28 @@
                           [disabled]="disabledCountrySelect"
                           [hasSearchInput]="true"
                           [selectPrintable]="countryPrintableAllowed"
-                          [invalidText]="'You must select some value!'">
+                          [invalidText]="'Please select value!'">
         </essential-select>
 
-        <div style="margin-top: 5px">
-          <button class="btn btn-default" (click)="disabledCountrySelect = !disabledCountrySelect">
-            Change disable
-          </button>
-        </div>
+        <!--<div style="margin-top: 5px">-->
+        <!--<button class="btn btn-default" (click)="disabledCountrySelect = !disabledCountrySelect">-->
+        <!--Change disable-->
+        <!--</button>-->
+        <!--</div>-->
 
         <figure class="highlight">
         <pre>
           <code class="language-html">
-            {{codeYourCountry}}
+            {{codeYourCountryDisable}}
+          </code>
+
+        </pre>
+        </figure>
+
+        <figure class="highlight">
+          <pre>
+        <code class="language-typescript">
+            {{codeYourCountryDisableTs}}
           </code>
         </pre>
         </figure>
@@ -235,7 +260,7 @@
                           [wrapType]="wrapperType"
                           [placeholder]="'Click me'"
                           [hasSearchInput]="false"
-                          [invalidText]="'You must select some value!'">
+                          [invalidText]="'Please select value!'">
         </essential-select>
         <pre>
           <code class="language-html" data-lang="html">
@@ -264,16 +289,9 @@
           </li>
         </ul>
       </div>
-
-      <div class="flex-item">
-
-      </div>
     </div>
 
-
     <div class="flex-container">
-
-
       <div class="flex-item">
       </div>
 
@@ -314,42 +332,45 @@
       Input params
     </h4>
 
-    <table class="table table-bordered table-striped table-dark2">
+    <div style="overflow: auto;">
 
-      <thead>
-      <th>
-        Param
-      </th>
-      <th>
-        Descroption
-      </th>
-      <th>
-        Type
-      </th>
-      <th>
-        Example
-      </th>
+      <table class="table table-bordered table-striped table-dark2">
 
-      </thead>
+        <thead>
+        <th>
+          Param
+        </th>
+        <th>
+          Descroption
+        </th>
+        <th>
+          Type
+        </th>
+        <th>
+          Example
+        </th>
 
-      <tbody>
-      <tr>
-        <td>
-          [(value)]
-        </td>
-        <td>
-          is used as model
-        </td>
-        <td>
-          Any
-        </td>
-        <td>
-          ="value"
-        </td>
-      </tr>
-      </tbody>
+        </thead>
 
-    </table>
+        <tbody>
+        <tr>
+          <td>
+            [(value)]
+          </td>
+          <td>
+            is used as model
+          </td>
+          <td>
+            Any
+          </td>
+          <td>
+            ="value"
+          </td>
+        </tr>
+        </tbody>
+
+      </table>
+    </div>
 
     <b>
       TODO: docuemnt all

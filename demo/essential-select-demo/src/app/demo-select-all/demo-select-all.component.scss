@@ -1,24 +1,23 @@
-.flex-container {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+@import '~bootstrap/scss/bootstrap';
+@import '../../styles';
 
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
+.flex-container {
+  @extend .row;
 }
 
 .flex-item {
-  flex: 1;
-
-  /* TODO: that is hack for  flexbox(and eg.g tables which has not directly defined width) - originally ES was done for bootstrap only*/
-  width: 30%;
+  @extend .col-md-6,.col-lg-4,.col-sm-12,.col-xl-4;
   position: relative;
+}
 
-  padding: 15px
+@include media-breakpoint-between(md, xl) {
+  .flex-container {
+    padding: 15px
+  }
+}
 
+.highlight {
+ @extend .margin-top-xs;
 }
 
 

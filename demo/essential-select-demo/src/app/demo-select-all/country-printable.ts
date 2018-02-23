@@ -19,6 +19,7 @@ export class CountryPrintable implements EssentialSelectOptions<Country> {
       alert('Ru can not be selected');
       return false;
     }
+    return true;
   }
 
 }

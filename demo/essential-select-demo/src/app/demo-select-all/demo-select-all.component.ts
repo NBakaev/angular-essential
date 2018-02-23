@@ -58,6 +58,25 @@ export class DemoSelectAllComponent implements OnInit {
     {name: 'Match form', value: WrapperContent.MATCH_FORM}
   ];
 
+  codeSimple = `
+   <essential-select [options]="selectOptions2"
+                     [(value)]="simpleSelect"
+                     [placeholder]="'Click me'"
+                     [required]="true"
+                     [invalidText]="'Please select value!'">
+   </essential-select>
+  `;
+
+  codeSimpleWithDisplayedName = `
+   <essential-select [options]="selectOptions2"
+                     [(value)]="esWithSearch"
+                     [hasSearchInput]="true"
+                     [placeholder]="'Click me'"
+                     [required]="true"
+                     [invalidText]="'Please select value!'">
+        </essential-select>
+  `;
+
   codeDropdownWidth = `
   <essential-select [options]="wrapperTypes"
                     [(value)]="wrapperType"
@@ -67,7 +86,7 @@ export class DemoSelectAllComponent implements OnInit {
                     [wrapType]="wrapperType"
                     [placeholder]="'Click me'"
                     [hasSearchInput]="false"
-                    [invalidText]="'You must select some value!'">
+                    [invalidText]="'Please select value!'">
    </essential-select>`;
 
   codeMultiselect = `
@@ -90,7 +109,7 @@ export class DemoSelectAllComponent implements OnInit {
                     [useMultiSelect]="true"
                     [placeholder]="'Click me'"
                     [hasSearchInput]="false"
-                    [invalidText]="'You must select some value!'">
+                    [invalidText]="'Please select value!'">
    </essential-select>`;
 
   codeYourCountry = `
@@ -102,9 +121,52 @@ export class DemoSelectAllComponent implements OnInit {
                     [wrapType]="wrapperType"
                     [placeholder]="'Click me'"
                     [hasSearchInput]="true"
-                    [invalidText]="'You must select some value!'">
+                    [invalidText]="'Please select value!'">
   </essential-select>
 `;
+
+ codeYourCountryDisable = `
+  ## HTML
+   <essential-select [options]="multiselectedCountryOptions"
+                     [(value)]="yourCountry"
+                     [fieldName]="'name'"
+                     [fieldValue]="'code'"
+                     [bindObject]="false"
+                     [wrapType]="wrapperType"
+                     [placeholder]="'Click me'"
+                     [disabled]="disabledCountrySelect"
+                     [hasSearchInput]="true"
+                     [selectPrintable]="countryPrintableAllowed"
+                     [invalidText]="'You must select value!'">
+   </essential-select>
+  
+  `;
+  codeYourCountryDisableTs = `
+ ## TS
+(input countryPrintableAllowed)
+  
+export class CountryPrintable 
+implements EssentialSelectOptions<Country> {
+
+  printValue(value: Country): EssentialSelectRowOptions {
+    const o = new EssentialSelectRowOptions();
+    o.text = value.name;
+
+    if (value.code === 'RU') {
+      o.entireRowClasses.push('disabled-css');
+    }
+
+    return o;
+  }
+
+  allowToSelectValue?(value: Country, model: any): boolean {
+    if (value.code === 'RU') {
+      alert('Ru can not be selected');
+      return false;
+    }
+    return true;
+  }`;
+
  codeYourCountryWithSearch = `
    <essential-select [options]="multiselectedCountryOptions"
                      [(value)]="multiselected2"
@@ -115,7 +177,7 @@ export class DemoSelectAllComponent implements OnInit {
                      [useMultiSelect]="true"
                      [placeholder]="'Click me'"
                      [hasSearchInput]="true"
-                     [invalidText]="'You must select some value!'">
+                     [invalidText]="'Please select value!'">
    </essential-select>
 `;
 

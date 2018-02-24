@@ -5,7 +5,12 @@ module.exports = function (config) {
   // const pa = require('puppeteer').executablePath();
   // process.env.CHROME_BIN = pa;
   // console.warn('use ' + pa)
-  process.env.CHROME_BIN="/usr/bin/google-chrome-unstable";
+
+  if (config.browsers && config.browsers.length > 0 && config.browsers.find(x => x === 'Chrome' != null)) {
+
+  } else {
+    process.env.CHROME_BIN="/usr/bin/google-chrome-unstable";
+  }
 
   config.set({
     browserNoActivityTimeout: 30000,

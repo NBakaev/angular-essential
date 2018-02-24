@@ -371,6 +371,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         if (!find) {
             console.info(`Can not find ${this.getLang()} lang. Fallback to default ${DEFAULT_LANGUAGE}`);
             return ALL_SELECT_LANGUAGES.find(x => x.id === DEFAULT_LANGUAGE);
+        } else {
+            return find;
         }
     }
 

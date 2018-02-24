@@ -2,9 +2,13 @@
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
-  process.env.CHROME_BIN = require('puppeteer').executablePath();
+  // const pa = require('puppeteer').executablePath();
+  // process.env.CHROME_BIN = pa;
+  // console.warn('use ' + pa)
+  process.env.CHROME_BIN="/usr/bin/google-chrome-unstable";
 
   config.set({
+    browserNoActivityTimeout: 30000,
     basePath: '',
     frameworks: ['jasmine', '@angular/cli'],
     plugins: [

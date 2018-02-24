@@ -31,7 +31,7 @@ const DEFAULT_LANGUAGE = 'en-US';
         EssentialSelectComponent
     ],
     providers: [
-        {provide: EssentialSelectModuleConfig, useValue: {} }]
+        {provide: EssentialSelectModuleConfig, useValue: {defaultLanguage: DEFAULT_LANGUAGE} }]
 })
 export class EssentialSelectModule {
 

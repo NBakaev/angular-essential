@@ -6,10 +6,13 @@ module.exports = function (config) {
   // process.env.CHROME_BIN = pa;
   // console.warn('use ' + pa)
 
+  isCi = false;
+
   if (config.browsers && config.browsers.length > 0 && config.browsers.find(x => x === 'Chrome' != null)) {
 
   } else {
     process.env.CHROME_BIN="/usr/bin/google-chrome-unstable";
+    isCi = true;
   }
 
   config.set({
@@ -33,7 +36,7 @@ module.exports = function (config) {
     angularCli: {
       environment: 'dev'
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: isCi === true ? ['progress', 'kjhtml', 'teamcity'] : ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

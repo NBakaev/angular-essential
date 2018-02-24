@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
-    "test": "ng test",
+    "test": "ng test --browsers HeadlessChrome --watch false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -48,6 +48,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
-    "typescript": "~2.4.2"
+    "typescript": "~2.4.2",
+    "puppeteer": "^1.1.1"
   }
 }

@@ -367,7 +367,11 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     private getLangTransSelectLang(): SelectLang {
-        return ALL_SELECT_LANGUAGES.find(x => x.id === this.getLang());
+        let find = ALL_SELECT_LANGUAGES.find(x => x.id === this.getLang());
+        if (!find) {
+            console.info(`Can not find ${this.getLang()} lang. Fallback to default ${this.essentialSelectModuleConfig.defaultLanguage}`);
+            return ALL_SELECT_LANGUAGES.find(x => x.id === this.essentialSelectModuleConfig.defaultLanguage);
+        }
     }
 
     ngOnInit() {

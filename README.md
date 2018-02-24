@@ -1,5 +1,5 @@
 # Angular Essential Select
-![https://badge.fury.io/js/angular-essential-select](https://badge.fury.io/js/angular-essential-select.svg)
+![https://badge.fury.io/js/angular-essential-select](https://badge.fury.io/js/angular-essential-select.svg) ![https://teamcity.nbakaev.com/viewType.html?buildTypeId=btN&guest=1](https://teamcity.nbakaev.com/app/rest/builds/buildType:AngularEssentialSelect_Build/statusIcon) 
 
 Angular select component
 

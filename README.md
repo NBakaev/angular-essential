@@ -37,6 +37,9 @@ import {EssentialSelectModule} from 'angular-essential-select';
 export class AppModule { }
 ```
 
+Or you can force to use some language by default
+`EssentialSelectModule.forRoot({forcedDefaultLanguage: "en-US"}),
+`
 
 ## Development
 

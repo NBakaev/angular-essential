@@ -29,13 +29,14 @@ import {NumberUtils} from '../util/number.utils';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
+import {ALL_SELECT_LANGUAGES, SelectLang} from './i18n/all-languages';
+import {EssentialSelectModuleConfig} from './essential-select-config';
 
 const DEFAULT_MAXIMUM_NUMBER_OPTIONS_TO_DISPLAY = 500;
 const DELAY_UNTIL_UPDATE_FILTER = 100; // miliseconds
 
 // internal string to determine of something was initialised in input value
 const MAGIC_EMPTY_STRING = 'SOME_MAGIC_STRING_FOR_ESSENTAL_SELECT';
-
 @Component({
     selector: 'essential-select',
     templateUrl: './essential-select.component.html',
@@ -110,8 +111,9 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
      */
     @Output() searchChange = new EventEmitter<string>();
 
-    // опционален. сообщение, которое показывать при невалидном компоненте.
-    // если значение не использьзуется, используется сообщение по умолчанию
+    /**
+     * Optional. Message when component is invalid
+     */
     @Input() invalidText: string;
 
     @Input() selectAllText: string;
@@ -263,7 +265,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         this.disabled = true;
     }
 
-    constructor(private _changeDetectionRef: ChangeDetectorRef, private ngZone: NgZone) {
+    constructor(private _changeDetectionRef: ChangeDetectorRef, private ngZone: NgZone, private essentialSelectModuleConfig: EssentialSelectModuleConfig) {
     }
 
     public getElementRef(): ElementRef {
@@ -352,23 +354,39 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         this._isValidated = true;
     }
 
-    ngOnInit() {
+    private getLang(): string {
+        if (!StringUtils.isEmpty(this.essentialSelectModuleConfig.forcedDefaultLanguage)) {
+            return this.essentialSelectModuleConfig.forcedDefaultLanguage;
+        }
 
-        // TODO: i18n
+        if (window) {
+            return window.navigator.language;
+        } else {
+            return this.essentialSelectModuleConfig.defaultLanguage;
+        }
+    }
+
+    private getLangTransSelectLang(): SelectLang {
+        return ALL_SELECT_LANGUAGES.find(x => x.id === this.getLang());
+    }
+
+    ngOnInit() {
+        let lang = this.getLangTransSelectLang();
+
         if (StringUtils.isEmpty(this.invalidText)) {
-            this.invalidText = 'Не выбрано';
+            this.invalidText = lang.invalidText;
         }
 
         if (StringUtils.isEmpty(this.notSelectedText)) {
-            this.notSelectedText = 'Не выбрано';
+            this.notSelectedText = lang.notSelectedText;
         }
 
         if (StringUtils.isEmpty(this.unselectAllText)) {
-            this.unselectAllText = 'Убрать всех';
+            this.unselectAllText = lang.unselectAllText;
         }
 
         if (StringUtils.isEmpty(this.selectAllText)) {
-            this.selectAllText = 'Выбрать всех';
+            this.selectAllText = lang.selectAllText;
         }
 
     }
@@ -766,7 +784,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
         if (this.useMultiSelect) {
             if (!this._isOpen) {
-                Observable.of({}).delay(0).subscribe(x => {
+                Observable.of({}).delay(0).subscribe(() => {
                     this._searchBoxValue = this.joinDefaultMultiSelect();
                 })
             }
@@ -779,7 +797,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         this.findPlaceholderLength(this._searchBoxValue || this.placeholder);
         this.searchChange.emit(this._searchBoxValue);
 
-        Observable.of({}).delay(0).subscribe(x => {
+        Observable.of({}).delay(0).subscribe(() => {
             if (!this._changeDetectionRef['destroyed']) {
                 this._pipeNumber++;
                 this._changeDetectionRef.detectChanges();

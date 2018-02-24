@@ -9,3 +9,4 @@
 ### Misc
 
  - Performance improvements
+ - Add module configuration via `EssentialSelectModule.forRoot()`

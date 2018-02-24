@@ -8,8 +8,8 @@
           Simple
         </h3>
         Simple selected string from array with starts value: <br>
-        <b>V</b>alue: <b>{{ simpleSelect }}</b>
-        <essential-select [options]="selectOptions2"
+        <b>V</b>alue: <b id="simpleTextModel">{{ simpleSelect }}</b>
+        <essential-select [options]="selectOptions2" id="simpleSelectComponent"
                           [(value)]="simpleSelect"
                           [placeholder]="'Click me'"
                           [required]="true"
@@ -17,7 +17,7 @@
         </essential-select>
 
         <div class="margin-top-xs">
-          <button class="btn btn-default" (click)="simpleSelect = null">
+          <button class="btn btn-default" (click)="simpleSelect = null" id="setNullSimple">
             Set null
           </button>
         </div>
@@ -84,9 +84,9 @@
           Multiselect
         </h3>
         Select countries you have visited: <br>
-        <b>V</b>alue: <b>{{ multiselected | json }}</b>
-        <essential-select [options]="multiselectedCountryOptions"
-                          [(value)]="multiselected"
+        <b>V</b>alue: <b>{{ multiselectModel | json }}</b>
+        <essential-select [options]="multiselectCountryOptions"
+                          [(value)]="multiselectModel"
                           [fieldName]="'name'"
                           [fieldValue]="'code'"
                           [bindObject]="false"
@@ -121,7 +121,7 @@
         </h3>
         Where are you now? <br>
         <b>V</b>alue: <b>{{ yourCountry | json }}</b>
-        <essential-select [options]="multiselectedCountryOptions"
+        <essential-select [options]="multiselectCountryOptions"
                           [(value)]="yourCountry"
                           [fieldName]="'name'"
                           [fieldValue]="'code'"
@@ -145,9 +145,9 @@
           Mulltiselect id in object with search
         </h3>
         Where are you now? <br>
-        <b>V</b>alue: <b>{{ multiselected2 | json }}</b>
-        <essential-select [options]="multiselectedCountryOptions"
-                          [(value)]="multiselected2"
+        <b>V</b>alue: <b id="multiselectSearchInputBind">{{ multiselectSearchInputModel | json }}</b>
+        <essential-select [options]="multiselectCountryOptions"
+                          [(value)]="multiselectSearchInputModel"
                           [fieldName]="'name'"
                           [fieldValue]="'code'"
                           [bindObject]="false"
@@ -176,7 +176,7 @@
         </h3>
         Where are you now? <br>
         <b>V</b>alue: <b>{{ yourCountry | json }}</b>
-        <essential-select [options]="multiselectedCountryOptions"
+        <essential-select [options]="multiselectCountryOptions"
                           [(value)]="yourCountry"
                           [fieldName]="'name'"
                           [fieldValue]="'code'"
@@ -209,7 +209,7 @@
         </h3>
         Where are you now? <br>
         <b>V</b>alue: <b>{{ yourCountry | json }}</b>
-        <essential-select [options]="multiselectedCountryOptions"
+        <essential-select [options]="multiselectCountryOptions"
                           [(value)]="yourCountry"
                           [fieldName]="'name'"
                           [fieldValue]="'code'"

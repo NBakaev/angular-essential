@@ -31,12 +31,10 @@ export class DemoSelectAllComponent implements OnInit {
 
   public wrapperSelect: WrapperContent;
 
-  // multiselected: string[] = ['US', 'RU'];
-  multiselected: string[] = ['US', 'RU'];
-  multiselected2: string[] = ['US', 'RU'];
-  multiselectedCountryOptions: Country[] = allCountries;
+  multiselectModel: string[] = ['US', 'RU'];
+  multiselectSearchInputModel: string[] = ['US', 'RU'];
+  multiselectCountryOptions: Country[] = allCountries;
 
-  // yourCountry: string;
   yourCountry: string;
 
   disabledCountrySelect = false;

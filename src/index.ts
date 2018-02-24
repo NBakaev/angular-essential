@@ -4,7 +4,7 @@ import {EssentialSelectFilterPipe} from './essential-select/essential-select-fil
 import {EssentialSelectComponent} from './essential-select/essential-select.component';
 import {FormsModule} from '@angular/forms';
 import {EssentialSelectTruncatePipe} from './essential-select/essential-select-truncate.pipe';
-import {EssentialSelectModuleConfig} from './essential-select/essential-select-config';
+import {DEFAULT_LANGUAGE, EssentialSelectModuleConfig} from './essential-select/essential-select-config';
 
 export * from './essential-select/essential-select-filter.pipe';
 export * from './essential-select/filters/filter.models';
@@ -15,8 +15,6 @@ export * from './essential-select/essential-select.validator';
 export * from './essential-select/essential-select-truncate.pipe';
 export * from './essential-select/essential-select.settings';
 export * from './essential-select/essential-select-config';
-
-const DEFAULT_LANGUAGE = 'en-US';
 
 @NgModule({
     imports: [
@@ -35,7 +33,7 @@ const DEFAULT_LANGUAGE = 'en-US';
 })
 export class EssentialSelectModule {
 
-    static forRoot(config: EssentialSelectModuleConfig = {defaultLanguage: DEFAULT_LANGUAGE}): ModuleWithProviders {
+    static forRoot(config: EssentialSelectModuleConfig): ModuleWithProviders {
         return {
             ngModule: EssentialSelectModule,
             providers: [

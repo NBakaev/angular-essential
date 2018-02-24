@@ -30,7 +30,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
 import {ALL_SELECT_LANGUAGES, SelectLang} from './i18n/all-languages';
-import {EssentialSelectModuleConfig} from './essential-select-config';
+import {DEFAULT_LANGUAGE, EssentialSelectModuleConfig} from './essential-select-config';
 
 const DEFAULT_MAXIMUM_NUMBER_OPTIONS_TO_DISPLAY = 500;
 const DELAY_UNTIL_UPDATE_FILTER = 100; // miliseconds
@@ -369,8 +369,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     private getLangTransSelectLang(): SelectLang {
         let find = ALL_SELECT_LANGUAGES.find(x => x.id === this.getLang());
         if (!find) {
-            console.info(`Can not find ${this.getLang()} lang. Fallback to default ${this.essentialSelectModuleConfig.defaultLanguage}`);
-            return ALL_SELECT_LANGUAGES.find(x => x.id === this.essentialSelectModuleConfig.defaultLanguage);
+            console.info(`Can not find ${this.getLang()} lang. Fallback to default ${DEFAULT_LANGUAGE}`);
+            return ALL_SELECT_LANGUAGES.find(x => x.id === DEFAULT_LANGUAGE);
         }
     }
 

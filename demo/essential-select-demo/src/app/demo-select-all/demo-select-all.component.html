@@ -9,7 +9,7 @@
         </h3>
         Simple selected string from array with starts value: <br>
         <b>V</b>alue: <b id="simpleTextModel">{{ simpleSelect }}</b>
-        <essential-select [options]="selectOptions2" id="simpleSelectComponent"
+        <essential-select [options]="selectOptions2" id="simpleSelectComponent" #simpleSelectComponent
                           [(value)]="simpleSelect"
                           [placeholder]="'Click me'"
                           [required]="true"
@@ -146,7 +146,7 @@
         </h3>
         Where are you now? <br>
         <b>V</b>alue: <b id="multiselectSearchInputBind">{{ multiselectSearchInputModel | json }}</b>
-        <essential-select [options]="multiselectCountryOptions"
+        <essential-select [options]="multiselectCountryOptions" #multiselectSearchInputSelect
                           [(value)]="multiselectSearchInputModel"
                           [fieldName]="'name'"
                           [fieldValue]="'code'"

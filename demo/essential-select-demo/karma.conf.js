@@ -6,13 +6,12 @@ module.exports = function (config) {
   // process.env.CHROME_BIN = pa;
   // console.warn('use ' + pa)
 
-  isCi = false;
+  const isCi = process.env['CI_MODE'] && (process.env['CI_MODE'] === 'true' || process.env['CI_MODE'] === true);
 
   if (config.browsers && config.browsers.length > 0 && config.browsers.find(x => x === 'Chrome' != null)) {
-
+    // ...
   } else {
     process.env.CHROME_BIN="/usr/bin/google-chrome-unstable";
-    isCi = true;
   }
 
   config.set({
@@ -24,7 +23,8 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('@angular/cli/plugins/karma')
+      require('@angular/cli/plugins/karma'),
+      require('karma-teamcity-reporter')
     ],
     client:{
       clearContext: false // leave Jasmine Spec Runner output visible in browser

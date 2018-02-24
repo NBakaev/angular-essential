@@ -1,7 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {DemoSelectAllComponent} from './demo-select-all.component';
-import {EssentialSelectModule} from 'angular-essential-select';
+import {EssentialSelectModule, EssentialSelectComponent} from 'angular-essential-select';
 import {CommonModule} from '@angular/common';
 import {BrowserModule, By} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -57,6 +57,36 @@ describe('Essential-select examples', () => {
       expect(el2.innerText).toBe('herp derp');
     });
 
+    // expect simpleSelectComponent to be closed dropdown
+    const assertSimpleDropdownClosed = function (selectComponent: EssentialSelectComponent) {
+      const wrapperClosed = fixture.debugElement.query(By.css('#simpleSelectComponent > div > div.wrapper > div'));
+      expect(wrapperClosed).toBeFalsy(true);
+      expect(selectComponent._isOpen).toBe(false);
+    };
+
+    it('Open and close dropdown', () => {
+      const fieldset = fixture.debugElement.query(By.css('#simpleSelectComponent > div > div:nth-child(1) > form > fieldset > div')).nativeElement;
+      const selectComponent = fixture.componentInstance.simpleSelectComponent;
+
+      assertSimpleDropdownClosed(selectComponent);
+      fieldset.click();
+
+      fixture.detectChanges();
+      expect(selectComponent._isOpen).toBe(true);
+
+      const wrapperOpen = fixture.debugElement.query(By.css('#simpleSelectComponent > div > div.wrapper > div'));
+      expect(wrapperOpen).toBeTruthy(true);
+      expect(wrapperOpen.nativeElement).toBeTruthy(true);
+
+      const model = fixture.debugElement.query(By.css('#simpleTextModel')).nativeElement;
+
+      // click some element outside dropdown
+      model.click();
+      fixture.detectChanges();
+
+      assertSimpleDropdownClosed(selectComponent);
+    });
+
     it('Check change detection outside', () => {
       const de = fixture.debugElement.query(By.css('#simpleTextModel'));
       const el2 = de.nativeElement;
@@ -79,6 +109,18 @@ describe('Essential-select examples', () => {
       fixture.detectChanges();
       expect(el2.innerText).toBe('[ "US", "RU" ]');
     });
+
+    it('Verify model unselectAll to be zero length array', () => {
+      const selectComponent = fixture.componentInstance.multiselectSearchInputSelect;
+      expect(selectComponent.value).toEqual(['US', 'RU']);
+
+      selectComponent.unselectAll();
+      fixture.detectChanges();
+
+      expect(selectComponent.value).toEqual([]);
+      expect(selectComponent.internalValue).toEqual([]);
+    });
   });
+
 
 });

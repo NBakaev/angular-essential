@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {allCountries, Country, TreeNode} from './es.models';
-import {WrapperContent} from 'angular-essential-select';
+import {WrapperContent, EssentialSelectComponent} from 'angular-essential-select';
 import {CountryPrintable} from './country-printable';
 
 @Component({
@@ -9,6 +9,9 @@ import {CountryPrintable} from './country-printable';
   styleUrls: ['./demo-select-all.component.scss']
 })
 export class DemoSelectAllComponent implements OnInit {
+
+  @ViewChild('simpleSelectComponent') simpleSelectComponent: EssentialSelectComponent;
+  @ViewChild('multiselectSearchInputSelect') multiselectSearchInputSelect: EssentialSelectComponent;
 
   public wrapperType: any = WrapperContent.MATCH_FORM;
 
@@ -43,8 +46,8 @@ export class DemoSelectAllComponent implements OnInit {
 
   constructor() {
     const yourCountry2 = navigator.language;
-    console.log('navigator.language', this.yourCountry);
-    let find = allCountries.find(x => x.language === yourCountry2);
+    // console.log('navigator.language', this.yourCountry);
+    const find = allCountries.find(x => x.language === yourCountry2);
     if (find != null) {
       this.yourCountry = find.code;
     }
@@ -137,13 +140,13 @@ export class DemoSelectAllComponent implements OnInit {
                      [selectPrintable]="countryPrintableAllowed"
                      [invalidText]="'You must select value!'">
    </essential-select>
-  
+
   `;
   codeYourCountryDisableTs = `
  ## TS
 (input countryPrintableAllowed)
-  
-export class CountryPrintable 
+
+export class CountryPrintable
 implements EssentialSelectOptions<Country> {
 
   printValue(value: Country): EssentialSelectRowOptions {

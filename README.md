@@ -1,6 +1,8 @@
 # Angular Essential Select
 Select component
 
+![](https://nbakaev.com/demo/tech/essential-select-binary/es-select-img.png)
+
  - AOT compatible
  - Works with NgForms
  - Select one/multi options with a lot of customizations

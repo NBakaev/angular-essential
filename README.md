@@ -1,7 +1,7 @@
 # Angular Essential Select
-Select component
-
 ![https://badge.fury.io/js/angular-essential-select](https://badge.fury.io/js/angular-essential-select.svg)
+
+Angular select component
 
 ![](https://nbakaev.com/demo/tech/essential-select-binary/es-select-img.png)
 
@@ -10,7 +10,6 @@ Select component
  - Select one/multi options with a lot of customizations
  - Angular 5+
  - [Demo and examples](https://nbakaev.com/demo/tech/essential-select/#/demo_all)
- - https://www.npmjs.com/package/angular-essential-select
 
 ## Installation
 

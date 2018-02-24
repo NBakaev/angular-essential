@@ -1,9 +1,10 @@
 # Angular Essential Select
 Select component
 
-[![fury]][fury]
+[![fury Widget]][fury]
 
 [fury]: https://badge.fury.io/js/angular-essential-select
+[fury Widget]: https://javadoc-emblem.rhcloud.com/doc/com.biqasoft/microservice-communicator/badge.svg
 
  - AOT compatible
  - Works with NgForms

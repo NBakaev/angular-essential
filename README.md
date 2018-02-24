@@ -1,10 +1,11 @@
 # Angular Essential Select
+Select component
 
  - AOT compatible
  - Works with NgForms
- - Select one/multi options
+ - Select one/multi options with a lot of customizations
  - Angular 5+
- - Demo [Demo](https://nbakaev.com/demo/tech/essential-select/#/demo_all)
+ - [Demo and examples](https://nbakaev.com/demo/tech/essential-select/#/demo_all)
  - https://www.npmjs.com/package/angular-essential-select
 
 ## Installation

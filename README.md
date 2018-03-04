@@ -62,6 +62,8 @@ To lint all `*.ts` files:
 $ npm run lint
 ```
 
+Development and snapshot build are available via [artifactory](https://artifactory.nbakaev.com/artifactory/webapp/#/artifacts/browse/tree/General/npm-local/angular-essential-select/-)
+
 ## License
 
 MIT © [Nikita Bakaev](mailto:ya@nbakaev.ru)

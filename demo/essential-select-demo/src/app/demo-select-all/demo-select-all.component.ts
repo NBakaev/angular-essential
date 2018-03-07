@@ -32,6 +32,9 @@ export class DemoSelectAllComponent implements OnInit {
     'hurr durr', 'herp derp', 'hurrrr', 'durrrr', 'derp derp'
   ];
 
+  public virualScollVals: string[] = [];
+  public virualScollValsValue: string;
+
   public wrapperSelect: WrapperContent;
 
   multiselectModel: string[] = ['US', 'RU'];
@@ -201,6 +204,10 @@ implements EssentialSelectOptions<Country> {
     oneVal.depth = 0;
 
     this.esMultiselect.push(oneVal);
+
+    for (let i = 0; i < 1000; i++) {
+      this.virualScollVals.push(`string ${i}`);
+    }
 
   }
 

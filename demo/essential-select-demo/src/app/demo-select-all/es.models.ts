@@ -17,7 +17,7 @@ export class Country {
 
 // TODO: more languages;
 export const allCountries: Country[] = [
-  {code: 'US', name: 'United States', language: 'en-US'},
+  {code: 'US', name: 'United States (USA)', language: 'en-US'},
   {code: 'CA', name: 'Canada'},
   {code: 'AU', name: 'Australia'},
   {code: 'FR', name: 'France'},
@@ -36,7 +36,7 @@ export const allCountries: Country[] = [
   {code: 'GB', name: 'United Kingdom'},
   {code: 'CH', name: 'Switzerland'},
   {code: 'NZ', name: 'New Zealand'},
-  {code: 'RU', name: 'Russian Federation'},
+  {code: 'RU', name: 'Russian Federation (RU)'},
   {code: 'PT', name: 'Portugal'},
   {code: 'NL', name: 'Netherlands'},
   {code: 'IM', name: 'Isle of Man'},

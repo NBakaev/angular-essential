@@ -7,8 +7,12 @@ export class TextToShowEssentialFilter implements EssentialsSelectFilter {
       return true;
     }
 
-    const result = item.textToShow.search(new RegExp(requestedText, 'i'));
-    return result !== -1;
+    // const result = item.textToShow.search(new RegExp(requestedText, 'i'));
+    //   return result !== -1;
+
+      // strip special characters like ( ) in search string
+      let needleRegExp = new RegExp(requestedText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i');
+      return needleRegExp.test(item.textToShow);
   }
 
 }

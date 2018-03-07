@@ -12,10 +12,9 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    Renderer2,
     ViewChild
 } from '@angular/core';
-import {AbstractControl, ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
+import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {ValidateEssentialSelectFn} from './essential-select.validator';
@@ -37,6 +36,7 @@ const DELAY_UNTIL_UPDATE_FILTER = 100; // miliseconds
 
 // internal string to determine of something was initialised in input value
 const MAGIC_EMPTY_STRING = 'SOME_MAGIC_STRING_FOR_ESSENTAL_SELECT';
+
 @Component({
     selector: 'essential-select',
     templateUrl: './essential-select.component.html',
@@ -49,7 +49,7 @@ const MAGIC_EMPTY_STRING = 'SOME_MAGIC_STRING_FOR_ESSENTAL_SELECT';
         provide: NG_VALIDATORS,
         useExisting: forwardRef(() => EssentialSelectComponent),
         multi: true,
-        }
+    }
     ]
 })
 export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
@@ -332,20 +332,26 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     valid(): boolean {
-        let isValid: boolean;
+        let isValid = true;
 
         if (this.validateFn) {
             isValid = this.validateFn(this.value);
         } else if (this.required) {
 
-            if (this.treatEmptyStringAsNull) {
-                isValid = (this.value !== undefined && this.value !== null) && !(typeof this.value === 'string' && StringUtils.isEmpty(this.value));
+            if (this.useMultiSelect) {
+                this.safeAccessInternavlValue();
+                if ((this._internalValue as Array<any>).length === 0) {
+                    isValid = false;
+                }
             } else {
-                isValid = this.value !== undefined && this.value !== null;
+
+                if (this.treatEmptyStringAsNull) {
+                    isValid = (this.value !== undefined && this.value !== null) && !(typeof this.value === 'string' && StringUtils.isEmpty(this.value));
+                } else {
+                    isValid = this.value !== undefined && this.value !== null;
+                }
             }
 
-        } else {
-            isValid = true;
         }
         return isValid;
     }
@@ -669,7 +675,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     private safeAccessInternavlValue() {
-        if ( (this._internalValue == null || typeof this._internalValue === 'undefined') && this.useMultiSelect) {
+        if ((this._internalValue == null || typeof this._internalValue === 'undefined') && this.useMultiSelect) {
             this._internalValue = [];
         }
     }
@@ -814,7 +820,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     public joinDefaultMultiSelect(): string {
-        if (!ObjectUtils.isArray(this._internalValue) || (this._internalValue as Array<any>).length === 0 ) {
+        if (!ObjectUtils.isArray(this._internalValue) || (this._internalValue as Array<any>).length === 0) {
             return undefined;
         }
         return (this._internalValue as Array<any>).map(x => this.printItemValue(x)).slice(0, this.multiSelectMaximumInlinedElements).join(', ');

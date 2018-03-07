@@ -321,6 +321,28 @@
 
       </div>
 
+      <div class="flex-item">
+        <h3>
+          TODO: virtual scroll
+        </h3>
+        Works with a lot of values: <br>
+        <b>V</b>alue: <b id="scollVirualId">{{ virualScollValsValue }}</b>
+        <essential-select [options]="virualScollVals" id="scollVirualIdComponentId" #scollVirualIdComponent
+                          [(value)]="virualScollValsValue"
+                          [placeholder]="'Click me'"
+                          [invalidText]="'Please select value!'">
+        </essential-select>
+
+        <figure class="highlight">
+        <pre>
+          <code class="language-html">
+            <!--TODO: -->
+            {{codeSimple}}
+          </code>
+        </pre>
+        </figure>
+      </div>
+
     </div>
 
 

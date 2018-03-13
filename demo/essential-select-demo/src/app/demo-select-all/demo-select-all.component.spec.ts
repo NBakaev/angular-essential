@@ -6,7 +6,6 @@ import {CommonModule} from '@angular/common';
 import {BrowserModule, By} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
-import {ObjectUtils} from '../object.utils';
 
 describe('Essential-select examples', () => {
   let component: DemoSelectAllComponent;

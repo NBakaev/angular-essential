@@ -12,7 +12,8 @@
 
   <div (click)="changeOpen()">
     <form *ngIf="!hasSearchInput; else hasSearchInputSection">
-      <fieldset [disabled]="disabled">
+      <!--  TODO: write test for check mark overflow-->
+      <fieldset [disabled]="disabled" style="">
         <div class="form-control" [ngClass]="{ 'placeholder' : (haveNotValue(value) && haveNotValue(internalValue)), 'btn-disable' : isOpenEditable()  }" #notSearchContaner>
 
           <span *ngIf="useMultiSelect; else simplePrintValue">

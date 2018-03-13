@@ -16,6 +16,7 @@ export class DemoSelectAllComponent implements OnInit {
   public wrapperType: any = WrapperContent.MATCH_FORM;
 
   public selectOptions2: string[] = [
+    'Группа систем оптимального управления',
     'option 1', 'option 2', 'another option', 'somethin else', 'and another one', 'finally last option',
     'hurr durr', 'herp derp', 'hurrrr', 'durrrr', 'derp derp'
   ];
@@ -209,6 +210,10 @@ implements EssentialSelectOptions<Country> {
       this.virualScollVals.push(`string ${i}`);
     }
 
+  }
+
+  setCoutry(multiselectSearchInputModel: string[]) {
+    this.multiselectSearchInputModel = multiselectSearchInputModel;
   }
 
 }

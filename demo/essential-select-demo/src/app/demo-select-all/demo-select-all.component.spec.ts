@@ -6,6 +6,7 @@ import {CommonModule} from '@angular/common';
 import {BrowserModule, By} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
+import {ObjectUtils} from '../object.utils';
 
 describe('Essential-select examples', () => {
   let component: DemoSelectAllComponent;
@@ -119,6 +120,28 @@ describe('Essential-select examples', () => {
 
       expect(selectComponent.value).toEqual([]);
       expect(selectComponent.internalValue).toEqual([]);
+    });
+  });
+
+
+  describe('Mulltiselect outside changes', () => {
+
+    it('Verify multiselect search outside array changes', () => {
+      const selectComponent = fixture.componentInstance.multiselectSearchInputSelect;
+      expect(selectComponent.value).toEqual(['US', 'RU']);
+
+      const selectedCountries = ['US', 'RU', 'NO'];
+      fixture.componentInstance.setCoutry(selectedCountries);
+      selectComponent.ngDoCheck();
+      fixture.detectChanges();
+      expect(selectComponent.value).toEqual(selectedCountries);
+
+      const y = [
+        {code: 'US', name: 'United States (USA)', language: 'en-US'},
+        {code: 'RU', name: 'Russian Federation (RU)'},
+        {code: 'NO', name: 'Norway'}];
+
+      expect(selectComponent.internalValue).toEqual(y);
     });
   });
 

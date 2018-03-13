@@ -560,6 +560,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
                 // если у нас входной/выходной value сложный объект - нужно найти его из this.options так же по ID
                 const initialValueCopy = ObjectUtils.deepCopy(this.value);
                 this.value.length = 0;
+                this.safeAccessInternavlValue();
+                this._internalValue.length = 0;
 
                 if (!this.haveFieldValue()) {
                     (initialValueCopy as Array<any>).forEach(x => {
@@ -702,7 +704,6 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         if (this.selectPrintable && this.selectPrintable['allowToSelectValue']) {
             const allowedSelect = this.selectPrintable.allowToSelectValue(form, this._internalValue);
             if (!allowedSelect) {
-                this.ourChange = true;
                 return false;
             }
         }

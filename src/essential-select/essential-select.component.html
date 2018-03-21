@@ -14,15 +14,14 @@
     <form *ngIf="!hasSearchInput; else hasSearchInputSection">
       <!--  TODO: write test for check mark overflow-->
       <fieldset [disabled]="disabled" style="">
-        <div class="form-control" [ngClass]="{ 'placeholder' : (haveNotValue(value) && haveNotValue(internalValue)), 'btn-disable' : isOpenEditable()  }" #notSearchContaner>
+        <div class="form-control" [ngClass]="{ 'placeholder' : (haveNotValue(value) && haveNotValue(internalValue)), 'btn-disable' : isOpenEditable()  }" #notSearchContaner #inputSelectPlaceholder>
 
           <span *ngIf="useMultiSelect; else simplePrintValue">
-            {{ (joinDefaultMultiSelect() | essentialSelectTruncate:this:_isOpen:_userHasInputTextToSearchBeforeSelect:_pipeNumber) || placeholder}}
+              {{ (joinDefaultMultiSelect() | essentialSelectTruncate:this:_isOpen:_userHasInputTextToSearchBeforeSelect:_pipeNumber) || placeholder}}
           </span>
 
           <ng-template #simplePrintValue>
-            {{ (printValue() | essentialSelectTruncate:
-            this:_searchBoxValue:_isOpen:_userHasInputTextToSearchBeforeSelect:_pipeNumber) || placeholder }}
+              {{ (printValue() || placeholder) | essentialSelectTruncate:this:_isOpen:_userHasInputTextToSearchBeforeSelect:_pipeNumber }}
           </ng-template>
 
           <div class="trigger">
@@ -105,4 +104,6 @@
 </div>
 
 <!-- invisible container for length in pixels -->
-<span class="rule" #containerLength></span>
+<div #containerLength class="rule form-control">
+  <span #contentLengthInner class="rule-span"></span>
+</div>

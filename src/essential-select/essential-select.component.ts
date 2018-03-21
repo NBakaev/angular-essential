@@ -32,6 +32,7 @@ import {ALL_SELECT_LANGUAGES, SelectLang} from './i18n/all-languages';
 import {DEFAULT_LANGUAGE, EssentialSelectModuleConfig} from './essential-select-config';
 
 const DEFAULT_MAXIMUM_NUMBER_OPTIONS_TO_DISPLAY = 500;
+const DEFAULT_MULTISELECT_MAXIMUM_INLINED = 100;
 const DELAY_UNTIL_UPDATE_FILTER = 100; // miliseconds
 
 // internal string to determine of something was initialised in input value
@@ -154,7 +155,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
      * Maximum elements to inline in input
      * @type {number}
      */
-    @Input() multiSelectMaximumInlinedElements = 100;
+    @Input() multiSelectMaximumInlinedElements = DEFAULT_MULTISELECT_MAXIMUM_INLINED;
 
     /**
      * Is select disabled
@@ -190,6 +191,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     @ViewChild('container') private container: ElementRef;
     @ViewChild('containerLength') private containerLength: ElementRef;
+    @ViewChild('contentLengthInner') private contentLengthInner: ElementRef;
     @ViewChild('inputSelectPlaceholder') private inputSelectPlaceholder: ElementRef;
     @ViewChild('selectForm') private ngForm: NgForm;
     @ViewChild('notSearchContaner') private notSearchContaner: ElementRef;
@@ -258,16 +260,18 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         return false;
     }
 
-    // end ngForms
-
-    // // TODO: does not override disabled input
     setDisabledState(isDisabled: boolean): void {
         this.disabled = true;
     }
+    // end ngForms
 
     constructor(private _changeDetectionRef: ChangeDetectorRef, private ngZone: NgZone, private essentialSelectModuleConfig: EssentialSelectModuleConfig) {
     }
 
+    /**
+     *
+     * @returns {ElementRef} html container of element
+     */
     public getElementRef(): ElementRef {
         return this.container;
     }
@@ -286,6 +290,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         this._isOpen = newState;
     }
 
+    // TODO: optimize performance
     getDropdownWidth(): string {
         if (this.wrapType === WrapperContent.MATCH_FORM && this.hasSearchInput) {
             let offsetWidth = this.inputSelectPlaceholder.nativeElement.clientWidth;
@@ -358,6 +363,14 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     markTouched() {
         this._isValidated = true;
+    }
+
+    /**
+     *
+     * @returns {boolean} true of form was validated or user touched it
+     */
+    isTouched() {
+        return this._isValidated;
     }
 
     private getLang(): string {
@@ -791,9 +804,6 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
      * Refresh search input after model changes
      */
     private checkAndUpdateSearchInput(): void {
-        if (!this.hasSearchInput) {
-            return;
-        }
 
         if (this.useMultiSelect) {
             if (!this._isOpen) {
@@ -828,25 +838,30 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     private getStringVisualLengthInPx(stringTest: string): number {
-        const ruler = this.containerLength.nativeElement;
-        this.containerLength.nativeElement.innerHTML = stringTest;
+        const ruler = this.contentLengthInner.nativeElement;
+        this.contentLengthInner.nativeElement.innerHTML = stringTest;
         return ruler.offsetWidth;
     }
 
     public findPlaceholderLength(stringTest: string): void {
-        if (!this.inputSelectPlaceholder) {
+        if (!this.inputSelectPlaceholder || !this.containerLength || !this.inputSelectPlaceholder) {
             return;
         }
+
         const inputWidth = this.inputSelectPlaceholder.nativeElement;
         let limit = stringTest.length;
 
         const ruler = this.containerLength.nativeElement;
+
+        // ruler dudth must match select
+        ruler.style.width = this.getDropdownWidth();
         ruler.style.display = 'inline';
         // TODO: better algorithm
         for (let i = stringTest.length; i > 0; i--) {
             let candidateSubstring = stringTest.slice(0, i);
 
-            if (this.getStringVisualLengthInPx(candidateSubstring) + 40 < inputWidth.offsetWidth) {
+            // 45 is a bit larger that offset right + offset let
+            if (this.getStringVisualLengthInPx(candidateSubstring) + 45 < inputWidth.offsetWidth) {
                 break;
             }
             limit = i;

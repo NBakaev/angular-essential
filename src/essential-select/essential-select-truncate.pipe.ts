@@ -12,7 +12,7 @@ export class EssentialSelectTruncatePipe implements PipeTransform{
     let answer: string = value;
     es.findPlaceholderLength(answer);
 
-    if (es.isOpenEditable()) {
+    if (es.isOpenEditable() && es.hasSearchInput) {
       return value;
     }
 

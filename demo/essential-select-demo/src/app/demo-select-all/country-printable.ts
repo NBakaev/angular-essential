@@ -4,6 +4,7 @@ import {Country} from './es.models';
 export class CountryPrintable implements EssentialSelectOptions<Country> {
 
   printValue(value: Country): string | EssentialSelectRowOptions {
+
     const o = new EssentialSelectRowOptions();
     o.text = value.name;
 
@@ -14,7 +15,10 @@ export class CountryPrintable implements EssentialSelectOptions<Country> {
     return o;
   }
 
-  allowToSelectValue?(value: Country, model: any): boolean {
+  allowToSelectValue(value: Country, model: any): boolean {
+    if (!value) {
+      return true;
+    }
     if (value.code === 'RU') {
       alert('Ru can not be selected');
       return false;

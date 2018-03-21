@@ -2,17 +2,14 @@ import {EssentialSelectFilteredItem, EssentialsSelectFilter} from './filter.mode
 
 export class TextToShowEssentialFilter implements EssentialsSelectFilter {
 
-  shouldByShown(requestedText: string, item: EssentialSelectFilteredItem, currentValue: any, userHasInputTextToSearchBeforeSelect: boolean): boolean {
-    if (userHasInputTextToSearchBeforeSelect === false) {
-      return true;
+    shouldByShown(requestedText: string, item: EssentialSelectFilteredItem, currentValue: any, userHasInputTextToSearchBeforeSelect: boolean): boolean {
+        if (userHasInputTextToSearchBeforeSelect === false || requestedText == null) {
+            return true;
+        }
+
+        // strip special characters like ( ) in search string
+        let needleRegExp = new RegExp(requestedText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i');
+        return needleRegExp.test(item.textToShow);
     }
-
-    // const result = item.textToShow.search(new RegExp(requestedText, 'i'));
-    //   return result !== -1;
-
-      // strip special characters like ( ) in search string
-      let needleRegExp = new RegExp(requestedText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i');
-      return needleRegExp.test(item.textToShow);
-  }
 
 }

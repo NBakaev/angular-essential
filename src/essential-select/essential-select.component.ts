@@ -26,10 +26,10 @@ import {TextToShowEssentialFilter} from './filters/text-to-show.essential-filter
 import {WrapperContent} from './essential-select.settings';
 import {NumberUtils} from '../util/number.utils';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/delay';
 import {ALL_SELECT_LANGUAGES, SelectLang} from './i18n/all-languages';
 import {DEFAULT_LANGUAGE, EssentialSelectModuleConfig} from './essential-select-config';
+import { of } from 'rxjs';
+import {delay, debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 const DEFAULT_MAXIMUM_NUMBER_OPTIONS_TO_DISPLAY = 500;
 const DEFAULT_MULTISELECT_MAXIMUM_INLINED = 100;
@@ -447,9 +447,9 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         if (!this.hasSearchInput) {
             return;
         }
-        this.ngForm.valueChanges
-            .debounceTime(DELAY_UNTIL_UPDATE_FILTER)
-            .distinctUntilChanged()
+        this.ngForm.valueChanges.pipe(
+            debounceTime(DELAY_UNTIL_UPDATE_FILTER),
+            distinctUntilChanged())
             .subscribe(x => this.searchChange.emit(x.input));
 
         this.checkAndUpdateSearchInput();
@@ -807,7 +807,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
         if (this.useMultiSelect) {
             if (!this._isOpen) {
-                Observable.of({}).delay(0).subscribe(() => {
+                of({}).pipe(delay(0)).subscribe(() => {
                     this._searchBoxValue = this.joinDefaultMultiSelect();
                 })
             }
@@ -820,7 +820,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         this.findPlaceholderLength(this._searchBoxValue || this.placeholder);
         this.searchChange.emit(this._searchBoxValue);
 
-        Observable.of({}).delay(0).subscribe(() => {
+        of({}).pipe(delay(0)).subscribe(() => {
             if (!this._changeDetectionRef['destroyed']) {
                 this._pipeNumber++;
                 this._changeDetectionRef.detectChanges();

@@ -4,25 +4,6 @@
 export class ObjectUtils {
 
   /**
-   * Равны ли два JS/TS объекта
-   * (оптимистичный подход)
-   * @param obj1 первый объект для сравнения
-   * @param obj2 второй объект для сравнения
-   * @returns {boolean} равны ли объекты
-   */
-  public static deepEquals(obj1: any, obj2: any): boolean {
-
-    // сравнение JSON через stringify быстрое, но могут быть проблемы с порядком полей.
-    // если JSON.stringify равны - то объекты точно равны
-    // поэтому в случае false -> нужно сравнить поле-по-поле
-    const jsonEquals = JSON.stringify(obj1) === JSON.stringify(obj2);
-    if (jsonEquals) {
-      return true;
-    }
-    return ObjectUtils.objectEquals(obj1, obj2);
-  }
-
-  /**
    * Deep copy JS/TS объекта
    * @param obj исходный объект
    * @param withFunction
@@ -52,13 +33,13 @@ export class ObjectUtils {
   }
 
   // from https://stackoverflow.com/a/16788517
-  private static objectEquals(x: any, y: any): boolean {
+  public static objectEquals(x: any, y: any): boolean {
 
     if (x === null || x === undefined || y === null || y === undefined) {
       return x === y;
     }
     // after this just checking type of one would be enough
-    // check by constructor can be false positive in some cases. 
+    // check by constructor can be false positive in some cases.
     // E.g. created by JSON.parse(someString) and by "let a = new SomeClass()"
     //if (x.constructor !== y.constructor) {
       //return false;
@@ -134,25 +115,8 @@ export class ObjectUtils {
     }
   }
 
-  public static getRandomElementInArray<T>(arr: T[]): T {
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
-
   public static isArray(value: any): boolean {
     return value instanceof Array;
   }
-
-  public static arraysEqual(arr1: Array<any>, arr2: Array<any>): boolean {
-    if(arr1.length !== arr2.length)
-      return false;
-    for(let i = arr1.length; i--;) {
-      if(arr1[i] !== arr2[i])
-        return false;
-    }
-
-    return true;
-  }
-
-
 
 }

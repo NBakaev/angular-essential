@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {EssentialSelectComponent} from "./essential-select.component";
+import {EssentialSelectComponent} from './essential-select.component';
 
 @Pipe({
   name: 'essentialSelectTruncate'
@@ -10,9 +10,9 @@ export class EssentialSelectTruncatePipe implements PipeTransform{
       return undefined;
     }
     let answer: string = value;
-    es.findPlaceholderLength(answer);
+    es._findPlaceholderLength(answer);
 
-    if (es.isOpenEditable() && es.hasSearchInput) {
+    if (es._isOpenEditable() && es.hasSearchInput) {
       return value;
     }
 

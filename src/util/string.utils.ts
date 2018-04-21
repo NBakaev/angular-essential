@@ -12,10 +12,8 @@ export class StringUtils {
         return !str || str === '';
     }
 
-    public static isString(item: string): boolean {
+    public static isString(item: any): boolean {
         return typeof item === 'string';
     }
-
-
 
 }

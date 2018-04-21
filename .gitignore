@@ -36,3 +36,5 @@ dist/*
 
 .tmp
 package-lock.json
+
+docs

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {EssentialSelectFilteredItem, EssentialsSelectFilter} from './filters/filter.models';
-import {EssentialSelectComponent} from "./essential-select.component";
+import {EssentialSelectComponent} from './essential-select.component';
 
 @Pipe({
   name: 'essentialSelectFilter'

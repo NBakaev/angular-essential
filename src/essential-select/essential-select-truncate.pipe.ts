@@ -4,7 +4,7 @@ import {EssentialSelectComponent} from './essential-select.component';
 @Pipe({
   name: 'essentialSelectTruncate'
 })
-export class EssentialSelectTruncatePipe implements PipeTransform{
+export class EssentialSelectTruncatePipe implements PipeTransform {
   transform(value: string, es: EssentialSelectComponent): string | undefined {
     if (!value) {
       return undefined;

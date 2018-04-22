@@ -193,7 +193,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     @ViewChild('inputSelectPlaceholder') private inputSelectPlaceholder: ElementRef;
     @ViewChild('selectForm') private ngForm: NgForm;
     @ViewChild('notSearchContaner') private notSearchContainer: ElementRef;
-    @ViewChild('selectDropdown') private selectDropdown: ElementRef;
+    // @ViewChild('selectDropdown') private selectDropdown: ElementRef;
 
     _userHasInputTextToSearchBeforeSelect = false;
 

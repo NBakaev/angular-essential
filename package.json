@@ -9,6 +9,7 @@
     "docs:serve": "npm run docs:build -- -s",
     "docs:watch": "npm run docs:build -- -s -w",
     "lint": "tslint --type-check --project tsconfig.json src/**/*.ts",
+    "lint:fix": "tslint --fix -c ./tslint.json 'src/**/*{.ts,.tsx}'",
     "lite": "lite-server",
     "test": "tsc && karma start",
     "start": " bpm build:watch"

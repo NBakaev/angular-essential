@@ -35,6 +35,5 @@ dist/*
 .playground
 
 .tmp
-package-lock.json
 
 docs

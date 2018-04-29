@@ -56,7 +56,6 @@
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "lite-server": "^2.3.0",
-    "node-sass": "^4.5.2",
     "node-sass-tilde-importer": "^1.0.0",
     "node-watch": "^0.5.2",
     "protractor": "~5.1.2",
@@ -67,7 +66,8 @@
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
     "typescript": "~2.4.2",
-    "zone.js": "^0.8.14"
+    "zone.js": "^0.8.14",
+    "node-sass": "^4.9.0"
   },
   "engines": {
     "node": ">=6.0.0"

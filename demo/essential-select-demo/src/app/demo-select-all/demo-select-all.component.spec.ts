@@ -118,7 +118,7 @@ describe('Essential-select examples', () => {
       fixture.detectChanges();
 
       expect(selectComponent.value).toEqual([]);
-      expect(selectComponent.internalValue).toEqual([]);
+      expect(selectComponent._internalValue).toEqual([]);
     });
   });
 
@@ -140,7 +140,7 @@ describe('Essential-select examples', () => {
         {code: 'RU', name: 'Russian Federation (RU)'},
         {code: 'NO', name: 'Norway'}];
 
-      expect(selectComponent.internalValue).toEqual(y);
+      expect(selectComponent._internalValue).toEqual(y);
     });
   });
 

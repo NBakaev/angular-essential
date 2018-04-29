@@ -48,6 +48,7 @@ export interface EssentialSelectOptions<T> {
 export class EssentialSelectRowOptions {
 
   // just for normal angular AOT/ TS instanceof
+  // tslint:disable-next-line
   private type = 'EssentialSelectRowOptions';
 
   /**

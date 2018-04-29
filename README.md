@@ -44,6 +44,16 @@ Or you can force to use some language by default
 `EssentialSelectModule.forRoot({forcedDefaultLanguage: "en-US"}),
 `
 
+## Versions
+
+### ES 2.x.x
+Targets Angular 5. Right now that version is on support only. There won't be any releases with new features - only with bugfixes.
+NodeJS 8.11.1 is preferable.
+
+### ES 3.x.x
+ - Version 3 is the latest version and targets Angular 6
+NodeJS 10.0.0 is preferable.
+
 ## Development
 
 To generate all `*.js`, `*.d.ts` and `*.metadata.json` files:

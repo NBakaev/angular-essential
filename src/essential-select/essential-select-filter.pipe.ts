@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {EssentialSelectFilteredItem, EssentialsSelectFilter} from './filters/filter.models';
-import {EssentialSelectComponent} from "./essential-select.component";
+import {EssentialSelectComponent} from './essential-select.component';
 
 @Pipe({
   name: 'essentialSelectFilter'
@@ -27,7 +27,7 @@ export class EssentialSelectFilterPipe implements PipeTransform {
       // dynamically pass text function
       item.textToShow = essentialSelectComponent.printItemValue(item.originalObject);
       // TODO: multiselect breaks
-      return args2.shouldByShown(userSearchText, item, essentialSelectComponent.internalValue, userHasInputTextToSearchBeforeSelect);
+      return args2.shouldByShown(userSearchText, item, essentialSelectComponent._internalValue, userHasInputTextToSearchBeforeSelect);
     });
   }
 

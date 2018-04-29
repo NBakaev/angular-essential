@@ -15,8 +15,6 @@ import {
     ViewChild
 } from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
 import {ValidateEssentialSelectFn} from './essential-select.validator';
 import {EssentialSelectOptions, EssentialSelectRowOptions} from './essential-select.printable';
 import {ObjectUtils} from '../util/object.utils';
@@ -25,18 +23,18 @@ import {EssentialsSelectFilter} from './filters/filter.models';
 import {TextToShowEssentialFilter} from './filters/text-to-show.essential-filter';
 import {WrapperContent} from './essential-select.settings';
 import {NumberUtils} from '../util/number.utils';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/delay';
 import {ALL_SELECT_LANGUAGES, SelectLang} from './i18n/all-languages';
 import {DEFAULT_LANGUAGE, EssentialSelectModuleConfig} from './essential-select-config';
+import {of} from 'rxjs';
+import {delay, debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 const DEFAULT_MAXIMUM_NUMBER_OPTIONS_TO_DISPLAY = 500;
 const DEFAULT_MULTISELECT_MAXIMUM_INLINED = 100;
 const DELAY_UNTIL_UPDATE_FILTER = 100; // miliseconds
 
+// TODO: use Symbol
 // internal string to determine of something was initialised in input value
-const MAGIC_EMPTY_STRING = 'SOME_MAGIC_STRING_FOR_ESSENTAL_SELECT';
+const MAGIC_EMPTY_STRING = 'SOME_MAGIC_STRING_FOR_ESSENTIAL_SELECT';
 
 @Component({
     selector: 'essential-select',
@@ -187,15 +185,15 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     // limits number of characters of placeholder length
     private _limit: number;
-    private _internalValue: any = null;
+    private __internalValue: any = null;
 
     @ViewChild('container') private container: ElementRef;
     @ViewChild('containerLength') private containerLength: ElementRef;
     @ViewChild('contentLengthInner') private contentLengthInner: ElementRef;
     @ViewChild('inputSelectPlaceholder') private inputSelectPlaceholder: ElementRef;
     @ViewChild('selectForm') private ngForm: NgForm;
-    @ViewChild('notSearchContaner') private notSearchContaner: ElementRef;
-    @ViewChild('selectDropdown') private selectDropdown: ElementRef;
+    @ViewChild('notSearchContaner') private notSearchContainer: ElementRef;
+    // @ViewChild('selectDropdown') private selectDropdown: ElementRef;
 
     _userHasInputTextToSearchBeforeSelect = false;
 
@@ -211,16 +209,38 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     // content of _searchBoxValue field (hasSearchInput === true)
     _searchBoxValue = undefined;
 
+    private _manualChangeDetection = false;
+
+    /**
+     * Integration API - get current number availbale letters in placeholder
+     * @return {number}
+     */
     get limit(): number {
         return this._limit;
     }
 
     /**
-     * Primary for integration purposes
+     * Integration API - manual change detection. Do not change outside
+     * @param {boolean} value
+     */
+    set manualChangeDetection(value: boolean) {
+        this._manualChangeDetection = value;
+    }
+
+    /**
+     * Integration API
+     * @return {boolean} true if manual change detection is enabled
+     */
+    get manualChangeDetection(): boolean {
+        return this._manualChangeDetection;
+    }
+
+    /**
+     * Integration API - get underlying ES object
      * @returns {any}
      */
-    get internalValue(): any {
-        return this._internalValue;
+    get _internalValue(): any {
+        return this.__internalValue;
     }
 
     /**
@@ -263,6 +283,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     setDisabledState(isDisabled: boolean): void {
         this.disabled = true;
     }
+
     // end ngForms
 
     constructor(private _changeDetectionRef: ChangeDetectorRef, private ngZone: NgZone, private essentialSelectModuleConfig: EssentialSelectModuleConfig) {
@@ -291,13 +312,13 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     // TODO: optimize performance
-    getDropdownWidth(): string {
+    _getDropdownWidth(): string {
         if (this.wrapType === WrapperContent.MATCH_FORM && this.hasSearchInput) {
             let offsetWidth = this.inputSelectPlaceholder.nativeElement.clientWidth;
             return `${offsetWidth}px`;
         }
         if (this.wrapType === WrapperContent.MATCH_FORM && !this.hasSearchInput) {
-            let offsetWidth = this.notSearchContaner.nativeElement.clientWidth;
+            let offsetWidth = this.notSearchContainer.nativeElement.clientWidth;
             return `${offsetWidth}px`;
         }
 
@@ -321,11 +342,11 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         this.setOpen(!this._isOpen);
     }
 
-    isOpenEditable(): boolean {
+    _isOpenEditable(): boolean {
         return this._isOpen && !this.disabled;
     }
 
-    onSearchInputChange($event) {
+    _onSearchInputChange($event) {
 
         this._searchBoxValue = $event;
         if (this._userHasInputTextToSearchBeforeSelect) {
@@ -336,6 +357,10 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         this._userHasInputTextToSearchBeforeSelect = true;
     }
 
+    /**
+     *
+     * @return {boolean} true of current ES is successfully validated
+     */
     valid(): boolean {
         let isValid = true;
 
@@ -344,8 +369,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         } else if (this.required) {
 
             if (this.useMultiSelect) {
-                this.safeAccessInternavlValue();
-                if ((this._internalValue as Array<any>).length === 0) {
+                this.safeAccessInternalValue();
+                if ((this.__internalValue as Array<any>).length === 0) {
                     isValid = false;
                 }
             } else {
@@ -420,12 +445,12 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
      * Multiselect only; Select all elements
      */
     selectAll() {
-        this.safeAccessInternavlValue();
+        this.safeAccessInternalValue();
 
         const selectedValue = (this.options as Array<any>).filter(x => !this.isSelected(x));
         for (const value of selectedValue) {
             // TODO: allow to customize when "break" (does not allowed to select some value)
-            if (!this.onOptionSelected(value)) {
+            if (!this.selectOption(value)) {
                 break;
             }
         }
@@ -433,12 +458,20 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     /**
+     * @deprecated use deSelectAll
      * Multiselect only; Unselect all elements
      */
     unselectAll() {
+        this.deSelectAll();
+    }
+
+    /**
+     * only for multiselect. Deselect all selected values
+     */
+    deSelectAll() {
         // that is for multiselect only. So value is array
-        this.safeAccessInternavlValue();
-        this._internalValue.length = 0;
+        this.safeAccessInternalValue();
+        this.__internalValue.length = 0;
         this.handleNewInternalMultibindingValue();
         this.setOpen(false);
     }
@@ -447,9 +480,9 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         if (!this.hasSearchInput) {
             return;
         }
-        this.ngForm.valueChanges
-            .debounceTime(DELAY_UNTIL_UPDATE_FILTER)
-            .distinctUntilChanged()
+        this.ngForm.valueChanges.pipe(
+            debounceTime(DELAY_UNTIL_UPDATE_FILTER),
+            distinctUntilChanged())
             .subscribe(x => this.searchChange.emit(x.input));
 
         this.checkAndUpdateSearchInput();
@@ -494,7 +527,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         return false;
     }
 
-    public enabledRowClasses() {
+    public _enabledRowClasses() {
 
         if (this.selectPrintable && this.options && this.options.length > 0) {
             const val = this.selectPrintable.printValue(this.options[0]);
@@ -506,27 +539,39 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         return false;
     }
 
-    public printRowClasses(item: any): string {
+    public _printRowClasses(item: any): string {
         return (this.selectPrintable.printValue(item) as EssentialSelectRowOptions).rowClasses.join(' ');
     }
 
-    getCssClasses(item: any) {
+    /**
+     * Get css classes for option row (ul > li element)
+     * @param item
+     * @return {string}
+     */
+    _getCssClasses(item: any) {
         // TODO: optimize
-        if (!this.enabledRowClasses()) {
+        if (!this._enabledRowClasses()) {
             return '';
         }
         return (this.selectPrintable.printValue(item) as EssentialSelectRowOptions).entireRowClasses.join(' ');
     }
 
+    ngDoCheck(): void {
+        if (this._manualChangeDetection) {
+            return;
+        }
+
+        this._doOutsideChangeCheck();
+    }
+
     /**
-     * Change detection from outside
+     * Integration API - manually do change detection from outside
      * We need to check to first bind object or detect changes with was done outside the component
      */
-    ngDoCheck(): void {
-
+    public _doOutsideChangeCheck() {
         // handle when value is changed outside the component
         let haveChangedOutside = false;
-        if (!ObjectUtils.deepEquals(this.prevValueOutside, this.value)) {
+        if (!ObjectUtils.objectEquals(this.prevValueOutside, this.value)) {
 
             if (this.ourChange) {
                 this.prevValueOutside = ObjectUtils.deepCopy(this.value);
@@ -543,7 +588,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
                 // if null/undefined is selected outside the component or it is initial value
                 if (this.value == null) {
                     this.select(null);
-                    return this.doFinalOusideChanges();
+                    return this.doFinalOutsideChanges();
                 }
 
                 if (this.haveFieldValue()) {
@@ -557,13 +602,13 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
                         selectedValue = this.options.find(x => x[this.fieldValue] === this.value);
                     }
                     this.select(selectedValue == null ? null : selectedValue);
-                    this.doFinalOusideChanges();
+                    this.doFinalOutsideChanges();
                     return;
                 } else {
                     let selectedValue: any;
                     selectedValue = this.options.find(x => x === this.value);
                     this.select(selectedValue == null ? null : selectedValue);
-                    return this.doFinalOusideChanges();
+                    return this.doFinalOutsideChanges();
                 }
             }
 
@@ -573,8 +618,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
                 // если у нас входной/выходной value сложный объект - нужно найти его из this.options так же по ID
                 const initialValueCopy = ObjectUtils.deepCopy(this.value);
                 this.value.length = 0;
-                this.safeAccessInternavlValue();
-                this._internalValue.length = 0;
+                this.safeAccessInternalValue();
+                this.__internalValue.length = 0;
 
                 if (!this.haveFieldValue()) {
                     (initialValueCopy as Array<any>).forEach(x => {
@@ -592,35 +637,44 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
                     });
                 }
-                return this.doFinalOusideChanges();
+                return this.doFinalOutsideChanges();
             }
         }
 
     }
 
-    private doFinalOusideChanges() {
+    private doFinalOutsideChanges() {
         this.prevValueOutside = ObjectUtils.deepCopy(this.value);
     }
 
+    /**
+     * Pretty print current selected state
+     * @return {string}
+     */
     public printValue(): string {
-        return this.printItemValue(this._internalValue);
+        return this.printItemValue(this.__internalValue);
     }
 
+    /**
+     * Check if passed val is currently selected
+     * @param val
+     * @return {boolean} true if passed val value is selected
+     */
     public isSelected(val: any): boolean {
 
         if (this.useMultiSelect) {
-            this.safeAccessInternavlValue();
+            this.safeAccessInternalValue();
 
             // assume that always have this.value && this.fieldValue in multiselect
             if (this.bindObject) {
-                return this._internalValue.find(x => ObjectUtils.deepEquals(x, val));
+                return this.__internalValue.find(x => ObjectUtils.objectEquals(x, val));
             } else {
-                return this._internalValue.find(x => x[this.fieldValue] === val[this.fieldValue]);
+                return this.__internalValue.find(x => x[this.fieldValue] === val[this.fieldValue]);
             }
 
         }
 
-        return ObjectUtils.deepEquals(val, this._internalValue);
+        return ObjectUtils.objectEquals(val, this.__internalValue);
     }
 
     public printItemValueAdditionalNotes(item: any): string[] {
@@ -666,16 +720,22 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     }
 
-    public onUserOptionSelected(option: any): boolean {
+    /**
+     * Public API to select option on user action
+     * @param option
+     * @return {boolean}
+     */
+    public selectUserOption(option: any): boolean {
         this._userSelectedTimes++;
-        return this.onOptionSelected(option);
+        return this.selectOption(option);
     }
 
     /**
+     * Public API for select option - typically integration
      * @param option
      * @returns {boolean} - true if can select option
      */
-    public onOptionSelected(option: any): boolean {
+    public selectOption(option: any): boolean {
 
         const selectedResult = this.select(option);
         if (selectedResult.wasSelected) {
@@ -689,23 +749,23 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         return true;
     }
 
-    private safeAccessInternavlValue() {
-        if ((this._internalValue == null || typeof this._internalValue === 'undefined') && this.useMultiSelect) {
-            this._internalValue = [];
+    private safeAccessInternalValue() {
+        if ((this.__internalValue == null || typeof this.__internalValue === 'undefined') && this.useMultiSelect) {
+            this.__internalValue = [];
         }
     }
 
     private handleNewInternalMultibindingValue() {
         if (!this.bindObject) {
-            ObjectUtils.replaceObject(this._internalValue.map(x => x[this.fieldValue]), this.value);
+            ObjectUtils.replaceObject(this.__internalValue.map(x => x[this.fieldValue]), this.value);
         } else {
-            ObjectUtils.replaceObject(this._internalValue, this.value);
+            ObjectUtils.replaceObject(this.__internalValue, this.value);
         }
     }
 
     private checkCanBeDeSelected(form: any): boolean {
         if (this.selectPrintable && this.selectPrintable['allowToDeselectValue']) {
-            const allowedSelect = this.selectPrintable.allowToDeselectValue(form, this._internalValue);
+            const allowedSelect = this.selectPrintable.allowToDeselectValue(form, this.__internalValue);
             if (!allowedSelect) {
                 return false;
             }
@@ -715,7 +775,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     private checkCanBeSelected(form: any): boolean {
         if (this.selectPrintable && this.selectPrintable['allowToSelectValue']) {
-            const allowedSelect = this.selectPrintable.allowToSelectValue(form, this._internalValue);
+            const allowedSelect = this.selectPrintable.allowToSelectValue(form, this.__internalValue);
             if (!allowedSelect) {
                 return false;
             }
@@ -723,12 +783,13 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         return true;
     }
 
-    /** Select some option
+    /** Internal generic select some option
      * @param form selected value
+     * @return object if that value was selected or not
      */
     private select(form: any): { selectedValue: any, wasSelected: boolean } {
         let val;
-        this.safeAccessInternavlValue();
+        this.safeAccessInternalValue();
 
         this._userHasInputTextToSearchBeforeSelect = false;
 
@@ -736,7 +797,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
             // clear array of we set 'not selected' for multiselect
             if (form === null) {
-                this._internalValue.length = 0;
+                this.__internalValue.length = 0;
                 this.handleNewInternalMultibindingValue();
                 this.ourChange = true;
                 this.propagateChange(this.value);
@@ -746,9 +807,9 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
                 let formInValue;
                 if (this.bindObject && this.haveFieldValue()) {
-                    formInValue = this._internalValue.findIndex(x => x[this.fieldValue] === form[this.fieldValue]);
+                    formInValue = this.__internalValue.findIndex(x => x[this.fieldValue] === form[this.fieldValue]);
                 } else {
-                    formInValue = this._internalValue.findIndex(x => ObjectUtils.deepEquals(x, form));
+                    formInValue = this.__internalValue.findIndex(x => ObjectUtils.objectEquals(x, form));
                 }
 
                 // if we already have selected element - remove
@@ -761,14 +822,14 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
                     }
 
                     // remove selected value
-                    this._internalValue.splice(formInValue, 1);
+                    this.__internalValue.splice(formInValue, 1);
 
                 } else {
                     let b = this.checkCanBeSelected(form);
                     if (!b) {
                         return {selectedValue: null, wasSelected: false};
                     }
-                    this._internalValue.push(form);
+                    this.__internalValue.push(form);
                 }
 
                 this.handleNewInternalMultibindingValue();
@@ -792,7 +853,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         }
 
         this.value = val;
-        this._internalValue = form;
+        this.__internalValue = form;
         this.ourChange = true;
         this.checkAndUpdateSearchInput();
 
@@ -807,20 +868,20 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
         if (this.useMultiSelect) {
             if (!this._isOpen) {
-                Observable.of({}).delay(0).subscribe(() => {
-                    this._searchBoxValue = this.joinDefaultMultiSelect();
+                of({}).pipe(delay(0)).subscribe(() => {
+                    this._searchBoxValue = this._joinDefaultMultiSelect();
                 })
             }
 
         } else {
-            this._searchBoxValue = this.printItemValue(this._internalValue);
+            this._searchBoxValue = this.printItemValue(this.__internalValue);
         }
 
         this.setOpen(this._isOpen);
-        this.findPlaceholderLength(this._searchBoxValue || this.placeholder);
+        this._findPlaceholderLength(this._searchBoxValue || this.placeholder);
         this.searchChange.emit(this._searchBoxValue);
 
-        Observable.of({}).delay(0).subscribe(() => {
+        of({}).pipe(delay(0)).subscribe(() => {
             if (!this._changeDetectionRef['destroyed']) {
                 this._pipeNumber++;
                 this._changeDetectionRef.detectChanges();
@@ -830,11 +891,11 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     }
 
-    public joinDefaultMultiSelect(): string {
-        if (!ObjectUtils.isArray(this._internalValue) || (this._internalValue as Array<any>).length === 0) {
+    public _joinDefaultMultiSelect(): string {
+        if (!ObjectUtils.isArray(this.__internalValue) || (this.__internalValue as Array<any>).length === 0) {
             return undefined;
         }
-        return (this._internalValue as Array<any>).map(x => this.printItemValue(x)).slice(0, this.multiSelectMaximumInlinedElements).join(', ');
+        return (this.__internalValue as Array<any>).map(x => this.printItemValue(x)).slice(0, this.multiSelectMaximumInlinedElements).join(', ');
     }
 
     private getStringVisualLengthInPx(stringTest: string): number {
@@ -843,7 +904,12 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         return ruler.offsetWidth;
     }
 
-    public findPlaceholderLength(stringTest: string): void {
+    /**
+     * Integration API to truncate width of text in input to prevent overflow on long string
+     * @param {string} stringTest
+     * @private
+     */
+    public _findPlaceholderLength(stringTest: string): void {
         if (!this.inputSelectPlaceholder || !this.containerLength || !this.inputSelectPlaceholder) {
             return;
         }
@@ -854,7 +920,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         const ruler = this.containerLength.nativeElement;
 
         // ruler dudth must match select
-        ruler.style.width = this.getDropdownWidth();
+        ruler.style.width = this._getDropdownWidth();
         ruler.style.display = 'inline';
         // TODO: better algorithm
         for (let i = stringTest.length; i > 0; i--) {

@@ -48,6 +48,8 @@ export class DemoSelectAllComponent implements OnInit {
 
   countryPrintableAllowed = new CountryPrintable();
 
+  materialDesign = false;
+
   constructor() {
     const yourCountry2 = navigator.language;
     // console.log('navigator.language', this.yourCountry);

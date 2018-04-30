@@ -14,12 +14,17 @@
                           [(value)]="simpleSelect"
                           [placeholder]="'Click me'"
                           [required]="true"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
 
         <div class="margin-top-xs">
           <button class="btn btn-default" (click)="simpleSelect = null" id="setNullSimple">
             Set null
+          </button>
+
+          <button class="btn btn-default" (click)="materialDesign = !materialDesign" id="setNullSimple">
+            Set material
           </button>
         </div>
 
@@ -43,6 +48,7 @@
                           [hasSearchInput]="true"
                           [placeholder]="'Search some option'"
                           [required]="true"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
 
@@ -73,6 +79,7 @@
                           [(value)]="esLong"
                           [hasSearchInput]="true"
                           [placeholder]="'Click me'"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
       </div>
@@ -95,6 +102,7 @@
                           [useMultiSelect]="true"
                           [placeholder]="'Click me'"
                           [hasSearchInput]="false"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
         <figure class="highlight">
@@ -130,6 +138,7 @@
                           [wrapType]="wrapperType"
                           [placeholder]="'Click me'"
                           [hasSearchInput]="false"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
         <figure class="highlight">
@@ -156,6 +165,7 @@
                           [useMultiSelect]="true"
                           [placeholder]="'Click me'"
                           [hasSearchInput]="true"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
         <figure class="highlight">
@@ -190,6 +200,7 @@
                           [placeholder]="'Click me'"
                           [disabled]="disabledCountrySelect"
                           [hasSearchInput]="true"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
 
@@ -223,6 +234,7 @@
                           [placeholder]="'Click me'"
                           [disabled]="disabledCountrySelect"
                           [hasSearchInput]="true"
+                          [designMaterial]="materialDesign"
                           [selectPrintable]="countryPrintableAllowed"
                           [invalidText]="'Please select value!'">
         </essential-select>
@@ -265,6 +277,7 @@
                           [wrapType]="wrapperType"
                           [placeholder]="'Click me'"
                           [hasSearchInput]="false"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
         <pre>
@@ -335,6 +348,7 @@
         <essential-select [options]="virualScollVals" id="scollVirualIdComponentId" #scollVirualIdComponent
                           [(value)]="virualScollValsValue"
                           [placeholder]="'Click me'"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
 

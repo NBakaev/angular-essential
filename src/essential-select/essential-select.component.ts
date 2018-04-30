@@ -27,6 +27,13 @@ import {ALL_SELECT_LANGUAGES, SelectLang} from './i18n/all-languages';
 import {DEFAULT_LANGUAGE, EssentialSelectModuleConfig} from './essential-select-config';
 import {of} from 'rxjs';
 import {delay, debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {
+    trigger,
+    state,
+    style,
+    animate,
+    transition
+} from '@angular/animations';
 
 const DEFAULT_MAXIMUM_NUMBER_OPTIONS_TO_DISPLAY = 500;
 const DEFAULT_MULTISELECT_MAXIMUM_INLINED = 100;
@@ -48,7 +55,18 @@ const MAGIC_EMPTY_STRING = 'SOME_MAGIC_STRING_FOR_ESSENTIAL_SELECT';
         provide: NG_VALIDATORS,
         useExisting: forwardRef(() => EssentialSelectComponent),
         multi: true,
-    }
+    }],
+    animations: [
+        trigger('openState', [
+            state('true', style({
+                transform: 'rotate(0deg)',
+            })),
+            state('false', style({
+                transform: 'rotate(180deg)',
+            })),
+            transition('false => true', animate('100ms ease-in')),
+            transition('true => false', animate('100ms ease-out'))
+        ])
     ]
 })
 export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
@@ -174,6 +192,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
      * @type {boolean}
      */
     @Input() treatEmptyStringAsNull = true;
+
+    @Input() designMaterial = false;
 
     private prevValueOutside: any = MAGIC_EMPTY_STRING;
     private ourChange = false;
@@ -344,6 +364,10 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     _isOpenEditable(): boolean {
         return this._isOpen && !this.disabled;
+    }
+
+    _isOpenEditableState(): string {
+        return this._isOpenEditable() ? 'true' : 'false';
     }
 
     _onSearchInputChange($event) {

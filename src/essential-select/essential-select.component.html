@@ -70,14 +70,15 @@
                     </li>
                 </ul>
 
-                <div class="hr-after-multiselect">
-                    <hr>
-                </div>
+                <!--<div class="hr-after-multiselect">-->
+                    <!--<hr>-->
+                <!--</div>-->
             </div>
 
             <ul style="margin-top: 0">
-                <li *ngIf="!disableUnselected" (click)="selectUserOption(null)" [ngClass]="{ 'selected': haveNotValue(value),
+                <li *ngIf="!disableUnselected" (click)="selectUserOption(null)" [ngClass]="{ 'selected': !designMaterial && haveNotValue(value),
          'btn-disable' : _isOpenEditable(),
+         'material_selectbox_dropdown-li-selected': designMaterial && haveNotValue(value),
          'material_li': designMaterial}" style="padding-top: 10px">
                     {{notSelectedText}}
                 </li>

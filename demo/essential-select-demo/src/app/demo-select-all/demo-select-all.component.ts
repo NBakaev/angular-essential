@@ -77,7 +77,7 @@ export class DemoSelectAllComponent implements OnInit {
   codeSimpleWithDisplayedName = `
    <essential-select [options]="selectOptions2"
                      [(value)]="esWithSearch"
-                     [hasSearchInput]="true"
+                     [searchable]="true"
                      [placeholder]="'Click me'"
                      [required]="true"
                      [invalidText]="'Please select value!'">
@@ -92,7 +92,7 @@ export class DemoSelectAllComponent implements OnInit {
                     [bindObject]="false"
                     [wrapType]="wrapperType"
                     [placeholder]="'Click me'"
-                    [hasSearchInput]="false"
+                    [searchable]="false"
                     [invalidText]="'Please select value!'">
    </essential-select>`;
 
@@ -113,9 +113,9 @@ export class DemoSelectAllComponent implements OnInit {
                     [fieldName]="'name'"
                     [fieldValue]="'value'"
                     [bindObject]="false"
-                    [useMultiSelect]="true"
+                    [multiselect]="true"
                     [placeholder]="'Click me'"
-                    [hasSearchInput]="false"
+                    [searchable]="false"
                     [invalidText]="'Please select value!'">
    </essential-select>`;
 
@@ -127,7 +127,7 @@ export class DemoSelectAllComponent implements OnInit {
                     [bindObject]="false"
                     [wrapType]="wrapperType"
                     [placeholder]="'Click me'"
-                    [hasSearchInput]="true"
+                    [searchable]="true"
                     [invalidText]="'Please select value!'">
   </essential-select>
 `;
@@ -142,7 +142,7 @@ export class DemoSelectAllComponent implements OnInit {
                      [wrapType]="wrapperType"
                      [placeholder]="'Click me'"
                      [disabled]="disabledCountrySelect"
-                     [hasSearchInput]="true"
+                     [searchable]="true"
                      [selectPrintable]="countryPrintableAllowed"
                      [invalidText]="'You must select value!'">
    </essential-select>
@@ -181,9 +181,9 @@ implements EssentialSelectOptions<Country> {
                      [fieldValue]="'code'"
                      [bindObject]="false"
                      [wrapType]="wrapperType"
-                     [useMultiSelect]="true"
+                     [multiselect]="true"
                      [placeholder]="'Click me'"
-                     [hasSearchInput]="true"
+                     [searchable]="true"
                      [invalidText]="'Please select value!'">
    </essential-select>
 `;

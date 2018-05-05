@@ -45,7 +45,7 @@
         <b>V</b>alue: <b>{{ esWithSearch }}</b>
         <essential-select [options]="selectOptions2"
                           [(value)]="esWithSearch"
-                          [hasSearchInput]="true"
+                          [searchable]="true"
                           [placeholder]="'Search some option'"
                           [required]="true"
                           [designMaterial]="materialDesign"
@@ -77,7 +77,7 @@
         <!--<b>{{ esLong }}</b>-->
         <essential-select [options]="seletOptionsLong"
                           [(value)]="esLong"
-                          [hasSearchInput]="true"
+                          [searchable]="true"
                           [placeholder]="'Click me'"
                           [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
@@ -99,9 +99,9 @@
                           [fieldValue]="'code'"
                           [bindObject]="false"
                           [wrapType]="wrapperType"
-                          [useMultiSelect]="true"
+                          [multiselect]="true"
                           [placeholder]="'Click me'"
-                          [hasSearchInput]="false"
+                          [searchable]="false"
                           [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
@@ -137,7 +137,7 @@
                           [bindObject]="false"
                           [wrapType]="wrapperType"
                           [placeholder]="'Click me'"
-                          [hasSearchInput]="false"
+                          [searchable]="false"
                           [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
@@ -162,9 +162,9 @@
                           [fieldValue]="'code'"
                           [bindObject]="false"
                           [wrapType]="wrapperType"
-                          [useMultiSelect]="true"
+                          [multiselect]="true"
                           [placeholder]="'Click me'"
-                          [hasSearchInput]="true"
+                          [searchable]="true"
                           [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
@@ -199,7 +199,7 @@
                           [wrapType]="wrapperType"
                           [placeholder]="'Click me'"
                           [disabled]="disabledCountrySelect"
-                          [hasSearchInput]="true"
+                          [searchable]="true"
                           [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
@@ -233,7 +233,7 @@
                           [wrapType]="wrapperType"
                           [placeholder]="'Click me'"
                           [disabled]="disabledCountrySelect"
-                          [hasSearchInput]="true"
+                          [searchable]="true"
                           [designMaterial]="materialDesign"
                           [selectPrintable]="countryPrintableAllowed"
                           [invalidText]="'Please select value!'">
@@ -276,7 +276,7 @@
                           [bindObject]="false"
                           [wrapType]="wrapperType"
                           [placeholder]="'Click me'"
-                          [hasSearchInput]="false"
+                          [searchable]="false"
                           [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>

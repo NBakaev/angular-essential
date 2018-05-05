@@ -9,6 +9,21 @@
  - Integration API functions for `EssentialSelectComponent` and other components now have underscore prefix e.g. `_getDropdownWidth`. They are used primary for internal usage and you should avoid to use these API because behaviour of that API can change or they can be removed.
 All other public methods are public API and would not be removed in current major version
 
+#### Renamed inputs
+
+ - @Input 'hasSearchInput' -> `searchable`
+ - @Input 'searchInputType' -> `searchableType`
+ - @Input 'unselectAllText' -> `deselectAllText`
+ - @Input 'validateFn' -> `deselectAllText`
+ - @Input 'useMultiSelect' -> `multiselect`
+ - @Input 'multiSelectMaximumInlinedElements ' -> `multiselectMaximumInlinedElements `
+
+ - Public method `unselectAll` renamed to `deselectAll`
+
+### Features
+
+ - Meterial theme
+
 ## 2.0.0
 
 ### Breaking changes

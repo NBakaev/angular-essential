@@ -114,7 +114,7 @@ describe('Essential-select examples', () => {
       const selectComponent = fixture.componentInstance.multiselectSearchInputSelect;
       expect(selectComponent.value).toEqual(['US', 'RU']);
 
-      selectComponent.unselectAll();
+      selectComponent.deselectAll();
       fixture.detectChanges();
 
       expect(selectComponent.value).toEqual([]);

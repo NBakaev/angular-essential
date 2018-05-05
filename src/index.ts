@@ -5,6 +5,8 @@ import {EssentialSelectComponent} from './essential-select/essential-select.comp
 import {FormsModule} from '@angular/forms';
 import {EssentialSelectTruncatePipe} from './essential-select/essential-select-truncate.pipe';
 import {DEFAULT_LANGUAGE, EssentialSelectModuleConfig} from './essential-select/essential-select-config';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserModule} from '@angular/platform-browser';
 
 export * from './essential-select/essential-select-filter.pipe';
 export * from './essential-select/filters/filter.models';
@@ -20,6 +22,8 @@ export * from './essential-select/essential-select-config';
     imports: [
         CommonModule,
         FormsModule,
+        BrowserAnimationsModule,
+        BrowserModule
     ],
     declarations: [
         EssentialSelectFilterPipe,

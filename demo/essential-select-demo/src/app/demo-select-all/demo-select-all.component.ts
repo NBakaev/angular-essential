@@ -1,14 +1,17 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {allCountries, Country, TreeNode} from './es.models';
 import {WrapperContent, EssentialSelectComponent} from 'angular-essential-select';
 import {CountryPrintable} from './country-printable';
+import {EventBus} from '../core/eventbus/event-bus.service';
+import {MaterialDesignClickedBusMessage} from '../core/eventbus/event-bus.message';
+import {Subscription} from 'rxjs/Rx';
 
 @Component({
   selector: 'app-demo-select-all',
   templateUrl: './demo-select-all.component.html',
   styleUrls: ['./demo-select-all.component.scss']
 })
-export class DemoSelectAllComponent implements OnInit {
+export class DemoSelectAllComponent implements OnInit, OnDestroy {
 
   @ViewChild('simpleSelectComponent') simpleSelectComponent: EssentialSelectComponent;
   @ViewChild('multiselectSearchInputSelect') multiselectSearchInputSelect: EssentialSelectComponent;
@@ -48,13 +51,24 @@ export class DemoSelectAllComponent implements OnInit {
 
   countryPrintableAllowed = new CountryPrintable();
 
-  constructor() {
+  materialDesign = false;
+
+  private subMaterialDesignClickedBusMessage: Subscription;
+
+  constructor(private ngZone: NgZone, private eventBus: EventBus) {
     const yourCountry2 = navigator.language;
     // console.log('navigator.language', this.yourCountry);
     const find = allCountries.find(x => x.language === yourCountry2);
     if (find != null) {
       this.yourCountry = find.code;
     }
+
+    this.subMaterialDesignClickedBusMessage = this.eventBus.of(MaterialDesignClickedBusMessage).subscribe(x => {
+      this.ngZone.run(() => {
+        this.materialDesign = !this.materialDesign;
+      })
+    })
+
   }
 
   wrapperTypes: any[] = [
@@ -75,7 +89,7 @@ export class DemoSelectAllComponent implements OnInit {
   codeSimpleWithDisplayedName = `
    <essential-select [options]="selectOptions2"
                      [(value)]="esWithSearch"
-                     [hasSearchInput]="true"
+                     [searchable]="true"
                      [placeholder]="'Click me'"
                      [required]="true"
                      [invalidText]="'Please select value!'">
@@ -90,7 +104,7 @@ export class DemoSelectAllComponent implements OnInit {
                     [bindObject]="false"
                     [wrapType]="wrapperType"
                     [placeholder]="'Click me'"
-                    [hasSearchInput]="false"
+                    [searchable]="false"
                     [invalidText]="'Please select value!'">
    </essential-select>`;
 
@@ -111,9 +125,9 @@ export class DemoSelectAllComponent implements OnInit {
                     [fieldName]="'name'"
                     [fieldValue]="'value'"
                     [bindObject]="false"
-                    [useMultiSelect]="true"
+                    [multiselect]="true"
                     [placeholder]="'Click me'"
-                    [hasSearchInput]="false"
+                    [searchable]="false"
                     [invalidText]="'Please select value!'">
    </essential-select>`;
 
@@ -125,7 +139,7 @@ export class DemoSelectAllComponent implements OnInit {
                     [bindObject]="false"
                     [wrapType]="wrapperType"
                     [placeholder]="'Click me'"
-                    [hasSearchInput]="true"
+                    [searchable]="true"
                     [invalidText]="'Please select value!'">
   </essential-select>
 `;
@@ -140,7 +154,7 @@ export class DemoSelectAllComponent implements OnInit {
                      [wrapType]="wrapperType"
                      [placeholder]="'Click me'"
                      [disabled]="disabledCountrySelect"
-                     [hasSearchInput]="true"
+                     [searchable]="true"
                      [selectPrintable]="countryPrintableAllowed"
                      [invalidText]="'You must select value!'">
    </essential-select>
@@ -179,9 +193,9 @@ implements EssentialSelectOptions<Country> {
                      [fieldValue]="'code'"
                      [bindObject]="false"
                      [wrapType]="wrapperType"
-                     [useMultiSelect]="true"
+                     [multiselect]="true"
                      [placeholder]="'Click me'"
-                     [hasSearchInput]="true"
+                     [searchable]="true"
                      [invalidText]="'Please select value!'">
    </essential-select>
 `;
@@ -214,6 +228,12 @@ implements EssentialSelectOptions<Country> {
 
   setCoutry(multiselectSearchInputModel: string[]) {
     this.multiselectSearchInputModel = multiselectSearchInputModel;
+  }
+
+  ngOnDestroy(): void {
+    if (this.subMaterialDesignClickedBusMessage) {
+      this.subMaterialDesignClickedBusMessage.unsubscribe();
+    }
   }
 
 }

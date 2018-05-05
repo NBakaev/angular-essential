@@ -1,5 +1,12 @@
 # Angular Essential Select
-![https://badge.fury.io/js/angular-essential-select](https://badge.fury.io/js/angular-essential-select.svg) ![https://teamcity.nbakaev.com/viewType.html?buildTypeId=btN&guest=1](https://teamcity.nbakaev.com/app/rest/builds/buildType:AngularEssentialSelect_Build/statusIcon) 
+
+[![NPM Widget]][NPM] [![Teamcity Widget]][Teamcity]
+
+[NPM]: https://www.npmjs.com/package/angular-essential-select
+[NPM Widget]: https://badge.fury.io/js/angular-essential-select.svg
+
+[Teamcity]: https://teamcity.nbakaev.com/viewType.html?buildTypeId=btN&guest=1
+[Teamcity Widget]: https://teamcity.nbakaev.com/app/rest/builds/buildType:AngularEssentialSelect_Build/statusIcon
 
 Angular select component
 

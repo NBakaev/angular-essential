@@ -14,6 +14,7 @@
                           [(value)]="simpleSelect"
                           [placeholder]="'Click me'"
                           [required]="true"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
 
@@ -40,9 +41,10 @@
         <b>V</b>alue: <b>{{ esWithSearch }}</b>
         <essential-select [options]="selectOptions2"
                           [(value)]="esWithSearch"
-                          [hasSearchInput]="true"
+                          [searchable]="true"
                           [placeholder]="'Search some option'"
                           [required]="true"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
 
@@ -71,8 +73,9 @@
         <!--<b>{{ esLong }}</b>-->
         <essential-select [options]="seletOptionsLong"
                           [(value)]="esLong"
-                          [hasSearchInput]="true"
+                          [searchable]="true"
                           [placeholder]="'Click me'"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
       </div>
@@ -92,9 +95,10 @@
                           [fieldValue]="'code'"
                           [bindObject]="false"
                           [wrapType]="wrapperType"
-                          [useMultiSelect]="true"
+                          [multiselect]="true"
                           [placeholder]="'Click me'"
-                          [hasSearchInput]="false"
+                          [searchable]="false"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
         <figure class="highlight">
@@ -129,7 +133,8 @@
                           [bindObject]="false"
                           [wrapType]="wrapperType"
                           [placeholder]="'Click me'"
-                          [hasSearchInput]="false"
+                          [searchable]="false"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
         <figure class="highlight">
@@ -153,9 +158,10 @@
                           [fieldValue]="'code'"
                           [bindObject]="false"
                           [wrapType]="wrapperType"
-                          [useMultiSelect]="true"
+                          [multiselect]="true"
                           [placeholder]="'Click me'"
-                          [hasSearchInput]="true"
+                          [searchable]="true"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
         <figure class="highlight">
@@ -189,7 +195,8 @@
                           [wrapType]="wrapperType"
                           [placeholder]="'Click me'"
                           [disabled]="disabledCountrySelect"
-                          [hasSearchInput]="true"
+                          [searchable]="true"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
 
@@ -222,7 +229,8 @@
                           [wrapType]="wrapperType"
                           [placeholder]="'Click me'"
                           [disabled]="disabledCountrySelect"
-                          [hasSearchInput]="true"
+                          [searchable]="true"
+                          [designMaterial]="materialDesign"
                           [selectPrintable]="countryPrintableAllowed"
                           [invalidText]="'Please select value!'">
         </essential-select>
@@ -264,7 +272,8 @@
                           [bindObject]="false"
                           [wrapType]="wrapperType"
                           [placeholder]="'Click me'"
-                          [hasSearchInput]="false"
+                          [searchable]="false"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
         <pre>
@@ -335,6 +344,7 @@
         <essential-select [options]="virualScollVals" id="scollVirualIdComponentId" #scollVirualIdComponent
                           [(value)]="virualScollValsValue"
                           [placeholder]="'Click me'"
+                          [designMaterial]="materialDesign"
                           [invalidText]="'Please select value!'">
         </essential-select>
 

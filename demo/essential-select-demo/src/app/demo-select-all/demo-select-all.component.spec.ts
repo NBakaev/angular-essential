@@ -6,6 +6,7 @@ import {CommonModule} from '@angular/common';
 import {BrowserModule, By} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
+import {EventBus} from '../core/eventbus/event-bus.service';
 
 describe('Essential-select examples', () => {
   let component: DemoSelectAllComponent;
@@ -24,7 +25,8 @@ describe('Essential-select examples', () => {
         CommonModule,
         FormsModule,
         BrowserAnimationsModule
-      ]
+      ],
+      providers: [EventBus]
     })
       .compileComponents();
   }));
@@ -114,7 +116,7 @@ describe('Essential-select examples', () => {
       const selectComponent = fixture.componentInstance.multiselectSearchInputSelect;
       expect(selectComponent.value).toEqual(['US', 'RU']);
 
-      selectComponent.unselectAll();
+      selectComponent.deselectAll();
       fixture.detectChanges();
 
       expect(selectComponent.value).toEqual([]);

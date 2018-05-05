@@ -45,7 +45,7 @@
                        (ngModelChange)="_onSearchInputChange($event)"
                        [type]="searchableType">
                 <div class="trigger position-fix" *ngIf="_showOpenCloseIcon" [@openState]="_isOpenEditableState()">
-                    <span [ngClass]="{'icon-open': !designMaterial, 'material_icon-open': designMaterial}"></span>
+                    <span [ngClass]="{'icon-open': !designMaterial, 'material_icon-open': designMaterial}" class="icon_position-fix"></span>
                 </div>
             </form>
         </ng-template>

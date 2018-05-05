@@ -1,4 +1,4 @@
-import {Component, ViewContainerRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 
 @Component({
@@ -7,16 +7,8 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app';
-
-  // useBootstrap = false;
-  useBootstrap = true;
-
-  openNavbar = false;
 
   constructor(public router: Router) {
   }
-
-  private viewContainerRef: ViewContainerRef;
 
 }

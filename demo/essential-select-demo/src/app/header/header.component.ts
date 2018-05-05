@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
-  useMaterialDesign() {
+  clickedMaterialDesign() {
     this.useMaterialDesign = !this.useMaterialDesign;
     this.eventBus.publish(new MaterialDesignClickedBusMessage());
   }

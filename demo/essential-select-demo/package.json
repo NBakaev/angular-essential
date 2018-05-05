@@ -10,7 +10,7 @@
     "test:dev": "ng test --browsers Chrome --watch true",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "link:es":"npm link angular-essential-select"
+    "link:es": "npm link angular-essential-select"
   },
   "private": false,
   "dependencies": {
@@ -58,6 +58,7 @@
     "tslint": "~5.9.1",
     "typescript": "~2.7.2",
     "@angular-devkit/build-angular": "~0.5.0",
-    "node-sass": "^4.9.0"
+    "node-sass": "^4.9.0",
+    "hoek": "~4.2.1"
   }
 }

@@ -20,9 +20,9 @@ All other public methods are public API and would not be removed in current majo
 
  - Public method `unselectAll` renamed to `deselectAll`
 
-### Features
+### New features
 
- - Meterial theme
+ - Material design (use `<essential-select [designMaterial]="true" </essential-select>` to enable it)
 
 ## 2.0.0
 

@@ -17,6 +17,7 @@ All other public methods are public API and would not be removed in current majo
  - @Input 'validateFn' -> `deselectAllText`
  - @Input 'useMultiSelect' -> `multiselect`
  - @Input 'multiSelectMaximumInlinedElements ' -> `multiselectMaximumInlinedElements `
+ - @Input 'selectPrintable' -> `settings`
 
  - Public method `unselectAll` renamed to `deselectAll`
 

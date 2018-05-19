@@ -155,7 +155,7 @@ export class DemoSelectAllComponent implements OnInit, OnDestroy {
                      [placeholder]="'Click me'"
                      [disabled]="disabledCountrySelect"
                      [searchable]="true"
-                     [selectPrintable]="countryPrintableAllowed"
+                     [settings]="countryPrintableAllowed"
                      [invalidText]="'You must select value!'">
    </essential-select>
 

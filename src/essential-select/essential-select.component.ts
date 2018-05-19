@@ -154,7 +154,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     /**
      * Main object for dynamically customization print and select behaviour of select
      */
-    @Input() selectPrintable: EssentialSelectOptions<any>;
+    @Input() settings: EssentialSelectOptions<any>;
 
     /**
      * Customize behaviour of filtering options. By default use TextToShowEssentialFilter.
@@ -544,8 +544,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     public _enabledRowClasses() {
 
-        if (this.selectPrintable && this.options && this.options.length > 0) {
-            const val = this.selectPrintable.printValue(this.options[0]);
+        if (this.settings && this.options && this.options.length > 0) {
+            const val = this.settings.printValue(this.options[0]);
             if (val instanceof EssentialSelectRowOptions) {
                 return true;
             }
@@ -555,7 +555,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     public _printRowClasses(item: any): string {
-        return (this.selectPrintable.printValue(item) as EssentialSelectRowOptions).rowClasses.join(' ');
+        return (this.settings.printValue(item) as EssentialSelectRowOptions).rowClasses.join(' ');
     }
 
     /**
@@ -568,7 +568,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         if (!this._enabledRowClasses()) {
             return '';
         }
-        return (this.selectPrintable.printValue(item) as EssentialSelectRowOptions).entireRowClasses.join(' ');
+        return (this.settings.printValue(item) as EssentialSelectRowOptions).entireRowClasses.join(' ');
     }
 
     ngDoCheck(): void {
@@ -694,11 +694,11 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     public printItemValueAdditionalNotes(item: any): string[] {
 
-        if (!this.selectPrintable || !this.selectPrintable.printAdditionalLinesOnOpen) {
+        if (!this.settings || !this.settings.printAdditionalLinesOnOpen) {
             return [];
         }
 
-        const printAdditionalLinesOnOpen = this.selectPrintable.printAdditionalLinesOnOpen(item);
+        const printAdditionalLinesOnOpen = this.settings.printAdditionalLinesOnOpen(item);
         if (printAdditionalLinesOnOpen instanceof EssentialSelectRowOptions) {
             // TODO: support that
             console.error('Not supported printAdditionalLinesOnOpen with EssentialSelectRowOptions');
@@ -716,13 +716,13 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         }
 
         // if we have custom printer - use it
-        if (this.selectPrintable) {
+        if (this.settings) {
 
             // если меню открыто - то можно задавать отдельный опциональный печатальщик под это
-            if (this.selectPrintable.printValueOnOpen && this._isOpen) {
-                return this.getSimpleTextPrintable(this.selectPrintable.printValueOnOpen(item));
+            if (this.settings.printValueOnOpen && this._isOpen) {
+                return this.getSimpleTextPrintable(this.settings.printValueOnOpen(item));
             } else {
-                return this.getSimpleTextPrintable(this.selectPrintable.printValue(item));
+                return this.getSimpleTextPrintable(this.settings.printValue(item));
             }
 
         }
@@ -779,8 +779,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     private checkCanBeDeSelected(form: any): boolean {
-        if (this.selectPrintable && this.selectPrintable['allowToDeselectValue']) {
-            const allowedSelect = this.selectPrintable.allowToDeselectValue(form, this.__internalValue);
+        if (this.settings && this.settings['allowToDeselectValue']) {
+            const allowedSelect = this.settings.allowToDeselectValue(form, this.__internalValue);
             if (!allowedSelect) {
                 return false;
             }
@@ -789,8 +789,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     private checkCanBeSelected(form: any): boolean {
-        if (this.selectPrintable && this.selectPrintable['allowToSelectValue']) {
-            const allowedSelect = this.selectPrintable.allowToSelectValue(form, this.__internalValue);
+        if (this.settings && this.settings['allowToSelectValue']) {
+            const allowedSelect = this.settings.allowToSelectValue(form, this.__internalValue);
             if (!allowedSelect) {
                 return false;
             }

@@ -233,8 +233,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     private _manualChangeDetection = false;
 
     private _windowChangeListener = () => {
-            this.checkAndUpdateSearchInput();
-            this._doChangeDropdownWidth(this.selectDropdown);
+        this.checkAndUpdateSearchInput();
+        this._doChangeDropdownWidth(this.selectDropdown);
     };
 
     /**
@@ -506,8 +506,10 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
             this._doChangeDropdownWidth(x);
         });
 
+        this.ngZone.runOutsideAngular(() => {
+            window.addEventListener('resize', this._windowChangeListener, true);
+        });
         // TODO: also use https://developers.google.com/web/updates/2016/10/resizeobserver
-        window.addEventListener('resize', this._windowChangeListener, true);
 
         if (!this.searchable) {
             return;
@@ -519,7 +521,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
         this.checkAndUpdateSearchInput();
         this.setOpen(false);
-        }
+    }
 
     private _doChangeDropdownWidth(x: QueryList<ElementRef>) {
         if (x.length > 0) {

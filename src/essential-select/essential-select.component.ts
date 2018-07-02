@@ -302,7 +302,7 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     // 1) avoid "Expression has changed after it was checked. Previous value: '384px'. Current value: '0px'" in some cases
     // 2) better performance
     _getDropdownWidth(): string {
-        if (this.wrapType === WrapperContent.MATCH_FORM && this.searchable) {
+        if (this.wrapType === WrapperContent.MATCH_FORM && this.hasSearchInput) {
             let offsetWidth = this.inputSelectPlaceholder.nativeElement.clientWidth;
             return `${offsetWidth}px`;
         }

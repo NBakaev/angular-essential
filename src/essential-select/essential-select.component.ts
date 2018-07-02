@@ -11,8 +11,8 @@ import {
     NgZone,
     OnDestroy,
     OnInit,
-    Output,
-    ViewChild
+    Output, QueryList,
+    ViewChild, ViewChildren
 } from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
@@ -180,8 +180,6 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     private prevValueOutside: any = MAGIC_EMPTY_STRING;
     private ourChange = false;
 
-    private onresizeSubscriber: any;
-
     // number of times user selected some value
     private _userSelectedTimes = 0;
 
@@ -190,6 +188,10 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     private _internalValue: any = null;
 
     @ViewChild('container') private container: ElementRef;
+
+    @ViewChildren('selectDropdown') selectDropdown: QueryList<ElementRef>;
+    // @ViewChild('selectDropdown') private selectDropdown: ElementRef;
+
     @ViewChild('containerLength') private containerLength: ElementRef;
     @ViewChild('contentLengthInner') private contentLengthInner: ElementRef;
     @ViewChild('inputSelectPlaceholder') private inputSelectPlaceholder: ElementRef;
@@ -211,6 +213,17 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     // content of _searchBoxValue field (hasSearchInput === true)
     _searchBoxValue = undefined;
 
+    private _manualChangeDetection = false;
+
+    private _windowChangeListener = () => {
+            this.checkAndUpdateSearchInput();
+            this._doChangeDropdownWidth(this.selectDropdown);
+    };
+
+    /**
+     * Integration API - get current number availbale letters in placeholder
+     * @return {number}
+     */
     get limit(): number {
         return this._limit;
     }
@@ -290,9 +303,11 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
         this._isOpen = newState;
     }
 
-    // TODO: optimize performance
-    getDropdownWidth(): string {
-        if (this.wrapType === WrapperContent.MATCH_FORM && this.hasSearchInput) {
+    // do not ding directly in template to
+    // 1) avoid "Expression has changed after it was checked. Previous value: '384px'. Current value: '0px'" in some cases
+    // 2) better performance
+    _getDropdownWidth(): string {
+        if (this.wrapType === WrapperContent.MATCH_FORM && this.searchable) {
             let offsetWidth = this.inputSelectPlaceholder.nativeElement.clientWidth;
             return `${offsetWidth}px`;
         }
@@ -444,6 +459,14 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     ngAfterViewInit() {
+
+        this.selectDropdown.changes.subscribe((x: QueryList<ElementRef>) => {
+            this._doChangeDropdownWidth(x);
+        });
+
+        // TODO: also use https://developers.google.com/web/updates/2016/10/resizeobserver
+        window.addEventListener('resize', this._windowChangeListener, true);
+
         if (!this.hasSearchInput) {
             return;
         }
@@ -454,16 +477,17 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
         this.checkAndUpdateSearchInput();
         this.setOpen(false);
+        }
 
-        this.ngZone.runOutsideAngular(() => {
-            this.onresizeSubscriber = window.addEventListener('resize', () => {
-                this.checkAndUpdateSearchInput();
+    private _doChangeDropdownWidth(x: QueryList<ElementRef>) {
+        if (x.length > 0) {
+            this.selectDropdown.forEach(m => {
+                m.nativeElement.style.width = this._getDropdownWidth();
             });
-        });
-
+        }
     }
 
-    // helper
+// helper
     private haveFieldValue(): boolean {
         return !!(this.value && this.fieldValue);
     }
@@ -853,8 +877,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
         const ruler = this.containerLength.nativeElement;
 
-        // ruler dudth must match select
-        ruler.style.width = this.getDropdownWidth();
+        // ruler width must match select dropdown (max width)
+        ruler.style.width = this._getDropdownWidth();
         ruler.style.display = 'inline';
         // TODO: better algorithm
         for (let i = stringTest.length; i > 0; i--) {
@@ -871,8 +895,8 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     }
 
     ngOnDestroy(): void {
-        if (this.onresizeSubscriber) {
-            this.onresizeSubscriber();
+        if (this._windowChangeListener) {
+            window.removeEventListener('resize', this._windowChangeListener);
         }
     }
 

@@ -190,14 +190,12 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
     @ViewChild('container') private container: ElementRef;
 
     @ViewChildren('selectDropdown') selectDropdown: QueryList<ElementRef>;
-    // @ViewChild('selectDropdown') private selectDropdown: ElementRef;
 
     @ViewChild('containerLength') private containerLength: ElementRef;
     @ViewChild('contentLengthInner') private contentLengthInner: ElementRef;
     @ViewChild('inputSelectPlaceholder') private inputSelectPlaceholder: ElementRef;
     @ViewChild('selectForm') private ngForm: NgForm;
     @ViewChild('notSearchContaner') private notSearchContaner: ElementRef;
-    @ViewChild('selectDropdown') private selectDropdown: ElementRef;
 
     _userHasInputTextToSearchBeforeSelect = false;
 
@@ -212,9 +210,6 @@ export class EssentialSelectComponent implements DoCheck, OnInit, AfterViewInit,
 
     // content of _searchBoxValue field (hasSearchInput === true)
     _searchBoxValue = undefined;
-
-    private _manualChangeDetection = false;
-
     private _windowChangeListener = () => {
             this.checkAndUpdateSearchInput();
             this._doChangeDropdownWidth(this.selectDropdown);

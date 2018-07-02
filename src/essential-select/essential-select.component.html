@@ -53,7 +53,7 @@
 
     <!-- print all rows -->
     <div class="wrapper {{wrapperClasses}}" #wrapper>
-        <div class="selectbox_dropdown" *ngIf="_isOpenEditable()" #selectDropdown [style.width]="_getDropdownWidth()"
+        <div class="selectbox_dropdown" *ngIf="_isOpenEditable()" #selectDropdown
              [ngClass]="{'material_selectbox_dropdown': designMaterial}">
 
             <div *ngIf="multiselect" class="multiselect_tools">
